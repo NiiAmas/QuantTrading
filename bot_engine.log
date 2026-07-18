@@ -1,0 +1,1275 @@
+2026-07-18 05:34:55 [bot_engine] INFO: ✅ Database tables verified.
+2026-07-18 05:34:55 [bot_engine] INFO: 🔄 Running initial full cycle...
+2026-07-18 05:34:55 [bot_engine] INFO: ─── 🧠 NEWS + AI ANALYSIS CYCLE ───
+2026-07-18 05:34:55 [bot_engine] INFO:    📰 Processing symbols 1-5 of 23: ['BTC-USD', 'ETH-USD', 'SOL-USD', 'XRP-USD', 'ADA-USD']
+2026-07-18 05:34:56 [data_ingestion] INFO:    📰 Saved 10 fresh articles for BTC-USD
+2026-07-18 05:35:00 [ai_analysis] INFO: ⚡ Loading FinBERT AI Model (first time only)...
+2026-07-18 05:35:03 [ai_analysis] INFO: ✅ FinBERT loaded and ready for sentiment analysis.
+2026-07-18 05:35:03 [ai_analysis] INFO:    🧠 🔴 AI → BTC-USD: SELL (confidence: 0.455, score: -0.4553)
+2026-07-18 05:35:04 [data_ingestion] INFO:    📰 Saved 10 fresh articles for ETH-USD
+2026-07-18 05:35:04 [ai_analysis] INFO:    🧠 🟢 AI → ETH-USD: BUY (confidence: 0.050, score: +0.0499)
+2026-07-18 05:35:05 [data_ingestion] INFO:    📰 Saved 10 fresh articles for SOL-USD
+2026-07-18 05:35:05 [ai_analysis] INFO:    🧠 🟢 AI → SOL-USD: BUY (confidence: 0.147, score: +0.1473)
+2026-07-18 05:35:05 [data_ingestion] INFO:    📰 Saved 10 fresh articles for XRP-USD
+2026-07-18 05:35:06 [ai_analysis] INFO:    🧠 🔴 AI → XRP-USD: SELL (confidence: 0.245, score: -0.2454)
+2026-07-18 05:35:06 [data_ingestion] INFO:    📰 Saved 6 fresh articles for ADA-USD
+2026-07-18 05:35:06 [ai_analysis] INFO:    🧠 🟢 AI → ADA-USD: BUY (confidence: 0.217, score: +0.2174)
+2026-07-18 05:35:07 [bot_engine] INFO:    ✅ News + AI cycle complete for 5 symbols.
+2026-07-18 05:35:07 [bot_engine] INFO: ─── ⚡ TRADE EXECUTION CYCLE ───
+2026-07-18 05:35:07 [trade_executor] INFO: 📋 Found 5 pending signal(s) to evaluate.
+2026-07-18 05:35:07 [trade_executor] INFO: 📭 No accounts exist yet. Skipping execution.
+2026-07-18 05:35:07 [bot_engine] INFO:    📊 Stats: 0 open | 0 closed | P&L: $+0.00 | Win rate: 0.0%
+2026-07-18 05:35:07 [bot_engine] INFO: ─── 📈 PRICE CHECK CYCLE ───
+2026-07-18 05:35:16 [bot_engine] INFO:    💾 Saved 23/23 prices.
+2026-07-18 05:35:16 [bot_engine] INFO: ─── 📈 PRICE CHECK CYCLE ───
+2026-07-18 05:35:21 [bot_engine] INFO:    💾 Saved 23/23 prices.
+2026-07-18 05:36:21 [bot_engine] INFO: ─── 📈 PRICE CHECK CYCLE ───
+2026-07-18 05:36:28 [bot_engine] INFO:    💾 Saved 23/23 prices.
+2026-07-18 05:37:28 [bot_engine] INFO: ─── 📈 PRICE CHECK CYCLE ───
+2026-07-18 05:37:34 [bot_engine] INFO:    💾 Saved 23/23 prices.
+2026-07-18 05:38:34 [bot_engine] INFO: ─── 📈 PRICE CHECK CYCLE ───
+2026-07-18 05:38:40 [bot_engine] INFO:    💾 Saved 23/23 prices.
+2026-07-18 05:39:40 [bot_engine] INFO: ─── 📈 PRICE CHECK CYCLE ───
+2026-07-18 05:39:46 [bot_engine] INFO:    💾 Saved 23/23 prices.
+2026-07-18 05:40:46 [bot_engine] INFO: ─── 📈 PRICE CHECK CYCLE ───
+2026-07-18 05:40:52 [bot_engine] INFO:    💾 Saved 23/23 prices.
+2026-07-18 05:40:52 [bot_engine] INFO: ─── ⚡ TRADE EXECUTION CYCLE ───
+2026-07-18 05:40:52 [trade_executor] INFO: 📭 No pending signals to execute.
+2026-07-18 05:40:52 [bot_engine] INFO:    📊 Stats: 0 open | 0 closed | P&L: $+0.00 | Win rate: 0.0%
+2026-07-18 05:41:52 [bot_engine] INFO: ─── 📈 PRICE CHECK CYCLE ───
+2026-07-18 05:41:57 [bot_engine] INFO:    💾 Saved 23/23 prices.
+2026-07-18 05:42:57 [bot_engine] INFO: ─── 📈 PRICE CHECK CYCLE ───
+2026-07-18 05:43:03 [bot_engine] INFO:    💾 Saved 23/23 prices.
+2026-07-18 05:44:03 [bot_engine] INFO: ─── 📈 PRICE CHECK CYCLE ───
+2026-07-18 05:44:09 [bot_engine] INFO:    💾 Saved 23/23 prices.
+2026-07-18 05:45:09 [bot_engine] INFO: ─── 📈 PRICE CHECK CYCLE ───
+2026-07-18 05:45:15 [bot_engine] INFO:    💾 Saved 23/23 prices.
+2026-07-18 05:45:15 [bot_engine] INFO: 💓 Heartbeat (cycle #10): 0 open trades | $+0.00 total P&L
+2026-07-18 05:46:15 [bot_engine] INFO: ─── 📈 PRICE CHECK CYCLE ───
+2026-07-18 05:46:22 [bot_engine] INFO:    💾 Saved 23/23 prices.
+2026-07-18 05:46:22 [bot_engine] INFO: ─── ⚡ TRADE EXECUTION CYCLE ───
+2026-07-18 05:46:22 [trade_executor] INFO: 📭 No pending signals to execute.
+2026-07-18 05:46:22 [bot_engine] INFO:    📊 Stats: 0 open | 0 closed | P&L: $+0.00 | Win rate: 0.0%
+2026-07-18 05:47:22 [bot_engine] INFO: ─── 📈 PRICE CHECK CYCLE ───
+2026-07-18 05:47:28 [bot_engine] INFO:    💾 Saved 23/23 prices.
+2026-07-18 05:48:28 [bot_engine] INFO: ─── 📈 PRICE CHECK CYCLE ───
+2026-07-18 05:48:34 [bot_engine] INFO:    💾 Saved 23/23 prices.
+2026-07-18 05:49:34 [bot_engine] INFO: ─── 📈 PRICE CHECK CYCLE ───
+2026-07-18 05:49:42 [bot_engine] INFO:    💾 Saved 23/23 prices.
+2026-07-18 05:50:42 [bot_engine] INFO: ─── 📈 PRICE CHECK CYCLE ───
+2026-07-18 05:50:48 [bot_engine] INFO:    💾 Saved 23/23 prices.
+2026-07-18 05:50:48 [bot_engine] INFO: ─── 🧠 NEWS + AI ANALYSIS CYCLE ───
+2026-07-18 05:50:48 [bot_engine] INFO:    📰 Processing symbols 6-10 of 23: ['DOGE-USD', 'DOT-USD', 'AVAX-USD', 'LINK-USD', 'AAPL']
+2026-07-18 05:50:49 [data_ingestion] INFO:    📰 Saved 3 fresh articles for DOGE-USD
+2026-07-18 05:50:49 [ai_analysis] INFO:    🧠 🔴 AI → DOGE-USD: SELL (confidence: 0.187, score: -0.1868)
+2026-07-18 05:50:51 [data_ingestion] INFO:    📰 Saved 1 fresh articles for DOT-USD
+2026-07-18 05:50:51 [ai_analysis] INFO:    🧠 🔴 AI → DOT-USD: SELL (confidence: 0.757, score: -0.7568)
+2026-07-18 05:50:51 [data_ingestion] INFO:    📰 Saved 10 fresh articles for AVAX-USD
+2026-07-18 05:50:52 [ai_analysis] INFO:    🧠 🔴 AI → AVAX-USD: SELL (confidence: 0.150, score: -0.1505)
+2026-07-18 05:50:52 [data_ingestion] INFO:    📰 Saved 6 fresh articles for LINK-USD
+2026-07-18 05:50:53 [ai_analysis] INFO:    🧠 🟢 AI → LINK-USD: BUY (confidence: 0.146, score: +0.1461)
+2026-07-18 05:50:53 [data_ingestion] INFO:    📰 Saved 10 fresh articles for AAPL
+2026-07-18 05:50:53 [ai_analysis] INFO:    🧠 🔴 AI → AAPL: SELL (confidence: 0.173, score: -0.1735)
+2026-07-18 05:50:53 [bot_engine] INFO:    ✅ News + AI cycle complete for 5 symbols.
+2026-07-18 05:50:53 [bot_engine] INFO: ─── ⚡ TRADE EXECUTION CYCLE ───
+2026-07-18 05:50:53 [trade_executor] INFO: 📋 Found 5 pending signal(s) to evaluate.
+2026-07-18 05:50:53 [trade_executor] INFO: 🔍 Evaluating signal: SELL AAPL (conf: 0.173) @ $333.74
+2026-07-18 05:50:54 [trade_executor] INFO: 
+   ╔══════════════════════════════════════════════════════════╗
+   ║  3-LAYER VERIFICATION: AAPL (SELL) for [high risk]
+   ╚══════════════════════════════════════════════════════════╝
+2026-07-18 05:50:54 [trade_executor] INFO:    🔬 Layer 1: Technical Analysis...
+2026-07-18 05:50:54 [technical_analysis] INFO:    📊 ⚪ TA → AAPL: NEUTRAL (confidence: 0.100, score: +0.1000)
+2026-07-18 05:50:54 [trade_executor] INFO:       → ✅ TA: NEUTRAL (conf: 0.100)
+2026-07-18 05:50:54 [trade_executor] INFO:    🧠 Layer 2: Sentiment Analysis (FinBERT)...
+2026-07-18 05:50:54 [trade_executor] INFO:       → ✅ SA: SELL (conf: 0.173) — FinBERT analyzed 10 articles. Positive: 0.072, Negative: 0.245, Neutral: ...
+2026-07-18 05:50:54 [trade_executor] INFO:    📐 Layer 3: Quantitative Analysis...
+2026-07-18 05:50:54 [quantitative_analysis] INFO:    📐 ⚪ QA → AAPL: NEUTRAL (confidence: 0.117, score: +0.1167)
+2026-07-18 05:50:54 [trade_executor] INFO:       → ✅ QA: NEUTRAL (conf: 0.117)
+2026-07-18 05:50:54 [trade_executor] INFO:    ✅ VERIFICATION PASSED: 3/3 layers. Proceeding to execute...
+2026-07-18 05:50:54 [trade_executor] INFO:    🔥 TRADE EXECUTED: Short AAPL on [high risk] (Aggressive)
+      Price: $333.74 | Qty: 29.963445 | Value: $10,000.00
+      SL: $360.44 | TP: $266.99
+      Remaining balance: $90,000.00
+2026-07-18 05:50:54 [trade_executor] INFO: 
+   ╔══════════════════════════════════════════════════════════╗
+   ║  3-LAYER VERIFICATION: AAPL (SELL) for [mid risk ]
+   ╚══════════════════════════════════════════════════════════╝
+2026-07-18 05:50:54 [trade_executor] INFO:    🔬 Layer 1: Technical Analysis...
+2026-07-18 05:50:54 [technical_analysis] INFO:    📊 ⚪ TA → AAPL: NEUTRAL (confidence: 0.100, score: +0.1000)
+2026-07-18 05:50:54 [trade_executor] INFO:       → ✅ TA: NEUTRAL (conf: 0.100)
+2026-07-18 05:50:54 [trade_executor] INFO:    🧠 Layer 2: Sentiment Analysis (FinBERT)...
+2026-07-18 05:50:54 [trade_executor] INFO:       → ✅ SA: SELL (conf: 0.173) — FinBERT analyzed 10 articles. Positive: 0.072, Negative: 0.245, Neutral: ...
+2026-07-18 05:50:54 [trade_executor] INFO:    📐 Layer 3: Quantitative Analysis...
+2026-07-18 05:50:54 [quantitative_analysis] INFO:    📐 ⚪ QA → AAPL: NEUTRAL (confidence: 0.117, score: +0.1167)
+2026-07-18 05:50:54 [trade_executor] INFO:       → ✅ QA: NEUTRAL (conf: 0.117)
+2026-07-18 05:50:54 [trade_executor] INFO:    ✅ VERIFICATION PASSED: 3/3 layers. Proceeding to execute...
+2026-07-18 05:50:54 [trade_executor] INFO:    🔥 TRADE EXECUTED: Short AAPL on [mid risk ] (Moderate)
+      Price: $333.74 | Qty: 14.981723 | Value: $5,000.00
+      SL: $350.43 | TP: $300.37
+      Remaining balance: $95,000.00
+2026-07-18 05:50:54 [trade_executor] INFO: 
+   ╔══════════════════════════════════════════════════════════╗
+   ║  3-LAYER VERIFICATION: AAPL (SELL) for [low risk]
+   ╚══════════════════════════════════════════════════════════╝
+2026-07-18 05:50:54 [trade_executor] INFO:    🔬 Layer 1: Technical Analysis...
+2026-07-18 05:50:55 [technical_analysis] INFO:    📊 ⚪ TA → AAPL: NEUTRAL (confidence: 0.100, score: +0.1000)
+2026-07-18 05:50:55 [trade_executor] INFO:       → ✅ TA: NEUTRAL (conf: 0.100)
+2026-07-18 05:50:55 [trade_executor] INFO:    🧠 Layer 2: Sentiment Analysis (FinBERT)...
+2026-07-18 05:50:55 [trade_executor] INFO:       → ✅ SA: SELL (conf: 0.173) — FinBERT analyzed 10 articles. Positive: 0.072, Negative: 0.245, Neutral: ...
+2026-07-18 05:50:55 [trade_executor] INFO:    📐 Layer 3: Quantitative Analysis...
+2026-07-18 05:50:55 [quantitative_analysis] INFO:    📐 ⚪ QA → AAPL: NEUTRAL (confidence: 0.117, score: +0.1167)
+2026-07-18 05:50:55 [trade_executor] INFO:       → ✅ QA: NEUTRAL (conf: 0.117)
+2026-07-18 05:50:55 [trade_executor] INFO:    ✅ VERIFICATION PASSED: 3/3 layers. Proceeding to execute...
+2026-07-18 05:50:55 [trade_executor] INFO:    🔥 TRADE EXECUTED: Short AAPL on [low risk] (Low)
+      Price: $333.74 | Qty: 5.992689 | Value: $2,000.00
+      SL: $343.75 | TP: $313.72
+      Remaining balance: $98,000.00
+2026-07-18 05:50:55 [trade_executor] INFO: 
+   ╔══════════════════════════════════════════════════════════╗
+   ║  3-LAYER VERIFICATION: AAPL (SELL) for [HIGH]
+   ╚══════════════════════════════════════════════════════════╝
+2026-07-18 05:50:55 [trade_executor] INFO:    🔬 Layer 1: Technical Analysis...
+2026-07-18 05:50:55 [technical_analysis] INFO:    📊 ⚪ TA → AAPL: NEUTRAL (confidence: 0.100, score: +0.1000)
+2026-07-18 05:50:55 [trade_executor] INFO:       → ✅ TA: NEUTRAL (conf: 0.100)
+2026-07-18 05:50:55 [trade_executor] INFO:    🧠 Layer 2: Sentiment Analysis (FinBERT)...
+2026-07-18 05:50:55 [trade_executor] INFO:       → ✅ SA: SELL (conf: 0.173) — FinBERT analyzed 10 articles. Positive: 0.072, Negative: 0.245, Neutral: ...
+2026-07-18 05:50:55 [trade_executor] INFO:    📐 Layer 3: Quantitative Analysis...
+2026-07-18 05:50:55 [quantitative_analysis] INFO:    📐 ⚪ QA → AAPL: NEUTRAL (confidence: 0.117, score: +0.1167)
+2026-07-18 05:50:55 [trade_executor] INFO:       → ✅ QA: NEUTRAL (conf: 0.117)
+2026-07-18 05:50:55 [trade_executor] INFO:    ✅ VERIFICATION PASSED: 3/3 layers. Proceeding to execute...
+2026-07-18 05:50:55 [trade_executor] INFO:    🔥 TRADE EXECUTED: Short AAPL on [HIGH] (Aggressive)
+      Price: $333.74 | Qty: 2.996345 | Value: $1,000.00
+      SL: $360.44 | TP: $266.99
+      Remaining balance: $9,000.00
+2026-07-18 05:50:55 [trade_executor] INFO: 
+   ╔══════════════════════════════════════════════════════════╗
+   ║  3-LAYER VERIFICATION: AAPL (SELL) for [MID]
+   ╚══════════════════════════════════════════════════════════╝
+2026-07-18 05:50:55 [trade_executor] INFO:    🔬 Layer 1: Technical Analysis...
+2026-07-18 05:50:56 [technical_analysis] INFO:    📊 ⚪ TA → AAPL: NEUTRAL (confidence: 0.100, score: +0.1000)
+2026-07-18 05:50:56 [trade_executor] INFO:       → ✅ TA: NEUTRAL (conf: 0.100)
+2026-07-18 05:50:56 [trade_executor] INFO:    🧠 Layer 2: Sentiment Analysis (FinBERT)...
+2026-07-18 05:50:56 [trade_executor] INFO:       → ✅ SA: SELL (conf: 0.173) — FinBERT analyzed 10 articles. Positive: 0.072, Negative: 0.245, Neutral: ...
+2026-07-18 05:50:56 [trade_executor] INFO:    📐 Layer 3: Quantitative Analysis...
+2026-07-18 05:50:56 [quantitative_analysis] INFO:    📐 ⚪ QA → AAPL: NEUTRAL (confidence: 0.117, score: +0.1167)
+2026-07-18 05:50:56 [trade_executor] INFO:       → ✅ QA: NEUTRAL (conf: 0.117)
+2026-07-18 05:50:56 [trade_executor] INFO:    ✅ VERIFICATION PASSED: 3/3 layers. Proceeding to execute...
+2026-07-18 05:50:56 [trade_executor] INFO:    🔥 TRADE EXECUTED: Short AAPL on [MID] (Moderate)
+      Price: $333.74 | Qty: 1.498172 | Value: $500.00
+      SL: $350.43 | TP: $300.37
+      Remaining balance: $9,500.00
+2026-07-18 05:50:56 [trade_executor] INFO: 
+   ╔══════════════════════════════════════════════════════════╗
+   ║  3-LAYER VERIFICATION: AAPL (SELL) for [LOW]
+   ╚══════════════════════════════════════════════════════════╝
+2026-07-18 05:50:56 [trade_executor] INFO:    🔬 Layer 1: Technical Analysis...
+2026-07-18 05:50:56 [technical_analysis] INFO:    📊 ⚪ TA → AAPL: NEUTRAL (confidence: 0.100, score: +0.1000)
+2026-07-18 05:50:56 [trade_executor] INFO:       → ✅ TA: NEUTRAL (conf: 0.100)
+2026-07-18 05:50:56 [trade_executor] INFO:    🧠 Layer 2: Sentiment Analysis (FinBERT)...
+2026-07-18 05:50:56 [trade_executor] INFO:       → ✅ SA: SELL (conf: 0.173) — FinBERT analyzed 10 articles. Positive: 0.072, Negative: 0.245, Neutral: ...
+2026-07-18 05:50:56 [trade_executor] INFO:    📐 Layer 3: Quantitative Analysis...
+2026-07-18 05:50:56 [quantitative_analysis] INFO:    📐 ⚪ QA → AAPL: NEUTRAL (confidence: 0.117, score: +0.1167)
+2026-07-18 05:50:56 [trade_executor] INFO:       → ✅ QA: NEUTRAL (conf: 0.117)
+2026-07-18 05:50:56 [trade_executor] INFO:    ✅ VERIFICATION PASSED: 3/3 layers. Proceeding to execute...
+2026-07-18 05:50:56 [trade_executor] INFO:    🔥 TRADE EXECUTED: Short AAPL on [LOW] (Low)
+      Price: $333.74 | Qty: 0.599269 | Value: $200.00
+      SL: $343.75 | TP: $313.72
+      Remaining balance: $9,800.00
+2026-07-18 05:50:57 [trade_executor] INFO: 🔍 Evaluating signal: BUY LINK-USD (conf: 0.146) @ $8.25
+2026-07-18 05:50:57 [trade_executor] INFO: 
+   ╔══════════════════════════════════════════════════════════╗
+   ║  3-LAYER VERIFICATION: LINK-USD (BUY) for [high risk]
+   ╚══════════════════════════════════════════════════════════╝
+2026-07-18 05:50:57 [trade_executor] INFO:    🔬 Layer 1: Technical Analysis...
+2026-07-18 05:50:57 [technical_analysis] INFO:    📊 🟢 TA → LINK-USD: BULLISH (confidence: 0.160, score: +0.1600)
+2026-07-18 05:50:57 [trade_executor] INFO:       → ✅ TA: BULLISH (conf: 0.160)
+2026-07-18 05:50:57 [trade_executor] INFO:    🧠 Layer 2: Sentiment Analysis (FinBERT)...
+2026-07-18 05:50:57 [trade_executor] INFO:       → ✅ SA: BUY (conf: 0.146) — FinBERT analyzed 6 articles. Positive: 0.172, Negative: 0.026, Neutral: 0....
+2026-07-18 05:50:57 [trade_executor] INFO:    📐 Layer 3: Quantitative Analysis...
+2026-07-18 05:50:57 [quantitative_analysis] INFO:    📐 🟢 QA → LINK-USD: FAVORABLE (confidence: 0.167, score: +0.1667)
+2026-07-18 05:50:57 [trade_executor] INFO:       → ✅ QA: FAVORABLE (conf: 0.167)
+2026-07-18 05:50:57 [trade_executor] INFO:    ✅ VERIFICATION PASSED: 3/3 layers. Proceeding to execute...
+2026-07-18 05:50:57 [trade_executor] INFO:    🔥 TRADE EXECUTED: Long LINK-USD on [high risk] (Aggressive)
+      Price: $8.25 | Qty: 1090.776822 | Value: $9,000.00
+      SL: $7.59 | TP: $9.90
+      Remaining balance: $81,000.00
+2026-07-18 05:50:57 [trade_executor] INFO: 
+   ╔══════════════════════════════════════════════════════════╗
+   ║  3-LAYER VERIFICATION: LINK-USD (BUY) for [mid risk ]
+   ╚══════════════════════════════════════════════════════════╝
+2026-07-18 05:50:57 [trade_executor] INFO:    🔬 Layer 1: Technical Analysis...
+2026-07-18 05:50:57 [technical_analysis] INFO:    📊 🟢 TA → LINK-USD: BULLISH (confidence: 0.160, score: +0.1600)
+2026-07-18 05:50:57 [trade_executor] INFO:       → ✅ TA: BULLISH (conf: 0.160)
+2026-07-18 05:50:57 [trade_executor] INFO:    🧠 Layer 2: Sentiment Analysis (FinBERT)...
+2026-07-18 05:50:57 [trade_executor] INFO:       → ✅ SA: BUY (conf: 0.146) — FinBERT analyzed 6 articles. Positive: 0.172, Negative: 0.026, Neutral: 0....
+2026-07-18 05:50:57 [trade_executor] INFO:    📐 Layer 3: Quantitative Analysis...
+2026-07-18 05:50:57 [quantitative_analysis] INFO:    📐 🟢 QA → LINK-USD: FAVORABLE (confidence: 0.167, score: +0.1667)
+2026-07-18 05:50:57 [trade_executor] INFO:       → ✅ QA: FAVORABLE (conf: 0.167)
+2026-07-18 05:50:57 [trade_executor] INFO:    ✅ VERIFICATION PASSED: 3/3 layers. Proceeding to execute...
+2026-07-18 05:50:57 [trade_executor] INFO:    🔥 TRADE EXECUTED: Long LINK-USD on [mid risk ] (Moderate)
+      Price: $8.25 | Qty: 575.687767 | Value: $4,750.00
+      SL: $7.84 | TP: $9.08
+      Remaining balance: $90,250.00
+2026-07-18 05:50:57 [trade_executor] INFO: 
+   ╔══════════════════════════════════════════════════════════╗
+   ║  3-LAYER VERIFICATION: LINK-USD (BUY) for [low risk]
+   ╚══════════════════════════════════════════════════════════╝
+2026-07-18 05:50:57 [trade_executor] INFO:    🔬 Layer 1: Technical Analysis...
+2026-07-18 05:50:58 [technical_analysis] INFO:    📊 🟢 TA → LINK-USD: BULLISH (confidence: 0.160, score: +0.1600)
+2026-07-18 05:50:58 [trade_executor] INFO:       → ✅ TA: BULLISH (conf: 0.160)
+2026-07-18 05:50:58 [trade_executor] INFO:    🧠 Layer 2: Sentiment Analysis (FinBERT)...
+2026-07-18 05:50:58 [trade_executor] INFO:       → ✅ SA: BUY (conf: 0.146) — FinBERT analyzed 6 articles. Positive: 0.172, Negative: 0.026, Neutral: 0....
+2026-07-18 05:50:58 [trade_executor] INFO:    📐 Layer 3: Quantitative Analysis...
+2026-07-18 05:50:58 [quantitative_analysis] INFO:    📐 🟢 QA → LINK-USD: FAVORABLE (confidence: 0.167, score: +0.1667)
+2026-07-18 05:50:58 [trade_executor] INFO:       → ✅ QA: FAVORABLE (conf: 0.167)
+2026-07-18 05:50:58 [trade_executor] INFO:    ✅ VERIFICATION PASSED: 3/3 layers. Proceeding to execute...
+2026-07-18 05:50:58 [trade_executor] INFO:    🔥 TRADE EXECUTED: Long LINK-USD on [low risk] (Low)
+      Price: $8.25 | Qty: 237.546952 | Value: $1,960.00
+      SL: $8.00 | TP: $8.75
+      Remaining balance: $96,040.00
+2026-07-18 05:50:58 [trade_executor] INFO: 
+   ╔══════════════════════════════════════════════════════════╗
+   ║  3-LAYER VERIFICATION: LINK-USD (BUY) for [HIGH]
+   ╚══════════════════════════════════════════════════════════╝
+2026-07-18 05:50:58 [trade_executor] INFO:    🔬 Layer 1: Technical Analysis...
+2026-07-18 05:50:58 [technical_analysis] INFO:    📊 🟢 TA → LINK-USD: BULLISH (confidence: 0.160, score: +0.1600)
+2026-07-18 05:50:58 [trade_executor] INFO:       → ✅ TA: BULLISH (conf: 0.160)
+2026-07-18 05:50:58 [trade_executor] INFO:    🧠 Layer 2: Sentiment Analysis (FinBERT)...
+2026-07-18 05:50:58 [trade_executor] INFO:       → ✅ SA: BUY (conf: 0.146) — FinBERT analyzed 6 articles. Positive: 0.172, Negative: 0.026, Neutral: 0....
+2026-07-18 05:50:58 [trade_executor] INFO:    📐 Layer 3: Quantitative Analysis...
+2026-07-18 05:50:58 [quantitative_analysis] INFO:    📐 🟢 QA → LINK-USD: FAVORABLE (confidence: 0.167, score: +0.1667)
+2026-07-18 05:50:58 [trade_executor] INFO:       → ✅ QA: FAVORABLE (conf: 0.167)
+2026-07-18 05:50:58 [trade_executor] INFO:    ✅ VERIFICATION PASSED: 3/3 layers. Proceeding to execute...
+2026-07-18 05:50:58 [trade_executor] INFO:    🔥 TRADE EXECUTED: Long LINK-USD on [HIGH] (Aggressive)
+      Price: $8.25 | Qty: 109.077682 | Value: $900.00
+      SL: $7.59 | TP: $9.90
+      Remaining balance: $8,100.00
+2026-07-18 05:50:58 [trade_executor] INFO: 
+   ╔══════════════════════════════════════════════════════════╗
+   ║  3-LAYER VERIFICATION: LINK-USD (BUY) for [MID]
+   ╚══════════════════════════════════════════════════════════╝
+2026-07-18 05:50:58 [trade_executor] INFO:    🔬 Layer 1: Technical Analysis...
+2026-07-18 05:50:58 [technical_analysis] INFO:    📊 🟢 TA → LINK-USD: BULLISH (confidence: 0.160, score: +0.1600)
+2026-07-18 05:50:58 [trade_executor] INFO:       → ✅ TA: BULLISH (conf: 0.160)
+2026-07-18 05:50:58 [trade_executor] INFO:    🧠 Layer 2: Sentiment Analysis (FinBERT)...
+2026-07-18 05:50:58 [trade_executor] INFO:       → ✅ SA: BUY (conf: 0.146) — FinBERT analyzed 6 articles. Positive: 0.172, Negative: 0.026, Neutral: 0....
+2026-07-18 05:50:58 [trade_executor] INFO:    📐 Layer 3: Quantitative Analysis...
+2026-07-18 05:50:59 [quantitative_analysis] INFO:    📐 🟢 QA → LINK-USD: FAVORABLE (confidence: 0.167, score: +0.1667)
+2026-07-18 05:50:59 [trade_executor] INFO:       → ✅ QA: FAVORABLE (conf: 0.167)
+2026-07-18 05:50:59 [trade_executor] INFO:    ✅ VERIFICATION PASSED: 3/3 layers. Proceeding to execute...
+2026-07-18 05:50:59 [trade_executor] INFO:    🔥 TRADE EXECUTED: Long LINK-USD on [MID] (Moderate)
+      Price: $8.25 | Qty: 57.568777 | Value: $475.00
+      SL: $7.84 | TP: $9.08
+      Remaining balance: $9,025.00
+2026-07-18 05:50:59 [trade_executor] INFO: 
+   ╔══════════════════════════════════════════════════════════╗
+   ║  3-LAYER VERIFICATION: LINK-USD (BUY) for [LOW]
+   ╚══════════════════════════════════════════════════════════╝
+2026-07-18 05:50:59 [trade_executor] INFO:    🔬 Layer 1: Technical Analysis...
+2026-07-18 05:50:59 [technical_analysis] INFO:    📊 🟢 TA → LINK-USD: BULLISH (confidence: 0.160, score: +0.1600)
+2026-07-18 05:50:59 [trade_executor] INFO:       → ✅ TA: BULLISH (conf: 0.160)
+2026-07-18 05:50:59 [trade_executor] INFO:    🧠 Layer 2: Sentiment Analysis (FinBERT)...
+2026-07-18 05:50:59 [trade_executor] INFO:       → ✅ SA: BUY (conf: 0.146) — FinBERT analyzed 6 articles. Positive: 0.172, Negative: 0.026, Neutral: 0....
+2026-07-18 05:50:59 [trade_executor] INFO:    📐 Layer 3: Quantitative Analysis...
+2026-07-18 05:50:59 [quantitative_analysis] INFO:    📐 🟢 QA → LINK-USD: FAVORABLE (confidence: 0.167, score: +0.1667)
+2026-07-18 05:50:59 [trade_executor] INFO:       → ✅ QA: FAVORABLE (conf: 0.167)
+2026-07-18 05:50:59 [trade_executor] INFO:    ✅ VERIFICATION PASSED: 3/3 layers. Proceeding to execute...
+2026-07-18 05:50:59 [trade_executor] INFO:    🔥 TRADE EXECUTED: Long LINK-USD on [LOW] (Low)
+      Price: $8.25 | Qty: 23.754695 | Value: $196.00
+      SL: $8.00 | TP: $8.75
+      Remaining balance: $9,604.00
+2026-07-18 05:50:59 [trade_executor] INFO: 🔍 Evaluating signal: SELL AVAX-USD (conf: 0.150) @ $6.62
+2026-07-18 05:50:59 [trade_executor] INFO: 
+   ╔══════════════════════════════════════════════════════════╗
+   ║  3-LAYER VERIFICATION: AVAX-USD (SELL) for [high risk]
+   ╚══════════════════════════════════════════════════════════╝
+2026-07-18 05:50:59 [trade_executor] INFO:    🔬 Layer 1: Technical Analysis...
+2026-07-18 05:50:59 [technical_analysis] INFO:    📊 ⚪ TA → AVAX-USD: NEUTRAL (confidence: 0.080, score: +0.0800)
+2026-07-18 05:50:59 [trade_executor] INFO:       → ✅ TA: NEUTRAL (conf: 0.080)
+2026-07-18 05:50:59 [trade_executor] INFO:    🧠 Layer 2: Sentiment Analysis (FinBERT)...
+2026-07-18 05:50:59 [trade_executor] INFO:       → ✅ SA: SELL (conf: 0.150) — FinBERT analyzed 10 articles. Positive: 0.081, Negative: 0.231, Neutral: ...
+2026-07-18 05:50:59 [trade_executor] INFO:    📐 Layer 3: Quantitative Analysis...
+2026-07-18 05:51:00 [quantitative_analysis] INFO:    📐 ⚪ QA → AVAX-USD: NEUTRAL (confidence: 0.017, score: +0.0167)
+2026-07-18 05:51:00 [trade_executor] INFO:       → ✅ QA: NEUTRAL (conf: 0.017)
+2026-07-18 05:51:00 [trade_executor] INFO:    ✅ VERIFICATION PASSED: 3/3 layers. Proceeding to execute...
+2026-07-18 05:51:00 [trade_executor] INFO:    🔥 TRADE EXECUTED: Short AVAX-USD on [high risk] (Aggressive)
+      Price: $6.62 | Qty: 1223.564976 | Value: $8,100.00
+      SL: $7.15 | TP: $5.30
+      Remaining balance: $72,900.00
+2026-07-18 05:51:00 [trade_executor] INFO: 
+   ╔══════════════════════════════════════════════════════════╗
+   ║  3-LAYER VERIFICATION: AVAX-USD (SELL) for [mid risk ]
+   ╚══════════════════════════════════════════════════════════╝
+2026-07-18 05:51:00 [trade_executor] INFO:    🔬 Layer 1: Technical Analysis...
+2026-07-18 05:51:00 [technical_analysis] INFO:    📊 ⚪ TA → AVAX-USD: NEUTRAL (confidence: 0.080, score: +0.0800)
+2026-07-18 05:51:00 [trade_executor] INFO:       → ✅ TA: NEUTRAL (conf: 0.080)
+2026-07-18 05:51:00 [trade_executor] INFO:    🧠 Layer 2: Sentiment Analysis (FinBERT)...
+2026-07-18 05:51:00 [trade_executor] INFO:       → ✅ SA: SELL (conf: 0.150) — FinBERT analyzed 10 articles. Positive: 0.081, Negative: 0.231, Neutral: ...
+2026-07-18 05:51:00 [trade_executor] INFO:    📐 Layer 3: Quantitative Analysis...
+2026-07-18 05:51:00 [quantitative_analysis] INFO:    📐 ⚪ QA → AVAX-USD: NEUTRAL (confidence: 0.017, score: +0.0167)
+2026-07-18 05:51:00 [trade_executor] INFO:       → ✅ QA: NEUTRAL (conf: 0.017)
+2026-07-18 05:51:00 [trade_executor] INFO:    ✅ VERIFICATION PASSED: 3/3 layers. Proceeding to execute...
+2026-07-18 05:51:00 [trade_executor] INFO:    🔥 TRADE EXECUTED: Short AVAX-USD on [mid risk ] (Moderate)
+      Price: $6.62 | Qty: 681.646537 | Value: $4,512.50
+      SL: $6.95 | TP: $5.96
+      Remaining balance: $85,737.50
+2026-07-18 05:51:00 [trade_executor] INFO: 
+   ╔══════════════════════════════════════════════════════════╗
+   ║  3-LAYER VERIFICATION: AVAX-USD (SELL) for [low risk]
+   ╚══════════════════════════════════════════════════════════╝
+2026-07-18 05:51:00 [trade_executor] INFO:    🔬 Layer 1: Technical Analysis...
+2026-07-18 05:51:00 [technical_analysis] INFO:    📊 ⚪ TA → AVAX-USD: NEUTRAL (confidence: 0.080, score: +0.0800)
+2026-07-18 05:51:00 [trade_executor] INFO:       → ✅ TA: NEUTRAL (conf: 0.080)
+2026-07-18 05:51:00 [trade_executor] INFO:    🧠 Layer 2: Sentiment Analysis (FinBERT)...
+2026-07-18 05:51:00 [trade_executor] INFO:       → ✅ SA: SELL (conf: 0.150) — FinBERT analyzed 10 articles. Positive: 0.081, Negative: 0.231, Neutral: ...
+2026-07-18 05:51:00 [trade_executor] INFO:    📐 Layer 3: Quantitative Analysis...
+2026-07-18 05:51:01 [quantitative_analysis] INFO:    📐 ⚪ QA → AVAX-USD: NEUTRAL (confidence: 0.017, score: +0.0167)
+2026-07-18 05:51:01 [trade_executor] INFO:       → ✅ QA: NEUTRAL (conf: 0.017)
+2026-07-18 05:51:01 [trade_executor] INFO:    ✅ VERIFICATION PASSED: 3/3 layers. Proceeding to execute...
+2026-07-18 05:51:01 [trade_executor] INFO:    🔥 TRADE EXECUTED: Short AVAX-USD on [low risk] (Low)
+      Price: $6.62 | Qty: 290.151062 | Value: $1,920.80
+      SL: $6.82 | TP: $6.22
+      Remaining balance: $94,119.20
+2026-07-18 05:51:01 [trade_executor] INFO: 
+   ╔══════════════════════════════════════════════════════════╗
+   ║  3-LAYER VERIFICATION: AVAX-USD (SELL) for [HIGH]
+   ╚══════════════════════════════════════════════════════════╝
+2026-07-18 05:51:01 [trade_executor] INFO:    🔬 Layer 1: Technical Analysis...
+2026-07-18 05:51:01 [technical_analysis] INFO:    📊 ⚪ TA → AVAX-USD: NEUTRAL (confidence: 0.080, score: +0.0800)
+2026-07-18 05:51:01 [trade_executor] INFO:       → ✅ TA: NEUTRAL (conf: 0.080)
+2026-07-18 05:51:01 [trade_executor] INFO:    🧠 Layer 2: Sentiment Analysis (FinBERT)...
+2026-07-18 05:51:01 [trade_executor] INFO:       → ✅ SA: SELL (conf: 0.150) — FinBERT analyzed 10 articles. Positive: 0.081, Negative: 0.231, Neutral: ...
+2026-07-18 05:51:01 [trade_executor] INFO:    📐 Layer 3: Quantitative Analysis...
+2026-07-18 05:51:01 [quantitative_analysis] INFO:    📐 ⚪ QA → AVAX-USD: NEUTRAL (confidence: 0.017, score: +0.0167)
+2026-07-18 05:51:01 [trade_executor] INFO:       → ✅ QA: NEUTRAL (conf: 0.017)
+2026-07-18 05:51:01 [trade_executor] INFO:    ✅ VERIFICATION PASSED: 3/3 layers. Proceeding to execute...
+2026-07-18 05:51:01 [trade_executor] INFO:    🔥 TRADE EXECUTED: Short AVAX-USD on [HIGH] (Aggressive)
+      Price: $6.62 | Qty: 122.356498 | Value: $810.00
+      SL: $7.15 | TP: $5.30
+      Remaining balance: $7,290.00
+2026-07-18 05:51:01 [trade_executor] INFO: 
+   ╔══════════════════════════════════════════════════════════╗
+   ║  3-LAYER VERIFICATION: AVAX-USD (SELL) for [MID]
+   ╚══════════════════════════════════════════════════════════╝
+2026-07-18 05:51:01 [trade_executor] INFO:    🔬 Layer 1: Technical Analysis...
+2026-07-18 05:51:01 [technical_analysis] INFO:    📊 ⚪ TA → AVAX-USD: NEUTRAL (confidence: 0.080, score: +0.0800)
+2026-07-18 05:51:01 [trade_executor] INFO:       → ✅ TA: NEUTRAL (conf: 0.080)
+2026-07-18 05:51:01 [trade_executor] INFO:    🧠 Layer 2: Sentiment Analysis (FinBERT)...
+2026-07-18 05:51:01 [trade_executor] INFO:       → ✅ SA: SELL (conf: 0.150) — FinBERT analyzed 10 articles. Positive: 0.081, Negative: 0.231, Neutral: ...
+2026-07-18 05:51:01 [trade_executor] INFO:    📐 Layer 3: Quantitative Analysis...
+2026-07-18 05:51:01 [quantitative_analysis] INFO:    📐 ⚪ QA → AVAX-USD: NEUTRAL (confidence: 0.017, score: +0.0167)
+2026-07-18 05:51:01 [trade_executor] INFO:       → ✅ QA: NEUTRAL (conf: 0.017)
+2026-07-18 05:51:01 [trade_executor] INFO:    ✅ VERIFICATION PASSED: 3/3 layers. Proceeding to execute...
+2026-07-18 05:51:01 [trade_executor] INFO:    🔥 TRADE EXECUTED: Short AVAX-USD on [MID] (Moderate)
+      Price: $6.62 | Qty: 68.164654 | Value: $451.25
+      SL: $6.95 | TP: $5.96
+      Remaining balance: $8,573.75
+2026-07-18 05:51:01 [trade_executor] INFO: 
+   ╔══════════════════════════════════════════════════════════╗
+   ║  3-LAYER VERIFICATION: AVAX-USD (SELL) for [LOW]
+   ╚══════════════════════════════════════════════════════════╝
+2026-07-18 05:51:01 [trade_executor] INFO:    🔬 Layer 1: Technical Analysis...
+2026-07-18 05:51:02 [technical_analysis] INFO:    📊 ⚪ TA → AVAX-USD: NEUTRAL (confidence: 0.080, score: +0.0800)
+2026-07-18 05:51:02 [trade_executor] INFO:       → ✅ TA: NEUTRAL (conf: 0.080)
+2026-07-18 05:51:02 [trade_executor] INFO:    🧠 Layer 2: Sentiment Analysis (FinBERT)...
+2026-07-18 05:51:02 [trade_executor] INFO:       → ✅ SA: SELL (conf: 0.150) — FinBERT analyzed 10 articles. Positive: 0.081, Negative: 0.231, Neutral: ...
+2026-07-18 05:51:02 [trade_executor] INFO:    📐 Layer 3: Quantitative Analysis...
+2026-07-18 05:51:02 [quantitative_analysis] INFO:    📐 ⚪ QA → AVAX-USD: NEUTRAL (confidence: 0.017, score: +0.0167)
+2026-07-18 05:51:02 [trade_executor] INFO:       → ✅ QA: NEUTRAL (conf: 0.017)
+2026-07-18 05:51:02 [trade_executor] INFO:    ✅ VERIFICATION PASSED: 3/3 layers. Proceeding to execute...
+2026-07-18 05:51:02 [trade_executor] INFO:    🔥 TRADE EXECUTED: Short AVAX-USD on [LOW] (Low)
+      Price: $6.62 | Qty: 29.015106 | Value: $192.08
+      SL: $6.82 | TP: $6.22
+      Remaining balance: $9,411.92
+2026-07-18 05:51:02 [trade_executor] INFO: 🔍 Evaluating signal: SELL DOT-USD (conf: 0.757) @ $0.85
+2026-07-18 05:51:02 [trade_executor] INFO: 
+   ╔══════════════════════════════════════════════════════════╗
+   ║  3-LAYER VERIFICATION: DOT-USD (SELL) for [high risk]
+   ╚══════════════════════════════════════════════════════════╝
+2026-07-18 05:51:02 [trade_executor] INFO:    🔬 Layer 1: Technical Analysis...
+2026-07-18 05:51:02 [technical_analysis] INFO:    📊 ⚪ TA → DOT-USD: NEUTRAL (confidence: 0.080, score: +0.0800)
+2026-07-18 05:51:02 [trade_executor] INFO:       → ✅ TA: NEUTRAL (conf: 0.080)
+2026-07-18 05:51:02 [trade_executor] INFO:    🧠 Layer 2: Sentiment Analysis (FinBERT)...
+2026-07-18 05:51:02 [trade_executor] INFO:       → ✅ SA: SELL (conf: 0.757) — FinBERT analyzed 1 articles. Positive: 0.025, Negative: 0.781, Neutral: 0...
+2026-07-18 05:51:02 [trade_executor] INFO:    📐 Layer 3: Quantitative Analysis...
+2026-07-18 05:51:02 [quantitative_analysis] INFO:    📐 ⚪ QA → DOT-USD: NEUTRAL (confidence: 0.100, score: -0.1000)
+2026-07-18 05:51:02 [trade_executor] INFO:       → ✅ QA: NEUTRAL (conf: 0.100)
+2026-07-18 05:51:02 [trade_executor] INFO:    ✅ VERIFICATION PASSED: 3/3 layers. Proceeding to execute...
+2026-07-18 05:51:02 [trade_executor] INFO:    🔥 TRADE EXECUTED: Short DOT-USD on [high risk] (Aggressive)
+      Price: $0.85 | Qty: 8617.021116 | Value: $7,290.00
+      SL: $0.91 | TP: $0.68
+      Remaining balance: $65,610.00
+2026-07-18 05:51:02 [trade_executor] INFO: 
+   ╔══════════════════════════════════════════════════════════╗
+   ║  3-LAYER VERIFICATION: DOT-USD (SELL) for [mid risk ]
+   ╚══════════════════════════════════════════════════════════╝
+2026-07-18 05:51:02 [trade_executor] INFO:    🔬 Layer 1: Technical Analysis...
+2026-07-18 05:51:03 [technical_analysis] INFO:    📊 ⚪ TA → DOT-USD: NEUTRAL (confidence: 0.080, score: +0.0800)
+2026-07-18 05:51:03 [trade_executor] INFO:       → ✅ TA: NEUTRAL (conf: 0.080)
+2026-07-18 05:51:03 [trade_executor] INFO:    🧠 Layer 2: Sentiment Analysis (FinBERT)...
+2026-07-18 05:51:03 [trade_executor] INFO:       → ✅ SA: SELL (conf: 0.757) — FinBERT analyzed 1 articles. Positive: 0.025, Negative: 0.781, Neutral: 0...
+2026-07-18 05:51:03 [trade_executor] INFO:    📐 Layer 3: Quantitative Analysis...
+2026-07-18 05:51:03 [quantitative_analysis] INFO:    📐 ⚪ QA → DOT-USD: NEUTRAL (confidence: 0.100, score: -0.1000)
+2026-07-18 05:51:03 [trade_executor] INFO:       → ✅ QA: NEUTRAL (conf: 0.100)
+2026-07-18 05:51:03 [trade_executor] INFO:    ✅ VERIFICATION PASSED: 3/3 layers. Proceeding to execute...
+2026-07-18 05:51:03 [trade_executor] INFO:    🔥 TRADE EXECUTED: Short DOT-USD on [mid risk ] (Moderate)
+      Price: $0.85 | Qty: 5067.228038 | Value: $4,286.88
+      SL: $0.89 | TP: $0.76
+      Remaining balance: $81,450.62
+2026-07-18 05:51:03 [trade_executor] INFO: 
+   ╔══════════════════════════════════════════════════════════╗
+   ║  3-LAYER VERIFICATION: DOT-USD (SELL) for [low risk]
+   ╚══════════════════════════════════════════════════════════╝
+2026-07-18 05:51:03 [trade_executor] INFO:    🔬 Layer 1: Technical Analysis...
+2026-07-18 05:51:03 [technical_analysis] INFO:    📊 ⚪ TA → DOT-USD: NEUTRAL (confidence: 0.080, score: +0.0800)
+2026-07-18 05:51:03 [trade_executor] INFO:       → ✅ TA: NEUTRAL (conf: 0.080)
+2026-07-18 05:51:03 [trade_executor] INFO:    🧠 Layer 2: Sentiment Analysis (FinBERT)...
+2026-07-18 05:51:03 [trade_executor] INFO:       → ✅ SA: SELL (conf: 0.757) — FinBERT analyzed 1 articles. Positive: 0.025, Negative: 0.781, Neutral: 0...
+2026-07-18 05:51:03 [trade_executor] INFO:    📐 Layer 3: Quantitative Analysis...
+2026-07-18 05:51:03 [quantitative_analysis] INFO:    📐 ⚪ QA → DOT-USD: NEUTRAL (confidence: 0.100, score: -0.1000)
+2026-07-18 05:51:03 [trade_executor] INFO:       → ✅ QA: NEUTRAL (conf: 0.100)
+2026-07-18 05:51:03 [trade_executor] INFO:    ✅ VERIFICATION PASSED: 3/3 layers. Proceeding to execute...
+2026-07-18 05:51:03 [trade_executor] INFO:    🔥 TRADE EXECUTED: Short DOT-USD on [low risk] (Low)
+      Price: $0.85 | Qty: 2225.040148 | Value: $1,882.38
+      SL: $0.87 | TP: $0.80
+      Remaining balance: $92,236.82
+2026-07-18 05:51:03 [trade_executor] INFO: 
+   ╔══════════════════════════════════════════════════════════╗
+   ║  3-LAYER VERIFICATION: DOT-USD (SELL) for [HIGH]
+   ╚══════════════════════════════════════════════════════════╝
+2026-07-18 05:51:03 [trade_executor] INFO:    🔬 Layer 1: Technical Analysis...
+2026-07-18 05:51:03 [technical_analysis] INFO:    📊 ⚪ TA → DOT-USD: NEUTRAL (confidence: 0.080, score: +0.0800)
+2026-07-18 05:51:03 [trade_executor] INFO:       → ✅ TA: NEUTRAL (conf: 0.080)
+2026-07-18 05:51:03 [trade_executor] INFO:    🧠 Layer 2: Sentiment Analysis (FinBERT)...
+2026-07-18 05:51:03 [trade_executor] INFO:       → ✅ SA: SELL (conf: 0.757) — FinBERT analyzed 1 articles. Positive: 0.025, Negative: 0.781, Neutral: 0...
+2026-07-18 05:51:03 [trade_executor] INFO:    📐 Layer 3: Quantitative Analysis...
+2026-07-18 05:51:04 [quantitative_analysis] INFO:    📐 ⚪ QA → DOT-USD: NEUTRAL (confidence: 0.100, score: -0.1000)
+2026-07-18 05:51:04 [trade_executor] INFO:       → ✅ QA: NEUTRAL (conf: 0.100)
+2026-07-18 05:51:04 [trade_executor] INFO:    ✅ VERIFICATION PASSED: 3/3 layers. Proceeding to execute...
+2026-07-18 05:51:04 [trade_executor] INFO:    🔥 TRADE EXECUTED: Short DOT-USD on [HIGH] (Aggressive)
+      Price: $0.85 | Qty: 861.702112 | Value: $729.00
+      SL: $0.91 | TP: $0.68
+      Remaining balance: $6,561.00
+2026-07-18 05:51:04 [trade_executor] INFO: 
+   ╔══════════════════════════════════════════════════════════╗
+   ║  3-LAYER VERIFICATION: DOT-USD (SELL) for [MID]
+   ╚══════════════════════════════════════════════════════════╝
+2026-07-18 05:51:04 [trade_executor] INFO:    🔬 Layer 1: Technical Analysis...
+2026-07-18 05:51:04 [technical_analysis] INFO:    📊 ⚪ TA → DOT-USD: NEUTRAL (confidence: 0.080, score: +0.0800)
+2026-07-18 05:51:04 [trade_executor] INFO:       → ✅ TA: NEUTRAL (conf: 0.080)
+2026-07-18 05:51:04 [trade_executor] INFO:    🧠 Layer 2: Sentiment Analysis (FinBERT)...
+2026-07-18 05:51:04 [trade_executor] INFO:       → ✅ SA: SELL (conf: 0.757) — FinBERT analyzed 1 articles. Positive: 0.025, Negative: 0.781, Neutral: 0...
+2026-07-18 05:51:04 [trade_executor] INFO:    📐 Layer 3: Quantitative Analysis...
+2026-07-18 05:51:04 [quantitative_analysis] INFO:    📐 ⚪ QA → DOT-USD: NEUTRAL (confidence: 0.100, score: -0.1000)
+2026-07-18 05:51:04 [trade_executor] INFO:       → ✅ QA: NEUTRAL (conf: 0.100)
+2026-07-18 05:51:04 [trade_executor] INFO:    ✅ VERIFICATION PASSED: 3/3 layers. Proceeding to execute...
+2026-07-18 05:51:04 [trade_executor] INFO:    🔥 TRADE EXECUTED: Short DOT-USD on [MID] (Moderate)
+      Price: $0.85 | Qty: 506.722804 | Value: $428.69
+      SL: $0.89 | TP: $0.76
+      Remaining balance: $8,145.06
+2026-07-18 05:51:04 [trade_executor] INFO: 
+   ╔══════════════════════════════════════════════════════════╗
+   ║  3-LAYER VERIFICATION: DOT-USD (SELL) for [LOW]
+   ╚══════════════════════════════════════════════════════════╝
+2026-07-18 05:51:04 [trade_executor] INFO:    🔬 Layer 1: Technical Analysis...
+2026-07-18 05:51:04 [technical_analysis] INFO:    📊 ⚪ TA → DOT-USD: NEUTRAL (confidence: 0.080, score: +0.0800)
+2026-07-18 05:51:04 [trade_executor] INFO:       → ✅ TA: NEUTRAL (conf: 0.080)
+2026-07-18 05:51:04 [trade_executor] INFO:    🧠 Layer 2: Sentiment Analysis (FinBERT)...
+2026-07-18 05:51:04 [trade_executor] INFO:       → ✅ SA: SELL (conf: 0.757) — FinBERT analyzed 1 articles. Positive: 0.025, Negative: 0.781, Neutral: 0...
+2026-07-18 05:51:04 [trade_executor] INFO:    📐 Layer 3: Quantitative Analysis...
+2026-07-18 05:51:04 [quantitative_analysis] INFO:    📐 ⚪ QA → DOT-USD: NEUTRAL (confidence: 0.100, score: -0.1000)
+2026-07-18 05:51:04 [trade_executor] INFO:       → ✅ QA: NEUTRAL (conf: 0.100)
+2026-07-18 05:51:04 [trade_executor] INFO:    ✅ VERIFICATION PASSED: 3/3 layers. Proceeding to execute...
+2026-07-18 05:51:04 [trade_executor] INFO:    🔥 TRADE EXECUTED: Short DOT-USD on [LOW] (Low)
+      Price: $0.85 | Qty: 222.504015 | Value: $188.24
+      SL: $0.87 | TP: $0.80
+      Remaining balance: $9,223.68
+2026-07-18 05:51:05 [trade_executor] INFO: 🔍 Evaluating signal: SELL DOGE-USD (conf: 0.187) @ $0.07
+2026-07-18 05:51:05 [trade_executor] INFO: 
+   ╔══════════════════════════════════════════════════════════╗
+   ║  3-LAYER VERIFICATION: DOGE-USD (SELL) for [high risk]
+   ╚══════════════════════════════════════════════════════════╝
+2026-07-18 05:51:05 [trade_executor] INFO:    🔬 Layer 1: Technical Analysis...
+2026-07-18 05:51:05 [technical_analysis] INFO:    📊 ⚪ TA → DOGE-USD: NEUTRAL (confidence: 0.080, score: +0.0800)
+2026-07-18 05:51:05 [trade_executor] INFO:       → ✅ TA: NEUTRAL (conf: 0.080)
+2026-07-18 05:51:05 [trade_executor] INFO:    🧠 Layer 2: Sentiment Analysis (FinBERT)...
+2026-07-18 05:51:05 [trade_executor] INFO:       → ✅ SA: SELL (conf: 0.187) — FinBERT analyzed 3 articles. Positive: 0.382, Negative: 0.569, Neutral: 0...
+2026-07-18 05:51:05 [trade_executor] INFO:    📐 Layer 3: Quantitative Analysis...
+2026-07-18 05:51:05 [quantitative_analysis] INFO:    📐 ⚪ QA → DOGE-USD: NEUTRAL (confidence: 0.017, score: +0.0167)
+2026-07-18 05:51:05 [trade_executor] INFO:       → ✅ QA: NEUTRAL (conf: 0.017)
+2026-07-18 05:51:05 [trade_executor] INFO:    ✅ VERIFICATION PASSED: 3/3 layers. Proceeding to execute...
+2026-07-18 05:51:05 [trade_executor] INFO:    🔥 TRADE EXECUTED: Short DOGE-USD on [high risk] (Aggressive)
+      Price: $0.07 | Qty: 90659.112662 | Value: $6,561.00
+      SL: $0.08 | TP: $0.06
+      Remaining balance: $59,049.00
+2026-07-18 05:51:05 [trade_executor] INFO: 
+   ╔══════════════════════════════════════════════════════════╗
+   ║  3-LAYER VERIFICATION: DOGE-USD (SELL) for [mid risk ]
+   ╚══════════════════════════════════════════════════════════╝
+2026-07-18 05:51:05 [trade_executor] INFO:    🔬 Layer 1: Technical Analysis...
+2026-07-18 05:51:05 [technical_analysis] INFO:    📊 ⚪ TA → DOGE-USD: NEUTRAL (confidence: 0.080, score: +0.0800)
+2026-07-18 05:51:05 [trade_executor] INFO:       → ✅ TA: NEUTRAL (conf: 0.080)
+2026-07-18 05:51:05 [trade_executor] INFO:    🧠 Layer 2: Sentiment Analysis (FinBERT)...
+2026-07-18 05:51:05 [trade_executor] INFO:       → ✅ SA: SELL (conf: 0.187) — FinBERT analyzed 3 articles. Positive: 0.382, Negative: 0.569, Neutral: 0...
+2026-07-18 05:51:05 [trade_executor] INFO:    📐 Layer 3: Quantitative Analysis...
+2026-07-18 05:51:06 [quantitative_analysis] INFO:    📐 ⚪ QA → DOGE-USD: NEUTRAL (confidence: 0.017, score: +0.0167)
+2026-07-18 05:51:06 [trade_executor] INFO:       → ✅ QA: NEUTRAL (conf: 0.017)
+2026-07-18 05:51:06 [trade_executor] INFO:    ✅ VERIFICATION PASSED: 3/3 layers. Proceeding to execute...
+2026-07-18 05:51:06 [trade_executor] INFO:    🔥 TRADE EXECUTED: Short DOGE-USD on [mid risk ] (Moderate)
+      Price: $0.07 | Qty: 56273.749339 | Value: $4,072.53
+      SL: $0.08 | TP: $0.07
+      Remaining balance: $77,378.09
+2026-07-18 05:51:06 [trade_executor] INFO: 
+   ╔══════════════════════════════════════════════════════════╗
+   ║  3-LAYER VERIFICATION: DOGE-USD (SELL) for [low risk]
+   ╚══════════════════════════════════════════════════════════╝
+2026-07-18 05:51:06 [trade_executor] INFO:    🔬 Layer 1: Technical Analysis...
+2026-07-18 05:51:06 [technical_analysis] INFO:    📊 ⚪ TA → DOGE-USD: NEUTRAL (confidence: 0.080, score: +0.0800)
+2026-07-18 05:51:06 [trade_executor] INFO:       → ✅ TA: NEUTRAL (conf: 0.080)
+2026-07-18 05:51:06 [trade_executor] INFO:    🧠 Layer 2: Sentiment Analysis (FinBERT)...
+2026-07-18 05:51:06 [trade_executor] INFO:       → ✅ SA: SELL (conf: 0.187) — FinBERT analyzed 3 articles. Positive: 0.382, Negative: 0.569, Neutral: 0...
+2026-07-18 05:51:06 [trade_executor] INFO:    📐 Layer 3: Quantitative Analysis...
+2026-07-18 05:51:06 [quantitative_analysis] INFO:    📐 ⚪ QA → DOGE-USD: NEUTRAL (confidence: 0.017, score: +0.0167)
+2026-07-18 05:51:06 [trade_executor] INFO:       → ✅ QA: NEUTRAL (conf: 0.017)
+2026-07-18 05:51:06 [trade_executor] INFO:    ✅ VERIFICATION PASSED: 3/3 layers. Proceeding to execute...
+2026-07-18 05:51:06 [trade_executor] INFO:    🔥 TRADE EXECUTED: Short DOGE-USD on [low risk] (Low)
+      Price: $0.07 | Qty: 25490.345659 | Value: $1,844.74
+      SL: $0.07 | TP: $0.07
+      Remaining balance: $90,392.08
+2026-07-18 05:51:06 [trade_executor] INFO: 
+   ╔══════════════════════════════════════════════════════════╗
+   ║  3-LAYER VERIFICATION: DOGE-USD (SELL) for [HIGH]
+   ╚══════════════════════════════════════════════════════════╝
+2026-07-18 05:51:06 [trade_executor] INFO:    🔬 Layer 1: Technical Analysis...
+2026-07-18 05:51:06 [technical_analysis] INFO:    📊 ⚪ TA → DOGE-USD: NEUTRAL (confidence: 0.080, score: +0.0800)
+2026-07-18 05:51:06 [trade_executor] INFO:       → ✅ TA: NEUTRAL (conf: 0.080)
+2026-07-18 05:51:06 [trade_executor] INFO:    🧠 Layer 2: Sentiment Analysis (FinBERT)...
+2026-07-18 05:51:06 [trade_executor] INFO:       → ✅ SA: SELL (conf: 0.187) — FinBERT analyzed 3 articles. Positive: 0.382, Negative: 0.569, Neutral: 0...
+2026-07-18 05:51:06 [trade_executor] INFO:    📐 Layer 3: Quantitative Analysis...
+2026-07-18 05:51:06 [quantitative_analysis] INFO:    📐 ⚪ QA → DOGE-USD: NEUTRAL (confidence: 0.017, score: +0.0167)
+2026-07-18 05:51:06 [trade_executor] INFO:       → ✅ QA: NEUTRAL (conf: 0.017)
+2026-07-18 05:51:06 [trade_executor] INFO:    ✅ VERIFICATION PASSED: 3/3 layers. Proceeding to execute...
+2026-07-18 05:51:06 [trade_executor] INFO:    🔥 TRADE EXECUTED: Short DOGE-USD on [HIGH] (Aggressive)
+      Price: $0.07 | Qty: 9065.911266 | Value: $656.10
+      SL: $0.08 | TP: $0.06
+      Remaining balance: $5,904.90
+2026-07-18 05:51:06 [trade_executor] INFO: 
+   ╔══════════════════════════════════════════════════════════╗
+   ║  3-LAYER VERIFICATION: DOGE-USD (SELL) for [MID]
+   ╚══════════════════════════════════════════════════════════╝
+2026-07-18 05:51:06 [trade_executor] INFO:    🔬 Layer 1: Technical Analysis...
+2026-07-18 05:51:06 [technical_analysis] INFO:    📊 ⚪ TA → DOGE-USD: NEUTRAL (confidence: 0.080, score: +0.0800)
+2026-07-18 05:51:06 [trade_executor] INFO:       → ✅ TA: NEUTRAL (conf: 0.080)
+2026-07-18 05:51:06 [trade_executor] INFO:    🧠 Layer 2: Sentiment Analysis (FinBERT)...
+2026-07-18 05:51:06 [trade_executor] INFO:       → ✅ SA: SELL (conf: 0.187) — FinBERT analyzed 3 articles. Positive: 0.382, Negative: 0.569, Neutral: 0...
+2026-07-18 05:51:06 [trade_executor] INFO:    📐 Layer 3: Quantitative Analysis...
+2026-07-18 05:51:07 [quantitative_analysis] INFO:    📐 ⚪ QA → DOGE-USD: NEUTRAL (confidence: 0.017, score: +0.0167)
+2026-07-18 05:51:07 [trade_executor] INFO:       → ✅ QA: NEUTRAL (conf: 0.017)
+2026-07-18 05:51:07 [trade_executor] INFO:    ✅ VERIFICATION PASSED: 3/3 layers. Proceeding to execute...
+2026-07-18 05:51:07 [trade_executor] INFO:    🔥 TRADE EXECUTED: Short DOGE-USD on [MID] (Moderate)
+      Price: $0.07 | Qty: 5627.374934 | Value: $407.25
+      SL: $0.08 | TP: $0.07
+      Remaining balance: $7,737.81
+2026-07-18 05:51:07 [trade_executor] INFO: 
+   ╔══════════════════════════════════════════════════════════╗
+   ║  3-LAYER VERIFICATION: DOGE-USD (SELL) for [LOW]
+   ╚══════════════════════════════════════════════════════════╝
+2026-07-18 05:51:07 [trade_executor] INFO:    🔬 Layer 1: Technical Analysis...
+2026-07-18 05:51:07 [technical_analysis] INFO:    📊 ⚪ TA → DOGE-USD: NEUTRAL (confidence: 0.080, score: +0.0800)
+2026-07-18 05:51:07 [trade_executor] INFO:       → ✅ TA: NEUTRAL (conf: 0.080)
+2026-07-18 05:51:07 [trade_executor] INFO:    🧠 Layer 2: Sentiment Analysis (FinBERT)...
+2026-07-18 05:51:07 [trade_executor] INFO:       → ✅ SA: SELL (conf: 0.187) — FinBERT analyzed 3 articles. Positive: 0.382, Negative: 0.569, Neutral: 0...
+2026-07-18 05:51:07 [trade_executor] INFO:    📐 Layer 3: Quantitative Analysis...
+2026-07-18 05:51:07 [quantitative_analysis] INFO:    📐 ⚪ QA → DOGE-USD: NEUTRAL (confidence: 0.017, score: +0.0167)
+2026-07-18 05:51:07 [trade_executor] INFO:       → ✅ QA: NEUTRAL (conf: 0.017)
+2026-07-18 05:51:07 [trade_executor] INFO:    ✅ VERIFICATION PASSED: 3/3 layers. Proceeding to execute...
+2026-07-18 05:51:07 [trade_executor] INFO:    🔥 TRADE EXECUTED: Short DOGE-USD on [LOW] (Low)
+      Price: $0.07 | Qty: 2549.034566 | Value: $184.47
+      SL: $0.07 | TP: $0.07
+      Remaining balance: $9,039.21
+2026-07-18 05:51:07 [trade_executor] INFO: ✅ Execution complete: 30 trades opened, 0 skipped.
+2026-07-18 05:51:07 [bot_engine] INFO:    📊 Stats: 30 open | 0 closed | P&L: $+0.00 | Win rate: 0.0%
+2026-07-18 05:52:07 [bot_engine] INFO: ─── 📈 PRICE CHECK CYCLE ───
+2026-07-18 05:52:13 [bot_engine] INFO:    💾 Saved 23/23 prices.
+2026-07-18 05:52:13 [trade_executor] INFO: 📊 Managing 30 open position(s)...
+2026-07-18 05:52:14 [trade_executor] INFO: 📊 Updated 30 P&Ls. No positions closed.
+2026-07-18 05:52:14 [bot_engine] INFO: ─── ⚡ TRADE EXECUTION CYCLE ───
+2026-07-18 05:52:14 [trade_executor] INFO: 📭 No pending signals to execute.
+2026-07-18 05:52:14 [bot_engine] INFO:    📊 Stats: 30 open | 0 closed | P&L: $+0.00 | Win rate: 0.0%
+2026-07-18 05:53:14 [bot_engine] INFO: ─── 📈 PRICE CHECK CYCLE ───
+2026-07-18 05:53:20 [bot_engine] INFO:    💾 Saved 23/23 prices.
+2026-07-18 05:53:20 [trade_executor] INFO: 📊 Managing 30 open position(s)...
+2026-07-18 05:53:21 [trade_executor] INFO: 📊 Updated 30 P&Ls. No positions closed.
+2026-07-18 05:54:21 [bot_engine] INFO: ─── 📈 PRICE CHECK CYCLE ───
+2026-07-18 05:54:27 [bot_engine] INFO:    💾 Saved 23/23 prices.
+2026-07-18 05:54:27 [trade_executor] INFO: 📊 Managing 30 open position(s)...
+2026-07-18 05:54:28 [trade_executor] INFO: 📊 Updated 30 P&Ls. No positions closed.
+2026-07-18 05:55:28 [bot_engine] INFO: ─── 📈 PRICE CHECK CYCLE ───
+2026-07-18 05:55:34 [bot_engine] INFO:    💾 Saved 23/23 prices.
+2026-07-18 05:55:34 [trade_executor] INFO: 📊 Managing 30 open position(s)...
+2026-07-18 05:55:35 [trade_executor] INFO: 📊 Updated 30 P&Ls. No positions closed.
+2026-07-18 05:56:35 [bot_engine] INFO: ─── 📈 PRICE CHECK CYCLE ───
+2026-07-18 05:56:41 [bot_engine] INFO:    💾 Saved 23/23 prices.
+2026-07-18 05:56:41 [trade_executor] INFO: 📊 Managing 30 open position(s)...
+2026-07-18 05:56:42 [trade_executor] INFO: 📊 Updated 30 P&Ls. No positions closed.
+2026-07-18 05:56:42 [bot_engine] INFO: 💓 Heartbeat (cycle #20): 30 open trades | $+0.00 total P&L
+2026-07-18 05:57:42 [bot_engine] INFO: ─── 📈 PRICE CHECK CYCLE ───
+2026-07-18 05:57:48 [bot_engine] INFO:    💾 Saved 23/23 prices.
+2026-07-18 05:57:48 [trade_executor] INFO: 📊 Managing 30 open position(s)...
+2026-07-18 05:57:50 [trade_executor] INFO: 📊 Updated 30 P&Ls. No positions closed.
+2026-07-18 05:57:50 [bot_engine] INFO: ─── ⚡ TRADE EXECUTION CYCLE ───
+2026-07-18 05:57:50 [trade_executor] INFO: 📭 No pending signals to execute.
+2026-07-18 05:57:50 [bot_engine] INFO:    📊 Stats: 30 open | 0 closed | P&L: $+0.00 | Win rate: 0.0%
+2026-07-18 05:58:50 [bot_engine] INFO: ─── 📈 PRICE CHECK CYCLE ───
+2026-07-18 05:58:56 [bot_engine] INFO:    💾 Saved 23/23 prices.
+2026-07-18 05:58:56 [trade_executor] INFO: 📊 Managing 30 open position(s)...
+2026-07-18 05:58:57 [trade_executor] INFO: 📊 Updated 30 P&Ls. No positions closed.
+2026-07-18 05:59:57 [bot_engine] INFO: ─── 📈 PRICE CHECK CYCLE ───
+2026-07-18 06:00:03 [bot_engine] INFO:    💾 Saved 23/23 prices.
+2026-07-18 06:00:03 [trade_executor] INFO: 📊 Managing 30 open position(s)...
+2026-07-18 06:00:04 [trade_executor] INFO: 📊 Updated 30 P&Ls. No positions closed.
+2026-07-18 06:01:04 [bot_engine] INFO: ─── 📈 PRICE CHECK CYCLE ───
+2026-07-18 06:01:10 [bot_engine] INFO:    💾 Saved 23/23 prices.
+2026-07-18 06:01:10 [trade_executor] INFO: 📊 Managing 30 open position(s)...
+2026-07-18 06:01:11 [trade_executor] INFO: 📊 Updated 30 P&Ls. No positions closed.
+2026-07-18 06:02:11 [bot_engine] INFO: ─── 📈 PRICE CHECK CYCLE ───
+2026-07-18 06:02:26 [bot_engine] INFO:    💾 Saved 23/23 prices.
+2026-07-18 06:02:26 [trade_executor] INFO: 📊 Managing 30 open position(s)...
+2026-07-18 06:02:27 [trade_executor] INFO: 📊 Updated 30 P&Ls. No positions closed.
+2026-07-18 06:03:27 [bot_engine] INFO: ─── 📈 PRICE CHECK CYCLE ───
+2026-07-18 06:03:33 [bot_engine] INFO:    💾 Saved 23/23 prices.
+2026-07-18 06:03:33 [trade_executor] INFO: 📊 Managing 30 open position(s)...
+2026-07-18 06:03:34 [trade_executor] INFO: 📊 Updated 30 P&Ls. No positions closed.
+2026-07-18 06:03:34 [bot_engine] INFO: ─── ⚡ TRADE EXECUTION CYCLE ───
+2026-07-18 06:03:34 [trade_executor] INFO: 📭 No pending signals to execute.
+2026-07-18 06:03:34 [bot_engine] INFO:    📊 Stats: 30 open | 0 closed | P&L: $+0.00 | Win rate: 0.0%
+2026-07-18 06:04:34 [bot_engine] INFO: ─── 📈 PRICE CHECK CYCLE ───
+2026-07-18 06:04:40 [bot_engine] INFO:    💾 Saved 23/23 prices.
+2026-07-18 06:04:40 [trade_executor] INFO: 📊 Managing 30 open position(s)...
+2026-07-18 06:04:41 [trade_executor] INFO: 📊 Updated 30 P&Ls. No positions closed.
+2026-07-18 06:05:41 [bot_engine] INFO: ─── 📈 PRICE CHECK CYCLE ───
+2026-07-18 06:05:47 [bot_engine] INFO:    💾 Saved 23/23 prices.
+2026-07-18 06:05:47 [trade_executor] INFO: 📊 Managing 30 open position(s)...
+2026-07-18 06:05:48 [trade_executor] INFO: 📊 Updated 30 P&Ls. No positions closed.
+2026-07-18 06:06:48 [bot_engine] INFO: ─── 📈 PRICE CHECK CYCLE ───
+2026-07-18 06:06:54 [bot_engine] INFO:    💾 Saved 23/23 prices.
+2026-07-18 06:06:54 [trade_executor] INFO: 📊 Managing 30 open position(s)...
+2026-07-18 06:06:55 [trade_executor] INFO: 📊 Updated 30 P&Ls. No positions closed.
+2026-07-18 06:06:55 [bot_engine] INFO: ─── 🧠 NEWS + AI ANALYSIS CYCLE ───
+2026-07-18 06:06:55 [bot_engine] INFO:    📰 Processing symbols 11-15 of 23: ['MSFT', 'NVDA', 'TSLA', 'GOOGL', 'AMZN']
+2026-07-18 06:06:57 [data_ingestion] INFO:    📰 Saved 10 fresh articles for MSFT
+2026-07-18 06:06:57 [ai_analysis] INFO:    🧠 ⚪ AI → MSFT: NEUTRAL (score: -0.0069, pos=0.266, neg=0.272)
+2026-07-18 06:06:57 [data_ingestion] INFO:    📰 Saved 10 fresh articles for NVDA
+2026-07-18 06:06:58 [ai_analysis] INFO:    🧠 🔴 AI → NVDA: SELL (confidence: 0.200, score: -0.1999)
+2026-07-18 06:06:58 [data_ingestion] INFO:    📰 Saved 10 fresh articles for TSLA
+2026-07-18 06:06:58 [ai_analysis] INFO:    🧠 🔴 AI → TSLA: SELL (confidence: 0.073, score: -0.0730)
+2026-07-18 06:06:59 [data_ingestion] INFO:    📰 Saved 10 fresh articles for GOOGL
+2026-07-18 06:06:59 [ai_analysis] INFO:    🧠 🔴 AI → GOOGL: SELL (confidence: 0.375, score: -0.3750)
+2026-07-18 06:06:59 [data_ingestion] INFO:    📰 Saved 10 fresh articles for AMZN
+2026-07-18 06:06:59 [ai_analysis] INFO:    🧠 🔴 AI → AMZN: SELL (confidence: 0.120, score: -0.1199)
+2026-07-18 06:07:00 [bot_engine] INFO:    ✅ News + AI cycle complete for 5 symbols.
+2026-07-18 06:07:00 [bot_engine] INFO: ─── ⚡ TRADE EXECUTION CYCLE ───
+2026-07-18 06:07:00 [trade_executor] INFO: 📋 Found 4 pending signal(s) to evaluate.
+2026-07-18 06:07:00 [trade_executor] INFO: 🔍 Evaluating signal: SELL AMZN (conf: 0.120) @ $247.26
+2026-07-18 06:07:00 [trade_executor] INFO: 
+   ╔══════════════════════════════════════════════════════════╗
+   ║  3-LAYER VERIFICATION: AMZN (SELL) for [high risk]
+   ╚══════════════════════════════════════════════════════════╝
+2026-07-18 06:07:00 [trade_executor] INFO:    🔬 Layer 1: Technical Analysis...
+2026-07-18 06:07:00 [technical_analysis] INFO:    📊 🟢 TA → AMZN: BULLISH (confidence: 0.160, score: +0.1600)
+2026-07-18 06:07:00 [trade_executor] INFO:       → ❌ TA: BULLISH CONFLICTS with SELL signal
+2026-07-18 06:07:00 [trade_executor] INFO:    🧠 Layer 2: Sentiment Analysis (FinBERT)...
+2026-07-18 06:07:00 [trade_executor] INFO:       → ✅ SA: SELL (conf: 0.120) — FinBERT analyzed 10 articles. Positive: 0.295, Negative: 0.415, Neutral: ...
+2026-07-18 06:07:00 [trade_executor] INFO:    📐 Layer 3: Quantitative Analysis...
+2026-07-18 06:07:00 [quantitative_analysis] INFO:    📐 ⚪ QA → AMZN: NEUTRAL (confidence: 0.100, score: -0.1000)
+2026-07-18 06:07:00 [trade_executor] INFO:       → ✅ QA: NEUTRAL (conf: 0.100)
+2026-07-18 06:07:00 [trade_executor] INFO:    ✅ VERIFICATION PASSED: 2/3 layers. Proceeding to execute...
+2026-07-18 06:07:00 [trade_executor] INFO:    🔥 TRADE EXECUTED: Short AMZN on [high risk] (Aggressive)
+      Price: $247.26 | Qty: 23.881340 | Value: $5,904.90
+      SL: $267.04 | TP: $197.81
+      Remaining balance: $53,144.10
+2026-07-18 06:07:00 [trade_executor] INFO: 
+   ╔══════════════════════════════════════════════════════════╗
+   ║  3-LAYER VERIFICATION: AMZN (SELL) for [mid risk ]
+   ╚══════════════════════════════════════════════════════════╝
+2026-07-18 06:07:00 [trade_executor] INFO:    🔬 Layer 1: Technical Analysis...
+2026-07-18 06:07:00 [technical_analysis] INFO:    📊 🟢 TA → AMZN: BULLISH (confidence: 0.160, score: +0.1600)
+2026-07-18 06:07:00 [trade_executor] INFO:       → ❌ TA: BULLISH CONFLICTS with SELL signal
+2026-07-18 06:07:00 [trade_executor] INFO:    🧠 Layer 2: Sentiment Analysis (FinBERT)...
+2026-07-18 06:07:00 [trade_executor] INFO:       → ✅ SA: SELL (conf: 0.120) — FinBERT analyzed 10 articles. Positive: 0.295, Negative: 0.415, Neutral: ...
+2026-07-18 06:07:00 [trade_executor] INFO:    📐 Layer 3: Quantitative Analysis...
+2026-07-18 06:07:01 [quantitative_analysis] INFO:    📐 ⚪ QA → AMZN: NEUTRAL (confidence: 0.100, score: -0.1000)
+2026-07-18 06:07:01 [trade_executor] INFO:       → ✅ QA: NEUTRAL (conf: 0.100)
+2026-07-18 06:07:01 [trade_executor] INFO:    ✅ VERIFICATION PASSED: 2/3 layers. Proceeding to execute...
+2026-07-18 06:07:01 [trade_executor] INFO:    🔥 TRADE EXECUTED: Short AMZN on [mid risk ] (Moderate)
+      Price: $247.26 | Qty: 15.647111 | Value: $3,868.90
+      SL: $259.62 | TP: $222.53
+      Remaining balance: $73,509.19
+2026-07-18 06:07:01 [trade_executor] INFO: 
+   ╔══════════════════════════════════════════════════════════╗
+   ║  3-LAYER VERIFICATION: AMZN (SELL) for [HIGH]
+   ╚══════════════════════════════════════════════════════════╝
+2026-07-18 06:07:01 [trade_executor] INFO:    🔬 Layer 1: Technical Analysis...
+2026-07-18 06:07:01 [technical_analysis] INFO:    📊 🟢 TA → AMZN: BULLISH (confidence: 0.160, score: +0.1600)
+2026-07-18 06:07:01 [trade_executor] INFO:       → ❌ TA: BULLISH CONFLICTS with SELL signal
+2026-07-18 06:07:01 [trade_executor] INFO:    🧠 Layer 2: Sentiment Analysis (FinBERT)...
+2026-07-18 06:07:01 [trade_executor] INFO:       → ✅ SA: SELL (conf: 0.120) — FinBERT analyzed 10 articles. Positive: 0.295, Negative: 0.415, Neutral: ...
+2026-07-18 06:07:01 [trade_executor] INFO:    📐 Layer 3: Quantitative Analysis...
+2026-07-18 06:07:01 [quantitative_analysis] INFO:    📐 ⚪ QA → AMZN: NEUTRAL (confidence: 0.100, score: -0.1000)
+2026-07-18 06:07:01 [trade_executor] INFO:       → ✅ QA: NEUTRAL (conf: 0.100)
+2026-07-18 06:07:01 [trade_executor] INFO:    ✅ VERIFICATION PASSED: 2/3 layers. Proceeding to execute...
+2026-07-18 06:07:01 [trade_executor] INFO:    🔥 TRADE EXECUTED: Short AMZN on [HIGH] (Aggressive)
+      Price: $247.26 | Qty: 2.388134 | Value: $590.49
+      SL: $267.04 | TP: $197.81
+      Remaining balance: $5,314.41
+2026-07-18 06:07:01 [trade_executor] INFO: 
+   ╔══════════════════════════════════════════════════════════╗
+   ║  3-LAYER VERIFICATION: AMZN (SELL) for [MID]
+   ╚══════════════════════════════════════════════════════════╝
+2026-07-18 06:07:01 [trade_executor] INFO:    🔬 Layer 1: Technical Analysis...
+2026-07-18 06:07:01 [technical_analysis] INFO:    📊 🟢 TA → AMZN: BULLISH (confidence: 0.160, score: +0.1600)
+2026-07-18 06:07:01 [trade_executor] INFO:       → ❌ TA: BULLISH CONFLICTS with SELL signal
+2026-07-18 06:07:01 [trade_executor] INFO:    🧠 Layer 2: Sentiment Analysis (FinBERT)...
+2026-07-18 06:07:01 [trade_executor] INFO:       → ✅ SA: SELL (conf: 0.120) — FinBERT analyzed 10 articles. Positive: 0.295, Negative: 0.415, Neutral: ...
+2026-07-18 06:07:01 [trade_executor] INFO:    📐 Layer 3: Quantitative Analysis...
+2026-07-18 06:07:01 [quantitative_analysis] INFO:    📐 ⚪ QA → AMZN: NEUTRAL (confidence: 0.100, score: -0.1000)
+2026-07-18 06:07:01 [trade_executor] INFO:       → ✅ QA: NEUTRAL (conf: 0.100)
+2026-07-18 06:07:01 [trade_executor] INFO:    ✅ VERIFICATION PASSED: 2/3 layers. Proceeding to execute...
+2026-07-18 06:07:01 [trade_executor] INFO:    🔥 TRADE EXECUTED: Short AMZN on [MID] (Moderate)
+      Price: $247.26 | Qty: 1.564711 | Value: $386.89
+      SL: $259.62 | TP: $222.53
+      Remaining balance: $7,350.92
+2026-07-18 06:07:02 [trade_executor] INFO: 🔍 Evaluating signal: SELL GOOGL (conf: 0.375) @ $346.62
+2026-07-18 06:07:02 [trade_executor] INFO: 
+   ╔══════════════════════════════════════════════════════════╗
+   ║  3-LAYER VERIFICATION: GOOGL (SELL) for [high risk]
+   ╚══════════════════════════════════════════════════════════╝
+2026-07-18 06:07:02 [trade_executor] INFO:    🔬 Layer 1: Technical Analysis...
+2026-07-18 06:07:02 [technical_analysis] INFO:    📊 🔴 TA → GOOGL: BEARISH (confidence: 0.360, score: -0.3600)
+2026-07-18 06:07:02 [trade_executor] INFO:       → ✅ TA: BEARISH (conf: 0.360)
+2026-07-18 06:07:02 [trade_executor] INFO:    🧠 Layer 2: Sentiment Analysis (FinBERT)...
+2026-07-18 06:07:02 [trade_executor] INFO:       → ✅ SA: SELL (conf: 0.375) — FinBERT analyzed 10 articles. Positive: 0.123, Negative: 0.498, Neutral: ...
+2026-07-18 06:07:02 [trade_executor] INFO:    📐 Layer 3: Quantitative Analysis...
+2026-07-18 06:07:02 [quantitative_analysis] INFO:    📐 ⚪ QA → GOOGL: NEUTRAL (confidence: 0.033, score: -0.0333)
+2026-07-18 06:07:02 [trade_executor] INFO:       → ✅ QA: NEUTRAL (conf: 0.033)
+2026-07-18 06:07:02 [trade_executor] INFO:    ✅ VERIFICATION PASSED: 3/3 layers. Proceeding to execute...
+2026-07-18 06:07:02 [trade_executor] INFO:    🔥 TRADE EXECUTED: Short GOOGL on [high risk] (Aggressive)
+      Price: $346.62 | Qty: 15.332093 | Value: $5,314.41
+      SL: $374.35 | TP: $277.30
+      Remaining balance: $47,829.69
+2026-07-18 06:07:02 [trade_executor] INFO: 
+   ╔══════════════════════════════════════════════════════════╗
+   ║  3-LAYER VERIFICATION: GOOGL (SELL) for [mid risk ]
+   ╚══════════════════════════════════════════════════════════╝
+2026-07-18 06:07:02 [trade_executor] INFO:    🔬 Layer 1: Technical Analysis...
+2026-07-18 06:07:02 [technical_analysis] INFO:    📊 🔴 TA → GOOGL: BEARISH (confidence: 0.360, score: -0.3600)
+2026-07-18 06:07:02 [trade_executor] INFO:       → ✅ TA: BEARISH (conf: 0.360)
+2026-07-18 06:07:02 [trade_executor] INFO:    🧠 Layer 2: Sentiment Analysis (FinBERT)...
+2026-07-18 06:07:02 [trade_executor] INFO:       → ✅ SA: SELL (conf: 0.375) — FinBERT analyzed 10 articles. Positive: 0.123, Negative: 0.498, Neutral: ...
+2026-07-18 06:07:02 [trade_executor] INFO:    📐 Layer 3: Quantitative Analysis...
+2026-07-18 06:07:02 [quantitative_analysis] INFO:    📐 ⚪ QA → GOOGL: NEUTRAL (confidence: 0.033, score: -0.0333)
+2026-07-18 06:07:02 [trade_executor] INFO:       → ✅ QA: NEUTRAL (conf: 0.033)
+2026-07-18 06:07:02 [trade_executor] INFO:    ✅ VERIFICATION PASSED: 3/3 layers. Proceeding to execute...
+2026-07-18 06:07:02 [trade_executor] INFO:    🔥 TRADE EXECUTED: Short GOOGL on [mid risk ] (Moderate)
+      Price: $346.62 | Qty: 10.603714 | Value: $3,675.46
+      SL: $363.95 | TP: $311.96
+      Remaining balance: $69,833.73
+2026-07-18 06:07:02 [trade_executor] INFO: 
+   ╔══════════════════════════════════════════════════════════╗
+   ║  3-LAYER VERIFICATION: GOOGL (SELL) for [HIGH]
+   ╚══════════════════════════════════════════════════════════╝
+2026-07-18 06:07:02 [trade_executor] INFO:    🔬 Layer 1: Technical Analysis...
+2026-07-18 06:07:03 [technical_analysis] INFO:    📊 🔴 TA → GOOGL: BEARISH (confidence: 0.360, score: -0.3600)
+2026-07-18 06:07:03 [trade_executor] INFO:       → ✅ TA: BEARISH (conf: 0.360)
+2026-07-18 06:07:03 [trade_executor] INFO:    🧠 Layer 2: Sentiment Analysis (FinBERT)...
+2026-07-18 06:07:03 [trade_executor] INFO:       → ✅ SA: SELL (conf: 0.375) — FinBERT analyzed 10 articles. Positive: 0.123, Negative: 0.498, Neutral: ...
+2026-07-18 06:07:03 [trade_executor] INFO:    📐 Layer 3: Quantitative Analysis...
+2026-07-18 06:07:03 [quantitative_analysis] INFO:    📐 ⚪ QA → GOOGL: NEUTRAL (confidence: 0.033, score: -0.0333)
+2026-07-18 06:07:03 [trade_executor] INFO:       → ✅ QA: NEUTRAL (conf: 0.033)
+2026-07-18 06:07:03 [trade_executor] INFO:    ✅ VERIFICATION PASSED: 3/3 layers. Proceeding to execute...
+2026-07-18 06:07:03 [trade_executor] INFO:    🔥 TRADE EXECUTED: Short GOOGL on [HIGH] (Aggressive)
+      Price: $346.62 | Qty: 1.533209 | Value: $531.44
+      SL: $374.35 | TP: $277.30
+      Remaining balance: $4,782.97
+2026-07-18 06:07:03 [trade_executor] INFO: 
+   ╔══════════════════════════════════════════════════════════╗
+   ║  3-LAYER VERIFICATION: GOOGL (SELL) for [MID]
+   ╚══════════════════════════════════════════════════════════╝
+2026-07-18 06:07:03 [trade_executor] INFO:    🔬 Layer 1: Technical Analysis...
+2026-07-18 06:07:03 [technical_analysis] INFO:    📊 🔴 TA → GOOGL: BEARISH (confidence: 0.360, score: -0.3600)
+2026-07-18 06:07:03 [trade_executor] INFO:       → ✅ TA: BEARISH (conf: 0.360)
+2026-07-18 06:07:03 [trade_executor] INFO:    🧠 Layer 2: Sentiment Analysis (FinBERT)...
+2026-07-18 06:07:03 [trade_executor] INFO:       → ✅ SA: SELL (conf: 0.375) — FinBERT analyzed 10 articles. Positive: 0.123, Negative: 0.498, Neutral: ...
+2026-07-18 06:07:03 [trade_executor] INFO:    📐 Layer 3: Quantitative Analysis...
+2026-07-18 06:07:03 [quantitative_analysis] INFO:    📐 ⚪ QA → GOOGL: NEUTRAL (confidence: 0.033, score: -0.0333)
+2026-07-18 06:07:03 [trade_executor] INFO:       → ✅ QA: NEUTRAL (conf: 0.033)
+2026-07-18 06:07:03 [trade_executor] INFO:    ✅ VERIFICATION PASSED: 3/3 layers. Proceeding to execute...
+2026-07-18 06:07:03 [trade_executor] INFO:    🔥 TRADE EXECUTED: Short GOOGL on [MID] (Moderate)
+      Price: $346.62 | Qty: 1.060371 | Value: $367.55
+      SL: $363.95 | TP: $311.96
+      Remaining balance: $6,983.37
+2026-07-18 06:07:04 [trade_executor] INFO: 🔍 Evaluating signal: SELL TSLA (conf: 0.073) @ $380.69
+2026-07-18 06:07:04 [trade_executor] INFO: 
+   ╔══════════════════════════════════════════════════════════╗
+   ║  3-LAYER VERIFICATION: TSLA (SELL) for [high risk]
+   ╚══════════════════════════════════════════════════════════╝
+2026-07-18 06:07:04 [trade_executor] INFO:    🔬 Layer 1: Technical Analysis...
+2026-07-18 06:07:04 [technical_analysis] INFO:    📊 🔴 TA → TSLA: BEARISH (confidence: 0.300, score: -0.3000)
+2026-07-18 06:07:04 [trade_executor] INFO:       → ✅ TA: BEARISH (conf: 0.300)
+2026-07-18 06:07:04 [trade_executor] INFO:    🧠 Layer 2: Sentiment Analysis (FinBERT)...
+2026-07-18 06:07:04 [trade_executor] INFO:       → ✅ SA: SELL (conf: 0.073) — FinBERT analyzed 10 articles. Positive: 0.142, Negative: 0.215, Neutral: ...
+2026-07-18 06:07:04 [trade_executor] INFO:    📐 Layer 3: Quantitative Analysis...
+2026-07-18 06:07:04 [quantitative_analysis] INFO:    📐 ⚪ QA → TSLA: NEUTRAL (confidence: 0.033, score: -0.0333)
+2026-07-18 06:07:04 [trade_executor] INFO:       → ✅ QA: NEUTRAL (conf: 0.033)
+2026-07-18 06:07:04 [trade_executor] INFO:    ✅ VERIFICATION PASSED: 3/3 layers. Proceeding to execute...
+2026-07-18 06:07:04 [trade_executor] INFO:    🔥 TRADE EXECUTED: Short TSLA on [high risk] (Aggressive)
+      Price: $380.69 | Qty: 12.563947 | Value: $4,782.97
+      SL: $411.15 | TP: $304.55
+      Remaining balance: $43,046.72
+2026-07-18 06:07:04 [trade_executor] INFO: 
+   ╔══════════════════════════════════════════════════════════╗
+   ║  3-LAYER VERIFICATION: TSLA (SELL) for [mid risk ]
+   ╚══════════════════════════════════════════════════════════╝
+2026-07-18 06:07:04 [trade_executor] INFO:    🔬 Layer 1: Technical Analysis...
+2026-07-18 06:07:04 [technical_analysis] INFO:    📊 🔴 TA → TSLA: BEARISH (confidence: 0.300, score: -0.3000)
+2026-07-18 06:07:04 [trade_executor] INFO:       → ✅ TA: BEARISH (conf: 0.300)
+2026-07-18 06:07:04 [trade_executor] INFO:    🧠 Layer 2: Sentiment Analysis (FinBERT)...
+2026-07-18 06:07:04 [trade_executor] INFO:       → ✅ SA: SELL (conf: 0.073) — FinBERT analyzed 10 articles. Positive: 0.142, Negative: 0.215, Neutral: ...
+2026-07-18 06:07:04 [trade_executor] INFO:    📐 Layer 3: Quantitative Analysis...
+2026-07-18 06:07:04 [quantitative_analysis] INFO:    📐 ⚪ QA → TSLA: NEUTRAL (confidence: 0.033, score: -0.0333)
+2026-07-18 06:07:04 [trade_executor] INFO:       → ✅ QA: NEUTRAL (conf: 0.033)
+2026-07-18 06:07:04 [trade_executor] INFO:    ✅ VERIFICATION PASSED: 3/3 layers. Proceeding to execute...
+2026-07-18 06:07:04 [trade_executor] INFO:    🔥 TRADE EXECUTED: Short TSLA on [mid risk ] (Moderate)
+      Price: $380.69 | Qty: 9.171994 | Value: $3,491.69
+      SL: $399.72 | TP: $342.62
+      Remaining balance: $66,342.04
+2026-07-18 06:07:04 [trade_executor] INFO: 
+   ╔══════════════════════════════════════════════════════════╗
+   ║  3-LAYER VERIFICATION: TSLA (SELL) for [HIGH]
+   ╚══════════════════════════════════════════════════════════╝
+2026-07-18 06:07:04 [trade_executor] INFO:    🔬 Layer 1: Technical Analysis...
+2026-07-18 06:07:05 [technical_analysis] INFO:    📊 🔴 TA → TSLA: BEARISH (confidence: 0.300, score: -0.3000)
+2026-07-18 06:07:05 [trade_executor] INFO:       → ✅ TA: BEARISH (conf: 0.300)
+2026-07-18 06:07:05 [trade_executor] INFO:    🧠 Layer 2: Sentiment Analysis (FinBERT)...
+2026-07-18 06:07:05 [trade_executor] INFO:       → ✅ SA: SELL (conf: 0.073) — FinBERT analyzed 10 articles. Positive: 0.142, Negative: 0.215, Neutral: ...
+2026-07-18 06:07:05 [trade_executor] INFO:    📐 Layer 3: Quantitative Analysis...
+2026-07-18 06:07:05 [quantitative_analysis] INFO:    📐 ⚪ QA → TSLA: NEUTRAL (confidence: 0.033, score: -0.0333)
+2026-07-18 06:07:05 [trade_executor] INFO:       → ✅ QA: NEUTRAL (conf: 0.033)
+2026-07-18 06:07:05 [trade_executor] INFO:    ✅ VERIFICATION PASSED: 3/3 layers. Proceeding to execute...
+2026-07-18 06:07:05 [trade_executor] INFO:    🔥 TRADE EXECUTED: Short TSLA on [HIGH] (Aggressive)
+      Price: $380.69 | Qty: 1.256395 | Value: $478.30
+      SL: $411.15 | TP: $304.55
+      Remaining balance: $4,304.67
+2026-07-18 06:07:05 [trade_executor] INFO: 
+   ╔══════════════════════════════════════════════════════════╗
+   ║  3-LAYER VERIFICATION: TSLA (SELL) for [MID]
+   ╚══════════════════════════════════════════════════════════╝
+2026-07-18 06:07:05 [trade_executor] INFO:    🔬 Layer 1: Technical Analysis...
+2026-07-18 06:07:05 [technical_analysis] INFO:    📊 🔴 TA → TSLA: BEARISH (confidence: 0.300, score: -0.3000)
+2026-07-18 06:07:05 [trade_executor] INFO:       → ✅ TA: BEARISH (conf: 0.300)
+2026-07-18 06:07:05 [trade_executor] INFO:    🧠 Layer 2: Sentiment Analysis (FinBERT)...
+2026-07-18 06:07:05 [trade_executor] INFO:       → ✅ SA: SELL (conf: 0.073) — FinBERT analyzed 10 articles. Positive: 0.142, Negative: 0.215, Neutral: ...
+2026-07-18 06:07:05 [trade_executor] INFO:    📐 Layer 3: Quantitative Analysis...
+2026-07-18 06:07:06 [quantitative_analysis] INFO:    📐 ⚪ QA → TSLA: NEUTRAL (confidence: 0.033, score: -0.0333)
+2026-07-18 06:07:06 [trade_executor] INFO:       → ✅ QA: NEUTRAL (conf: 0.033)
+2026-07-18 06:07:06 [trade_executor] INFO:    ✅ VERIFICATION PASSED: 3/3 layers. Proceeding to execute...
+2026-07-18 06:07:06 [trade_executor] INFO:    🔥 TRADE EXECUTED: Short TSLA on [MID] (Moderate)
+      Price: $380.69 | Qty: 0.917199 | Value: $349.17
+      SL: $399.72 | TP: $342.62
+      Remaining balance: $6,634.20
+2026-07-18 06:07:06 [trade_executor] INFO: 🔍 Evaluating signal: SELL NVDA (conf: 0.200) @ $202.64
+2026-07-18 06:07:06 [trade_executor] INFO: 
+   ╔══════════════════════════════════════════════════════════╗
+   ║  3-LAYER VERIFICATION: NVDA (SELL) for [high risk]
+   ╚══════════════════════════════════════════════════════════╝
+2026-07-18 06:07:06 [trade_executor] INFO:    🔬 Layer 1: Technical Analysis...
+2026-07-18 06:07:06 [technical_analysis] INFO:    📊 🟢 TA → NVDA: BULLISH (confidence: 0.160, score: +0.1600)
+2026-07-18 06:07:06 [trade_executor] INFO:       → ❌ TA: BULLISH CONFLICTS with SELL signal
+2026-07-18 06:07:06 [trade_executor] INFO:    🧠 Layer 2: Sentiment Analysis (FinBERT)...
+2026-07-18 06:07:06 [trade_executor] INFO:       → ✅ SA: SELL (conf: 0.200) — FinBERT analyzed 10 articles. Positive: 0.187, Negative: 0.387, Neutral: ...
+2026-07-18 06:07:06 [trade_executor] INFO:    📐 Layer 3: Quantitative Analysis...
+2026-07-18 06:07:06 [quantitative_analysis] INFO:    📐 🔴 QA → NVDA: UNFAVORABLE (confidence: 0.233, score: -0.2333)
+2026-07-18 06:07:06 [trade_executor] INFO:       → ❌ QA: UNFAVORABLE — unfavorable conditions
+2026-07-18 06:07:06 [trade_executor] INFO:    🚫 VERIFICATION FAILED: Only 1/3 layers passed. Trade REJECTED.
+      Report: ❌ TA: BULLISH CONFLICTS with SELL signal | ✅ SA: SELL (conf: 0.200) — FinBERT analyzed 10 articles. Positive: 0.187, Negative: 0.387, Neutral: 0.426. ... | ❌ QA: UNFAVORABLE — unfavorable conditions
+2026-07-18 06:07:06 [trade_executor] INFO: 
+   ╔══════════════════════════════════════════════════════════╗
+   ║  3-LAYER VERIFICATION: NVDA (SELL) for [mid risk ]
+   ╚══════════════════════════════════════════════════════════╝
+2026-07-18 06:07:06 [trade_executor] INFO:    🔬 Layer 1: Technical Analysis...
+2026-07-18 06:07:06 [technical_analysis] INFO:    📊 🟢 TA → NVDA: BULLISH (confidence: 0.160, score: +0.1600)
+2026-07-18 06:07:06 [trade_executor] INFO:       → ❌ TA: BULLISH CONFLICTS with SELL signal
+2026-07-18 06:07:06 [trade_executor] INFO:    🧠 Layer 2: Sentiment Analysis (FinBERT)...
+2026-07-18 06:07:06 [trade_executor] INFO:       → ✅ SA: SELL (conf: 0.200) — FinBERT analyzed 10 articles. Positive: 0.187, Negative: 0.387, Neutral: ...
+2026-07-18 06:07:06 [trade_executor] INFO:    📐 Layer 3: Quantitative Analysis...
+2026-07-18 06:07:07 [quantitative_analysis] INFO:    📐 🔴 QA → NVDA: UNFAVORABLE (confidence: 0.233, score: -0.2333)
+2026-07-18 06:07:07 [trade_executor] INFO:       → ❌ QA: UNFAVORABLE — unfavorable conditions
+2026-07-18 06:07:07 [trade_executor] INFO:    🚫 VERIFICATION FAILED: Only 1/3 layers passed. Trade REJECTED.
+      Report: ❌ TA: BULLISH CONFLICTS with SELL signal | ✅ SA: SELL (conf: 0.200) — FinBERT analyzed 10 articles. Positive: 0.187, Negative: 0.387, Neutral: 0.426. ... | ❌ QA: UNFAVORABLE — unfavorable conditions
+2026-07-18 06:07:07 [trade_executor] INFO: 
+   ╔══════════════════════════════════════════════════════════╗
+   ║  3-LAYER VERIFICATION: NVDA (SELL) for [HIGH]
+   ╚══════════════════════════════════════════════════════════╝
+2026-07-18 06:07:07 [trade_executor] INFO:    🔬 Layer 1: Technical Analysis...
+2026-07-18 06:07:07 [technical_analysis] INFO:    📊 🟢 TA → NVDA: BULLISH (confidence: 0.160, score: +0.1600)
+2026-07-18 06:07:07 [trade_executor] INFO:       → ❌ TA: BULLISH CONFLICTS with SELL signal
+2026-07-18 06:07:07 [trade_executor] INFO:    🧠 Layer 2: Sentiment Analysis (FinBERT)...
+2026-07-18 06:07:07 [trade_executor] INFO:       → ✅ SA: SELL (conf: 0.200) — FinBERT analyzed 10 articles. Positive: 0.187, Negative: 0.387, Neutral: ...
+2026-07-18 06:07:07 [trade_executor] INFO:    📐 Layer 3: Quantitative Analysis...
+2026-07-18 06:07:07 [quantitative_analysis] INFO:    📐 🔴 QA → NVDA: UNFAVORABLE (confidence: 0.233, score: -0.2333)
+2026-07-18 06:07:07 [trade_executor] INFO:       → ❌ QA: UNFAVORABLE — unfavorable conditions
+2026-07-18 06:07:07 [trade_executor] INFO:    🚫 VERIFICATION FAILED: Only 1/3 layers passed. Trade REJECTED.
+      Report: ❌ TA: BULLISH CONFLICTS with SELL signal | ✅ SA: SELL (conf: 0.200) — FinBERT analyzed 10 articles. Positive: 0.187, Negative: 0.387, Neutral: 0.426. ... | ❌ QA: UNFAVORABLE — unfavorable conditions
+2026-07-18 06:07:07 [trade_executor] INFO: 
+   ╔══════════════════════════════════════════════════════════╗
+   ║  3-LAYER VERIFICATION: NVDA (SELL) for [MID]
+   ╚══════════════════════════════════════════════════════════╝
+2026-07-18 06:07:07 [trade_executor] INFO:    🔬 Layer 1: Technical Analysis...
+2026-07-18 06:07:07 [technical_analysis] INFO:    📊 🟢 TA → NVDA: BULLISH (confidence: 0.160, score: +0.1600)
+2026-07-18 06:07:07 [trade_executor] INFO:       → ❌ TA: BULLISH CONFLICTS with SELL signal
+2026-07-18 06:07:07 [trade_executor] INFO:    🧠 Layer 2: Sentiment Analysis (FinBERT)...
+2026-07-18 06:07:07 [trade_executor] INFO:       → ✅ SA: SELL (conf: 0.200) — FinBERT analyzed 10 articles. Positive: 0.187, Negative: 0.387, Neutral: ...
+2026-07-18 06:07:07 [trade_executor] INFO:    📐 Layer 3: Quantitative Analysis...
+2026-07-18 06:07:08 [quantitative_analysis] INFO:    📐 🔴 QA → NVDA: UNFAVORABLE (confidence: 0.233, score: -0.2333)
+2026-07-18 06:07:08 [trade_executor] INFO:       → ❌ QA: UNFAVORABLE — unfavorable conditions
+2026-07-18 06:07:08 [trade_executor] INFO:    🚫 VERIFICATION FAILED: Only 1/3 layers passed. Trade REJECTED.
+      Report: ❌ TA: BULLISH CONFLICTS with SELL signal | ✅ SA: SELL (conf: 0.200) — FinBERT analyzed 10 articles. Positive: 0.187, Negative: 0.387, Neutral: 0.426. ... | ❌ QA: UNFAVORABLE — unfavorable conditions
+2026-07-18 06:07:08 [trade_executor] INFO: ✅ Execution complete: 12 trades opened, 12 skipped.
+2026-07-18 06:07:08 [bot_engine] INFO:    📊 Stats: 42 open | 0 closed | P&L: $+0.00 | Win rate: 0.0%
+2026-07-18 06:08:08 [bot_engine] INFO: ─── 📈 PRICE CHECK CYCLE ───
+2026-07-18 06:08:14 [bot_engine] INFO:    💾 Saved 23/23 prices.
+2026-07-18 06:08:14 [trade_executor] INFO: 📊 Managing 42 open position(s)...
+2026-07-18 06:08:16 [trade_executor] INFO: 📊 Updated 42 P&Ls. No positions closed.
+2026-07-18 06:08:16 [bot_engine] INFO: 💓 Heartbeat (cycle #30): 42 open trades | $+0.00 total P&L
+2026-07-18 06:09:16 [bot_engine] INFO: ─── 📈 PRICE CHECK CYCLE ───
+2026-07-18 06:09:22 [bot_engine] INFO:    💾 Saved 23/23 prices.
+2026-07-18 06:09:22 [trade_executor] INFO: 📊 Managing 42 open position(s)...
+2026-07-18 06:09:24 [trade_executor] INFO: 📊 Updated 42 P&Ls. No positions closed.
+2026-07-18 06:09:24 [bot_engine] INFO: ─── ⚡ TRADE EXECUTION CYCLE ───
+2026-07-18 06:09:24 [trade_executor] INFO: 📭 No pending signals to execute.
+2026-07-18 06:09:24 [bot_engine] INFO:    📊 Stats: 42 open | 0 closed | P&L: $+0.00 | Win rate: 0.0%
+2026-07-18 06:10:24 [bot_engine] INFO: ─── 📈 PRICE CHECK CYCLE ───
+2026-07-18 06:10:31 [bot_engine] INFO:    💾 Saved 23/23 prices.
+2026-07-18 06:10:31 [trade_executor] INFO: 📊 Managing 42 open position(s)...
+2026-07-18 06:10:32 [trade_executor] INFO: 📊 Updated 42 P&Ls. No positions closed.
+2026-07-18 06:11:32 [bot_engine] INFO: ─── 📈 PRICE CHECK CYCLE ───
+2026-07-18 06:11:39 [bot_engine] INFO:    💾 Saved 23/23 prices.
+2026-07-18 06:11:39 [trade_executor] INFO: 📊 Managing 42 open position(s)...
+2026-07-18 06:11:41 [trade_executor] INFO: 📊 Updated 42 P&Ls. No positions closed.
+2026-07-18 06:12:41 [bot_engine] INFO: ─── 📈 PRICE CHECK CYCLE ───
+2026-07-18 06:12:47 [bot_engine] INFO:    💾 Saved 23/23 prices.
+2026-07-18 06:12:47 [trade_executor] INFO: 📊 Managing 42 open position(s)...
+2026-07-18 06:12:49 [trade_executor] INFO: 📊 Updated 42 P&Ls. No positions closed.
+2026-07-18 06:13:49 [bot_engine] INFO: ─── 📈 PRICE CHECK CYCLE ───
+2026-07-18 06:13:56 [bot_engine] INFO:    💾 Saved 23/23 prices.
+2026-07-18 06:13:56 [trade_executor] INFO: 📊 Managing 42 open position(s)...
+2026-07-18 06:13:58 [trade_executor] INFO: 📊 Updated 42 P&Ls. No positions closed.
+2026-07-18 06:14:58 [bot_engine] INFO: ─── 📈 PRICE CHECK CYCLE ───
+2026-07-18 06:15:04 [bot_engine] INFO:    💾 Saved 23/23 prices.
+2026-07-18 06:15:04 [trade_executor] INFO: 📊 Managing 42 open position(s)...
+2026-07-18 06:15:07 [trade_executor] INFO: 📊 Updated 42 P&Ls. No positions closed.
+2026-07-18 06:15:07 [bot_engine] INFO: ─── ⚡ TRADE EXECUTION CYCLE ───
+2026-07-18 06:15:07 [trade_executor] INFO: 📭 No pending signals to execute.
+2026-07-18 06:15:07 [bot_engine] INFO:    📊 Stats: 42 open | 0 closed | P&L: $+0.00 | Win rate: 0.0%
+2026-07-18 06:16:07 [bot_engine] INFO: ─── 📈 PRICE CHECK CYCLE ───
+2026-07-18 06:16:13 [bot_engine] INFO:    💾 Saved 23/23 prices.
+2026-07-18 06:16:13 [trade_executor] INFO: 📊 Managing 42 open position(s)...
+2026-07-18 06:16:15 [trade_executor] INFO: 📊 Updated 42 P&Ls. No positions closed.
+2026-07-18 06:17:15 [bot_engine] INFO: ─── 📈 PRICE CHECK CYCLE ───
+2026-07-18 06:17:21 [bot_engine] INFO:    💾 Saved 23/23 prices.
+2026-07-18 06:17:21 [trade_executor] INFO: 📊 Managing 42 open position(s)...
+2026-07-18 06:17:23 [trade_executor] INFO: 📊 Updated 42 P&Ls. No positions closed.
+2026-07-18 06:18:23 [bot_engine] INFO: ─── 📈 PRICE CHECK CYCLE ───
+2026-07-18 06:18:29 [bot_engine] INFO:    💾 Saved 23/23 prices.
+2026-07-18 06:18:29 [trade_executor] INFO: 📊 Managing 42 open position(s)...
+2026-07-18 06:18:31 [trade_executor] INFO: 📊 Updated 42 P&Ls. No positions closed.
+2026-07-18 06:19:31 [bot_engine] INFO: ─── 📈 PRICE CHECK CYCLE ───
+2026-07-18 06:19:37 [bot_engine] INFO:    💾 Saved 23/23 prices.
+2026-07-18 06:19:37 [trade_executor] INFO: 📊 Managing 42 open position(s)...
+2026-07-18 06:19:39 [trade_executor] INFO: 📊 Updated 42 P&Ls. No positions closed.
+2026-07-18 06:19:39 [bot_engine] INFO: 💓 Heartbeat (cycle #40): 42 open trades | $+0.00 total P&L
+2026-07-18 06:20:39 [bot_engine] INFO: ─── 📈 PRICE CHECK CYCLE ───
+2026-07-18 06:20:45 [bot_engine] INFO:    💾 Saved 23/23 prices.
+2026-07-18 06:20:45 [trade_executor] INFO: 📊 Managing 42 open position(s)...
+2026-07-18 06:20:47 [trade_executor] INFO: 📊 Updated 42 P&Ls. No positions closed.
+2026-07-18 06:20:47 [bot_engine] INFO: ─── ⚡ TRADE EXECUTION CYCLE ───
+2026-07-18 06:20:47 [trade_executor] INFO: 📭 No pending signals to execute.
+2026-07-18 06:20:47 [bot_engine] INFO:    📊 Stats: 42 open | 0 closed | P&L: $+0.00 | Win rate: 0.0%
+2026-07-18 06:29:40 [bot_engine] INFO: ✅ Database tables verified.
+2026-07-18 06:29:40 [bot_engine] INFO: 🔄 Running initial full cycle...
+2026-07-18 06:29:40 [bot_engine] INFO: ─── 🧠 NEWS + AI ANALYSIS CYCLE ───
+2026-07-18 06:29:40 [bot_engine] INFO:    📰 Processing symbols 1-5 of 23: ['BTC-USD', 'ETH-USD', 'SOL-USD', 'XRP-USD', 'ADA-USD']
+2026-07-18 06:29:41 [data_ingestion] INFO:    📰 Saved 10 fresh articles for BTC-USD
+2026-07-18 06:29:43 [ai_analysis] INFO: ⚡ Loading FinBERT AI Model (first time only)...
+2026-07-18 06:29:46 [ai_analysis] INFO: ✅ FinBERT loaded and ready for sentiment analysis.
+2026-07-18 06:29:46 [ai_analysis] INFO:    🧠 🔴 AI → BTC-USD: SELL (confidence: 0.279, score: -0.2786)
+2026-07-18 06:29:47 [data_ingestion] INFO:    📰 Saved 10 fresh articles for ETH-USD
+2026-07-18 06:29:47 [ai_analysis] INFO:    🧠 🟢 AI → ETH-USD: BUY (confidence: 0.183, score: +0.1826)
+2026-07-18 06:29:48 [data_ingestion] INFO:    📰 Saved 10 fresh articles for SOL-USD
+2026-07-18 06:29:48 [ai_analysis] INFO:    🧠 🟢 AI → SOL-USD: BUY (confidence: 0.123, score: +0.1229)
+2026-07-18 06:29:49 [data_ingestion] INFO:    📰 Saved 10 fresh articles for XRP-USD
+2026-07-18 06:29:49 [ai_analysis] INFO:    🧠 🔴 AI → XRP-USD: SELL (confidence: 0.240, score: -0.2403)
+2026-07-18 06:29:50 [data_ingestion] INFO:    📰 Saved 6 fresh articles for ADA-USD
+2026-07-18 06:29:50 [ai_analysis] INFO:    🧠 🟢 AI → ADA-USD: BUY (confidence: 0.217, score: +0.2174)
+2026-07-18 06:29:50 [bot_engine] INFO:    ✅ News + AI cycle complete for 5 symbols.
+2026-07-18 06:29:50 [bot_engine] INFO: ─── ⚡ TRADE EXECUTION CYCLE ───
+2026-07-18 06:29:50 [trade_executor] INFO: 📋 Found 5 pending signal(s) to evaluate.
+2026-07-18 06:29:51 [trade_executor] INFO: 🔍 Evaluating signal: BUY ADA-USD (conf: 0.217) @ $0.17
+2026-07-18 06:29:51 [trade_executor] INFO: 
+   ╔══════════════════════════════════════════════════════════╗
+   ║  3-LAYER VERIFICATION: ADA-USD (BUY) for [high risk]
+   ╚══════════════════════════════════════════════════════════╝
+2026-07-18 06:29:51 [trade_executor] INFO:    🔬 Layer 1: Technical Analysis...
+2026-07-18 06:29:52 [technical_analysis] INFO:    📊 🟢 TA → ADA-USD: BULLISH (confidence: 0.280, score: +0.2800)
+2026-07-18 06:29:52 [trade_executor] INFO:       → ✅ TA: BULLISH (conf: 0.280)
+2026-07-18 06:29:52 [trade_executor] INFO:    🧠 Layer 2: Sentiment Analysis (FinBERT)...
+2026-07-18 06:29:52 [trade_executor] INFO:       → ✅ SA: BUY (conf: 0.217) — FinBERT analyzed 6 articles. Positive: 0.241, Negative: 0.023, Neutral: 0....
+2026-07-18 06:29:52 [trade_executor] INFO:    📐 Layer 3: Quantitative Analysis...
+2026-07-18 06:29:52 [quantitative_analysis] INFO:    📐 ⚪ QA → ADA-USD: NEUTRAL (confidence: 0.050, score: -0.0500)
+2026-07-18 06:29:52 [trade_executor] INFO:       → ✅ QA: NEUTRAL (conf: 0.050)
+2026-07-18 06:29:52 [trade_executor] INFO:    ✅ VERIFICATION PASSED: 3/3 layers. Proceeding to execute...
+2026-07-18 06:29:52 [trade_executor] INFO:    🔥 TRADE EXECUTED: Long ADA-USD on [high risk] (Aggressive)
+      Price: $0.17 | Qty: 25807.385573 | Value: $4,304.67
+      SL: $0.15 | TP: $0.20
+      Remaining balance: $38,742.05
+2026-07-18 06:29:52 [trade_executor] INFO: 
+   ╔══════════════════════════════════════════════════════════╗
+   ║  3-LAYER VERIFICATION: ADA-USD (BUY) for [HIGH]
+   ╚══════════════════════════════════════════════════════════╝
+2026-07-18 06:29:52 [trade_executor] INFO:    🔬 Layer 1: Technical Analysis...
+2026-07-18 06:29:52 [technical_analysis] INFO:    📊 🟢 TA → ADA-USD: BULLISH (confidence: 0.280, score: +0.2800)
+2026-07-18 06:29:52 [trade_executor] INFO:       → ✅ TA: BULLISH (conf: 0.280)
+2026-07-18 06:29:52 [trade_executor] INFO:    🧠 Layer 2: Sentiment Analysis (FinBERT)...
+2026-07-18 06:29:52 [trade_executor] INFO:       → ✅ SA: BUY (conf: 0.217) — FinBERT analyzed 6 articles. Positive: 0.241, Negative: 0.023, Neutral: 0....
+2026-07-18 06:29:52 [trade_executor] INFO:    📐 Layer 3: Quantitative Analysis...
+2026-07-18 06:29:52 [quantitative_analysis] INFO:    📐 ⚪ QA → ADA-USD: NEUTRAL (confidence: 0.050, score: -0.0500)
+2026-07-18 06:29:52 [trade_executor] INFO:       → ✅ QA: NEUTRAL (conf: 0.050)
+2026-07-18 06:29:52 [trade_executor] INFO:    ✅ VERIFICATION PASSED: 3/3 layers. Proceeding to execute...
+2026-07-18 06:29:52 [trade_executor] INFO:    🔥 TRADE EXECUTED: Long ADA-USD on [HIGH] (Aggressive)
+      Price: $0.17 | Qty: 2580.738557 | Value: $430.47
+      SL: $0.15 | TP: $0.20
+      Remaining balance: $3,874.20
+2026-07-18 06:29:52 [trade_executor] INFO: 🔍 Evaluating signal: SELL XRP-USD (conf: 0.240) @ $1.09
+2026-07-18 06:29:52 [trade_executor] INFO: 
+   ╔══════════════════════════════════════════════════════════╗
+   ║  3-LAYER VERIFICATION: XRP-USD (SELL) for [high risk]
+   ╚══════════════════════════════════════════════════════════╝
+2026-07-18 06:29:52 [trade_executor] INFO:    🔬 Layer 1: Technical Analysis...
+2026-07-18 06:29:53 [technical_analysis] INFO:    📊 ⚪ TA → XRP-USD: NEUTRAL (confidence: 0.080, score: +0.0800)
+2026-07-18 06:29:53 [trade_executor] INFO:       → ✅ TA: NEUTRAL (conf: 0.080)
+2026-07-18 06:29:53 [trade_executor] INFO:    🧠 Layer 2: Sentiment Analysis (FinBERT)...
+2026-07-18 06:29:53 [trade_executor] INFO:       → ✅ SA: SELL (conf: 0.240) — FinBERT analyzed 10 articles. Positive: 0.274, Negative: 0.514, Neutral: ...
+2026-07-18 06:29:53 [trade_executor] INFO:    📐 Layer 3: Quantitative Analysis...
+2026-07-18 06:29:53 [quantitative_analysis] INFO:    📐 ⚪ QA → XRP-USD: NEUTRAL (confidence: 0.017, score: +0.0167)
+2026-07-18 06:29:53 [trade_executor] INFO:       → ✅ QA: NEUTRAL (conf: 0.017)
+2026-07-18 06:29:53 [trade_executor] INFO:    ✅ VERIFICATION PASSED: 3/3 layers. Proceeding to execute...
+2026-07-18 06:29:53 [trade_executor] INFO:    🔥 TRADE EXECUTED: Short XRP-USD on [high risk] (Aggressive)
+      Price: $1.09 | Qty: 3562.159724 | Value: $3,874.20
+      SL: $1.17 | TP: $0.87
+      Remaining balance: $34,867.84
+2026-07-18 06:29:53 [trade_executor] INFO: 
+   ╔══════════════════════════════════════════════════════════╗
+   ║  3-LAYER VERIFICATION: XRP-USD (SELL) for [HIGH]
+   ╚══════════════════════════════════════════════════════════╝
+2026-07-18 06:29:53 [trade_executor] INFO:    🔬 Layer 1: Technical Analysis...
+2026-07-18 06:29:53 [technical_analysis] INFO:    📊 ⚪ TA → XRP-USD: NEUTRAL (confidence: 0.080, score: +0.0800)
+2026-07-18 06:29:53 [trade_executor] INFO:       → ✅ TA: NEUTRAL (conf: 0.080)
+2026-07-18 06:29:53 [trade_executor] INFO:    🧠 Layer 2: Sentiment Analysis (FinBERT)...
+2026-07-18 06:29:53 [trade_executor] INFO:       → ✅ SA: SELL (conf: 0.240) — FinBERT analyzed 10 articles. Positive: 0.274, Negative: 0.514, Neutral: ...
+2026-07-18 06:29:53 [trade_executor] INFO:    📐 Layer 3: Quantitative Analysis...
+2026-07-18 06:29:53 [quantitative_analysis] INFO:    📐 ⚪ QA → XRP-USD: NEUTRAL (confidence: 0.017, score: +0.0167)
+2026-07-18 06:29:53 [trade_executor] INFO:       → ✅ QA: NEUTRAL (conf: 0.017)
+2026-07-18 06:29:53 [trade_executor] INFO:    ✅ VERIFICATION PASSED: 3/3 layers. Proceeding to execute...
+2026-07-18 06:29:53 [trade_executor] INFO:    🔥 TRADE EXECUTED: Short XRP-USD on [HIGH] (Aggressive)
+      Price: $1.09 | Qty: 356.215972 | Value: $387.42
+      SL: $1.17 | TP: $0.87
+      Remaining balance: $3,486.78
+2026-07-18 06:29:53 [trade_executor] INFO: 🔍 Evaluating signal: BUY SOL-USD (conf: 0.123) @ $74.98
+2026-07-18 06:29:53 [trade_executor] INFO: 
+   ╔══════════════════════════════════════════════════════════╗
+   ║  3-LAYER VERIFICATION: SOL-USD (BUY) for [high risk]
+   ╚══════════════════════════════════════════════════════════╝
+2026-07-18 06:29:53 [trade_executor] INFO:    🔬 Layer 1: Technical Analysis...
+2026-07-18 06:29:54 [technical_analysis] INFO:    📊 ⚪ TA → SOL-USD: NEUTRAL (confidence: 0.020, score: -0.0200)
+2026-07-18 06:29:54 [trade_executor] INFO:       → ✅ TA: NEUTRAL (conf: 0.020)
+2026-07-18 06:29:54 [trade_executor] INFO:    🧠 Layer 2: Sentiment Analysis (FinBERT)...
+2026-07-18 06:29:54 [trade_executor] INFO:       → ✅ SA: BUY (conf: 0.123) — FinBERT analyzed 10 articles. Positive: 0.332, Negative: 0.209, Neutral: 0...
+2026-07-18 06:29:54 [trade_executor] INFO:    📐 Layer 3: Quantitative Analysis...
+2026-07-18 06:29:54 [quantitative_analysis] INFO:    📐 ⚪ QA → SOL-USD: NEUTRAL (confidence: 0.017, score: -0.0167)
+2026-07-18 06:29:54 [trade_executor] INFO:       → ✅ QA: NEUTRAL (conf: 0.017)
+2026-07-18 06:29:54 [trade_executor] INFO:    ✅ VERIFICATION PASSED: 3/3 layers. Proceeding to execute...
+2026-07-18 06:29:54 [trade_executor] INFO:    🔥 TRADE EXECUTED: Long SOL-USD on [high risk] (Aggressive)
+      Price: $74.98 | Qty: 46.502857 | Value: $3,486.78
+      SL: $68.98 | TP: $89.98
+      Remaining balance: $31,381.06
+2026-07-18 06:29:54 [trade_executor] INFO: 
+   ╔══════════════════════════════════════════════════════════╗
+   ║  3-LAYER VERIFICATION: SOL-USD (BUY) for [HIGH]
+   ╚══════════════════════════════════════════════════════════╝
+2026-07-18 06:29:54 [trade_executor] INFO:    🔬 Layer 1: Technical Analysis...
+2026-07-18 06:29:54 [technical_analysis] INFO:    📊 ⚪ TA → SOL-USD: NEUTRAL (confidence: 0.020, score: -0.0200)
+2026-07-18 06:29:54 [trade_executor] INFO:       → ✅ TA: NEUTRAL (conf: 0.020)
+2026-07-18 06:29:54 [trade_executor] INFO:    🧠 Layer 2: Sentiment Analysis (FinBERT)...
+2026-07-18 06:29:54 [trade_executor] INFO:       → ✅ SA: BUY (conf: 0.123) — FinBERT analyzed 10 articles. Positive: 0.332, Negative: 0.209, Neutral: 0...
+2026-07-18 06:29:54 [trade_executor] INFO:    📐 Layer 3: Quantitative Analysis...
+2026-07-18 06:29:54 [quantitative_analysis] INFO:    📐 ⚪ QA → SOL-USD: NEUTRAL (confidence: 0.017, score: -0.0167)
+2026-07-18 06:29:54 [trade_executor] INFO:       → ✅ QA: NEUTRAL (conf: 0.017)
+2026-07-18 06:29:54 [trade_executor] INFO:    ✅ VERIFICATION PASSED: 3/3 layers. Proceeding to execute...
+2026-07-18 06:29:54 [trade_executor] INFO:    🔥 TRADE EXECUTED: Long SOL-USD on [HIGH] (Aggressive)
+      Price: $74.98 | Qty: 4.650286 | Value: $348.68
+      SL: $68.98 | TP: $89.98
+      Remaining balance: $3,138.11
+2026-07-18 06:29:55 [trade_executor] INFO: 🔍 Evaluating signal: BUY ETH-USD (conf: 0.183) @ $1,844.81
+2026-07-18 06:29:55 [trade_executor] INFO: 
+   ╔══════════════════════════════════════════════════════════╗
+   ║  3-LAYER VERIFICATION: ETH-USD (BUY) for [high risk]
+   ╚══════════════════════════════════════════════════════════╝
+2026-07-18 06:29:55 [trade_executor] INFO:    🔬 Layer 1: Technical Analysis...
+2026-07-18 06:29:55 [technical_analysis] INFO:    📊 🟢 TA → ETH-USD: BULLISH (confidence: 0.240, score: +0.2400)
+2026-07-18 06:29:55 [trade_executor] INFO:       → ✅ TA: BULLISH (conf: 0.240)
+2026-07-18 06:29:55 [trade_executor] INFO:    🧠 Layer 2: Sentiment Analysis (FinBERT)...
+2026-07-18 06:29:55 [trade_executor] INFO:       → ✅ SA: BUY (conf: 0.183) — FinBERT analyzed 10 articles. Positive: 0.421, Negative: 0.238, Neutral: 0...
+2026-07-18 06:29:55 [trade_executor] INFO:    📐 Layer 3: Quantitative Analysis...
+2026-07-18 06:29:55 [quantitative_analysis] INFO:    📐 ⚪ QA → ETH-USD: NEUTRAL (confidence: 0.133, score: +0.1333)
+2026-07-18 06:29:55 [trade_executor] INFO:       → ✅ QA: NEUTRAL (conf: 0.133)
+2026-07-18 06:29:55 [trade_executor] INFO:    ✅ VERIFICATION PASSED: 3/3 layers. Proceeding to execute...
+2026-07-18 06:29:55 [trade_executor] INFO:    🔥 TRADE EXECUTED: Long ETH-USD on [high risk] (Aggressive)
+      Price: $1,844.81 | Qty: 1.701046 | Value: $3,138.11
+      SL: $1,697.23 | TP: $2,213.77
+      Remaining balance: $28,242.95
+2026-07-18 06:29:55 [trade_executor] INFO: 
+   ╔══════════════════════════════════════════════════════════╗
+   ║  3-LAYER VERIFICATION: ETH-USD (BUY) for [HIGH]
+   ╚══════════════════════════════════════════════════════════╝
+2026-07-18 06:29:55 [trade_executor] INFO:    🔬 Layer 1: Technical Analysis...
+2026-07-18 06:29:55 [technical_analysis] INFO:    📊 🟢 TA → ETH-USD: BULLISH (confidence: 0.240, score: +0.2400)
+2026-07-18 06:29:55 [trade_executor] INFO:       → ✅ TA: BULLISH (conf: 0.240)
+2026-07-18 06:29:55 [trade_executor] INFO:    🧠 Layer 2: Sentiment Analysis (FinBERT)...
+2026-07-18 06:29:55 [trade_executor] INFO:       → ✅ SA: BUY (conf: 0.183) — FinBERT analyzed 10 articles. Positive: 0.421, Negative: 0.238, Neutral: 0...
+2026-07-18 06:29:55 [trade_executor] INFO:    📐 Layer 3: Quantitative Analysis...
+2026-07-18 06:29:55 [quantitative_analysis] INFO:    📐 ⚪ QA → ETH-USD: NEUTRAL (confidence: 0.133, score: +0.1333)
+2026-07-18 06:29:55 [trade_executor] INFO:       → ✅ QA: NEUTRAL (conf: 0.133)
+2026-07-18 06:29:55 [trade_executor] INFO:    ✅ VERIFICATION PASSED: 3/3 layers. Proceeding to execute...
+2026-07-18 06:29:55 [trade_executor] INFO:    🔥 TRADE EXECUTED: Long ETH-USD on [HIGH] (Aggressive)
+      Price: $1,844.81 | Qty: 0.170105 | Value: $313.81
+      SL: $1,697.23 | TP: $2,213.77
+      Remaining balance: $2,824.30
+2026-07-18 06:29:56 [trade_executor] INFO: 🔍 Evaluating signal: SELL BTC-USD (conf: 0.279) @ $63,940.99
+2026-07-18 06:29:56 [trade_executor] INFO: 
+   ╔══════════════════════════════════════════════════════════╗
+   ║  3-LAYER VERIFICATION: BTC-USD (SELL) for [high risk]
+   ╚══════════════════════════════════════════════════════════╝
+2026-07-18 06:29:56 [trade_executor] INFO:    🔬 Layer 1: Technical Analysis...
+2026-07-18 06:29:56 [technical_analysis] INFO:    📊 🟢 TA → BTC-USD: BULLISH (confidence: 0.160, score: +0.1600)
+2026-07-18 06:29:56 [trade_executor] INFO:       → ❌ TA: BULLISH CONFLICTS with SELL signal
+2026-07-18 06:29:56 [trade_executor] INFO:    🧠 Layer 2: Sentiment Analysis (FinBERT)...
+2026-07-18 06:29:56 [trade_executor] INFO:       → ✅ SA: SELL (conf: 0.279) — FinBERT analyzed 10 articles. Positive: 0.187, Negative: 0.466, Neutral: ...
+2026-07-18 06:29:56 [trade_executor] INFO:    📐 Layer 3: Quantitative Analysis...
+2026-07-18 06:29:56 [quantitative_analysis] INFO:    📐 ⚪ QA → BTC-USD: NEUTRAL (confidence: 0.067, score: -0.0667)
+2026-07-18 06:29:56 [trade_executor] INFO:       → ✅ QA: NEUTRAL (conf: 0.067)
+2026-07-18 06:29:56 [trade_executor] INFO:    ✅ VERIFICATION PASSED: 2/3 layers. Proceeding to execute...
+2026-07-18 06:29:56 [trade_executor] INFO:    🔥 TRADE EXECUTED: Short BTC-USD on [high risk] (Aggressive)
+      Price: $63,940.99 | Qty: 0.044170 | Value: $2,824.30
+      SL: $69,056.27 | TP: $51,152.79
+      Remaining balance: $25,418.66
+2026-07-18 06:29:56 [trade_executor] INFO: 
+   ╔══════════════════════════════════════════════════════════╗
+   ║  3-LAYER VERIFICATION: BTC-USD (SELL) for [HIGH]
+   ╚══════════════════════════════════════════════════════════╝
+2026-07-18 06:29:56 [trade_executor] INFO:    🔬 Layer 1: Technical Analysis...
+2026-07-18 06:29:56 [technical_analysis] INFO:    📊 🟢 TA → BTC-USD: BULLISH (confidence: 0.160, score: +0.1600)
+2026-07-18 06:29:56 [trade_executor] INFO:       → ❌ TA: BULLISH CONFLICTS with SELL signal
+2026-07-18 06:29:56 [trade_executor] INFO:    🧠 Layer 2: Sentiment Analysis (FinBERT)...
+2026-07-18 06:29:56 [trade_executor] INFO:       → ✅ SA: SELL (conf: 0.279) — FinBERT analyzed 10 articles. Positive: 0.187, Negative: 0.466, Neutral: ...
+2026-07-18 06:29:56 [trade_executor] INFO:    📐 Layer 3: Quantitative Analysis...
+2026-07-18 06:29:56 [quantitative_analysis] INFO:    📐 ⚪ QA → BTC-USD: NEUTRAL (confidence: 0.067, score: -0.0667)
+2026-07-18 06:29:56 [trade_executor] INFO:       → ✅ QA: NEUTRAL (conf: 0.067)
+2026-07-18 06:29:56 [trade_executor] INFO:    ✅ VERIFICATION PASSED: 2/3 layers. Proceeding to execute...
+2026-07-18 06:29:56 [trade_executor] INFO:    🔥 TRADE EXECUTED: Short BTC-USD on [HIGH] (Aggressive)
+      Price: $63,940.99 | Qty: 0.004417 | Value: $282.43
+      SL: $69,056.27 | TP: $51,152.79
+      Remaining balance: $2,541.87
+2026-07-18 06:29:56 [trade_executor] INFO: ✅ Execution complete: 10 trades opened, 20 skipped.
+2026-07-18 06:29:56 [bot_engine] INFO:    📊 Stats: 52 open | 0 closed | P&L: $+0.00 | Win rate: 0.0%
+2026-07-18 06:29:56 [bot_engine] INFO: ─── 📈 PRICE CHECK CYCLE ───
+2026-07-18 06:30:02 [bot_engine] INFO:    💾 Saved 23/23 prices.
+2026-07-18 06:30:02 [trade_executor] INFO: 📊 Managing 52 open position(s)...
+2026-07-18 06:30:05 [trade_executor] INFO: 📊 Updated 52 P&Ls. No positions closed.
+2026-07-18 06:30:05 [bot_engine] INFO: ─── 📈 PRICE CHECK CYCLE ───
+2026-07-18 06:30:10 [bot_engine] INFO:    💾 Saved 23/23 prices.
+2026-07-18 06:30:10 [trade_executor] INFO: 📊 Managing 52 open position(s)...
+2026-07-18 06:30:13 [trade_executor] INFO: 📊 Updated 52 P&Ls. No positions closed.
+2026-07-18 06:31:13 [bot_engine] INFO: ─── 📈 PRICE CHECK CYCLE ───
+2026-07-18 06:31:19 [bot_engine] INFO:    💾 Saved 23/23 prices.
+2026-07-18 06:31:19 [trade_executor] INFO: 📊 Managing 52 open position(s)...
+2026-07-18 06:31:22 [trade_executor] INFO: 📊 Updated 52 P&Ls. No positions closed.
+2026-07-18 06:32:22 [bot_engine] INFO: ─── 📈 PRICE CHECK CYCLE ───
+2026-07-18 06:32:28 [bot_engine] INFO:    💾 Saved 23/23 prices.
+2026-07-18 06:32:28 [trade_executor] INFO: 📊 Managing 52 open position(s)...
+2026-07-18 06:32:31 [trade_executor] INFO: 📊 Updated 52 P&Ls. No positions closed.
+2026-07-18 06:33:31 [bot_engine] INFO: ─── 📈 PRICE CHECK CYCLE ───
+2026-07-18 06:33:36 [bot_engine] INFO:    💾 Saved 23/23 prices.
+2026-07-18 06:33:36 [trade_executor] INFO: 📊 Managing 52 open position(s)...
+2026-07-18 06:33:39 [trade_executor] INFO: 📊 Updated 52 P&Ls. No positions closed.
+2026-07-18 06:34:39 [bot_engine] INFO: ─── 📈 PRICE CHECK CYCLE ───
+2026-07-18 06:34:45 [bot_engine] INFO:    💾 Saved 23/23 prices.
+2026-07-18 06:34:45 [trade_executor] INFO: 📊 Managing 52 open position(s)...
+2026-07-18 06:34:48 [trade_executor] INFO: 📊 Updated 52 P&Ls. No positions closed.
+2026-07-18 06:35:48 [bot_engine] INFO: ─── 📈 PRICE CHECK CYCLE ───
+2026-07-18 06:35:54 [bot_engine] INFO:    💾 Saved 23/23 prices.
+2026-07-18 06:35:54 [trade_executor] INFO: 📊 Managing 52 open position(s)...
+2026-07-18 06:35:57 [trade_executor] INFO: 📊 Updated 52 P&Ls. No positions closed.
+2026-07-18 06:35:57 [bot_engine] INFO: ─── ⚡ TRADE EXECUTION CYCLE ───
+2026-07-18 06:35:57 [trade_executor] INFO: 📭 No pending signals to execute.
+2026-07-18 06:35:57 [bot_engine] INFO:    📊 Stats: 52 open | 0 closed | P&L: $+0.00 | Win rate: 0.0%
+2026-07-18 06:36:57 [bot_engine] INFO: ─── 📈 PRICE CHECK CYCLE ───
+2026-07-18 06:37:03 [bot_engine] INFO:    💾 Saved 23/23 prices.
+2026-07-18 06:37:03 [trade_executor] INFO: 📊 Managing 52 open position(s)...
+2026-07-18 06:37:06 [trade_executor] INFO: 📊 Updated 52 P&Ls. No positions closed.
+2026-07-18 06:38:06 [bot_engine] INFO: ─── 📈 PRICE CHECK CYCLE ───
+2026-07-18 06:38:12 [bot_engine] INFO:    💾 Saved 23/23 prices.
+2026-07-18 06:38:12 [trade_executor] INFO: 📊 Managing 52 open position(s)...
+2026-07-18 06:38:15 [trade_executor] INFO: 📊 Updated 52 P&Ls. No positions closed.
+2026-07-18 06:39:17 [bot_engine] INFO: ✅ Database tables verified.
+2026-07-18 06:39:17 [bot_engine] INFO: 🔄 Running initial full cycle...
+2026-07-18 06:39:17 [bot_engine] INFO: ─── 🧠 NEWS + AI ANALYSIS CYCLE ───
+2026-07-18 06:39:17 [bot_engine] INFO:    📰 Processing symbols 1-5 of 23: ['BTC-USD', 'ETH-USD', 'SOL-USD', 'XRP-USD', 'ADA-USD']
+2026-07-18 06:39:18 [data_ingestion] INFO:    📰 Saved 10 fresh articles for BTC-USD
+2026-07-18 06:39:20 [ai_analysis] INFO: ⚡ Loading FinBERT AI Model (first time only)...
+2026-07-18 06:39:22 [ai_analysis] INFO: ✅ FinBERT loaded and ready for sentiment analysis.
+2026-07-18 06:39:23 [ai_analysis] INFO:    🧠 🔴 AI → BTC-USD: SELL (confidence: 0.279, score: -0.2786)
+2026-07-18 06:39:24 [data_ingestion] INFO:    📰 Saved 10 fresh articles for ETH-USD
+2026-07-18 06:39:24 [ai_analysis] INFO:    🧠 🟢 AI → ETH-USD: BUY (confidence: 0.183, score: +0.1826)
+2026-07-18 06:39:25 [data_ingestion] INFO:    📰 Saved 10 fresh articles for SOL-USD
+2026-07-18 06:39:25 [ai_analysis] INFO:    🧠 🟢 AI → SOL-USD: BUY (confidence: 0.123, score: +0.1229)
+2026-07-18 06:39:26 [data_ingestion] INFO:    📰 Saved 10 fresh articles for XRP-USD
+2026-07-18 06:39:26 [ai_analysis] INFO:    🧠 🔴 AI → XRP-USD: SELL (confidence: 0.240, score: -0.2403)
+2026-07-18 06:39:27 [data_ingestion] INFO:    📰 Saved 6 fresh articles for ADA-USD
+2026-07-18 06:39:27 [ai_analysis] INFO:    🧠 🟢 AI → ADA-USD: BUY (confidence: 0.217, score: +0.2174)
+2026-07-18 06:39:27 [bot_engine] INFO:    ✅ News + AI cycle complete for 5 symbols.
+2026-07-18 06:39:27 [bot_engine] INFO: ─── ⚡ TRADE EXECUTION CYCLE ───
+2026-07-18 06:39:27 [trade_executor] INFO: 📋 Found 5 pending signal(s) to evaluate.
+2026-07-18 06:39:28 [trade_executor] INFO: 🔍 Evaluating signal: BUY ADA-USD (conf: 0.217) @ $0.17
+2026-07-18 06:39:28 [trade_executor] INFO: 🔍 Evaluating signal: SELL XRP-USD (conf: 0.240) @ $1.09
+2026-07-18 06:39:29 [trade_executor] INFO: 🔍 Evaluating signal: BUY SOL-USD (conf: 0.123) @ $74.94
+2026-07-18 06:39:29 [trade_executor] INFO: 🔍 Evaluating signal: BUY ETH-USD (conf: 0.183) @ $1,842.63
+2026-07-18 06:39:29 [trade_executor] INFO: 🔍 Evaluating signal: SELL BTC-USD (conf: 0.279) @ $63,913.26
+2026-07-18 06:39:29 [trade_executor] INFO: ✅ Execution complete: 0 trades opened, 30 skipped.
+2026-07-18 06:39:29 [bot_engine] INFO:    📊 Stats: 52 open | 0 closed | P&L: $+0.00 | Win rate: 0.0%
+2026-07-18 06:39:29 [bot_engine] INFO: ─── 📈 PRICE CHECK CYCLE ───
+2026-07-18 06:39:35 [bot_engine] INFO:    💾 Saved 23/23 prices.
+2026-07-18 06:39:35 [trade_executor] INFO: 📊 Managing 52 open position(s)...
+2026-07-18 06:39:38 [trade_executor] INFO: 📊 Updated 52 P&Ls. No positions closed.
+2026-07-18 06:39:38 [bot_engine] INFO: ─── 📈 PRICE CHECK CYCLE ───
+2026-07-18 06:39:43 [bot_engine] INFO:    💾 Saved 23/23 prices.
+2026-07-18 06:39:43 [trade_executor] INFO: 📊 Managing 52 open position(s)...
+2026-07-18 06:39:47 [trade_executor] INFO: 📊 Updated 52 P&Ls. No positions closed.
+2026-07-18 06:40:47 [bot_engine] INFO: ─── 📈 PRICE CHECK CYCLE ───
+2026-07-18 06:40:52 [bot_engine] INFO:    💾 Saved 23/23 prices.
+2026-07-18 06:40:52 [trade_executor] INFO: 📊 Managing 52 open position(s)...
+2026-07-18 06:40:55 [trade_executor] INFO: 📊 Updated 52 P&Ls. No positions closed.
+2026-07-18 06:41:55 [bot_engine] INFO: ─── 📈 PRICE CHECK CYCLE ───
+2026-07-18 06:42:01 [bot_engine] INFO:    💾 Saved 23/23 prices.
+2026-07-18 06:42:01 [trade_executor] INFO: 📊 Managing 52 open position(s)...
+2026-07-18 06:42:04 [trade_executor] INFO: 📊 Updated 52 P&Ls. No positions closed.

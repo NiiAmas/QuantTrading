@@ -1,0 +1,28 @@
+# ─── Core Framework ───
+fastapi==0.115.12
+uvicorn[standard]==0.34.3
+pydantic==2.11.3
+
+# ─── Database ───
+sqlalchemy==2.0.41
+psycopg2-binary==2.9.10
+python-dotenv==1.1.0
+
+# ─── Auth ───
+passlib[bcrypt]==1.7.4
+python-jose[cryptography]==3.5.0
+bcrypt==4.3.0
+
+# ─── Data & AI ───
+yfinance==0.2.62
+pandas==2.3.0
+numpy==2.3.0
+requests==2.32.4
+feedparser==6.0.11
+beautifulsoup4==4.13.4
+python-dateutil==2.9.0
+
+# ─── FinBERT AI Model ───
+# PyTorch CPU-only — install via: pip install torch --index-url https://download.pytorch.org/whl/cpu
+torch
+transformers==4.52.4

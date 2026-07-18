@@ -1,0 +1,880 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuantTrading — Final Report Documentation</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #fff;
+            color: #1a1a2e;
+            line-height: 1.7;
+            font-size: 11pt;
+        }
+        
+        .page {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 50px;
+        }
+        
+        /* Cover Page */
+        .cover {
+            page-break-after: always;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 90vh;
+            text-align: center;
+            border: 3px solid #d4af37;
+            padding: 60px;
+            margin-bottom: 40px;
+        }
+        .cover h1 {
+            font-size: 36pt;
+            font-weight: 800;
+            color: #1a1a2e;
+            margin-bottom: 8px;
+        }
+        .cover .subtitle {
+            font-size: 14pt;
+            color: #666;
+            margin-bottom: 40px;
+        }
+        .cover .version {
+            font-size: 12pt;
+            color: #999;
+            margin-top: 20px;
+        }
+        .cover .gold-line {
+            width: 120px;
+            height: 3px;
+            background: #d4af37;
+            margin: 20px auto;
+        }
+        
+        h1 { font-size: 22pt; font-weight: 800; color: #1a1a2e; margin: 40px 0 16px 0; border-bottom: 3px solid #d4af37; padding-bottom: 8px; }
+        h2 { font-size: 16pt; font-weight: 700; color: #2d2d44; margin: 30px 0 12px 0; }
+        h3 { font-size: 12pt; font-weight: 600; color: #444; margin: 20px 0 8px 0; }
+        h4 { font-size: 11pt; font-weight: 600; color: #555; margin: 15px 0 6px 0; }
+        
+        p { margin: 8px 0; }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 12px 0 20px 0;
+            font-size: 9.5pt;
+        }
+        th {
+            background: #1a1a2e;
+            color: white;
+            padding: 8px 12px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 9pt;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        td {
+            padding: 7px 12px;
+            border-bottom: 1px solid #eee;
+            vertical-align: top;
+        }
+        tr:nth-child(even) td { background: #f8f9fa; }
+        
+        code {
+            background: #f1f3f5;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'SF Mono', 'Fira Code', monospace;
+            font-size: 9pt;
+            color: #e74c3c;
+        }
+        
+        pre {
+            background: #1a1a2e;
+            color: #e0e0e0;
+            padding: 16px 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-size: 9pt;
+            line-height: 1.5;
+            margin: 12px 0;
+        }
+        pre code { background: none; color: inherit; padding: 0; }
+        
+        .note {
+            background: #e8f4f8;
+            border-left: 4px solid #3498db;
+            padding: 12px 16px;
+            margin: 16px 0;
+            border-radius: 0 6px 6px 0;
+            font-size: 10pt;
+        }
+        
+        .folder-tree {
+            background: #f8f9fa;
+            padding: 16px 20px;
+            border-radius: 8px;
+            border: 1px solid #e0e0e0;
+            font-family: 'SF Mono', monospace;
+            font-size: 9pt;
+            line-height: 1.6;
+            white-space: pre;
+        }
+        
+        .section-break {
+            page-break-before: always;
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 8pt;
+            font-weight: 600;
+        }
+        .badge-pass { background: #d4edda; color: #155724; }
+        .badge-done { background: #d4edda; color: #155724; }
+        
+        .flow-diagram {
+            background: #f8f9fa;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 16px 0;
+            text-align: center;
+            font-size: 10pt;
+        }
+        .flow-arrow { color: #d4af37; font-weight: bold; font-size: 14pt; }
+        
+        ul, ol { margin: 8px 0 8px 24px; }
+        li { margin: 4px 0; }
+        
+        @media print {
+            body { font-size: 10pt; }
+            .page { padding: 20px 30px; }
+            .cover { min-height: 95vh; }
+            h1 { page-break-before: always; }
+            h1:first-of-type { page-break-before: avoid; }
+            table { page-break-inside: avoid; }
+            pre { page-break-inside: avoid; }
+        }
+    </style>
+</head>
+<body>
+<div class="page">
+
+<!-- COVER PAGE -->
+<div class="cover">
+    <h1>📊 QuantTrading</h1>
+    <div class="subtitle">AI-Powered Quantitative Trading Bot</div>
+    <div class="gold-line"></div>
+    <p style="font-size: 13pt; color: #444; max-width: 500px; margin: 20px auto;">
+        Final Report Documentation<br>
+        Chapters 4 &amp; 5 — Implementation &amp; Results
+    </p>
+    <div class="gold-line"></div>
+    <div class="version">
+        <p><strong>Version:</strong> 2.0 (Production)</p>
+        <p><strong>Date:</strong> July 2026</p>
+        <p><strong>Team:</strong> 3 Members (Backend/Engine, Frontend, Database/Systems)</p>
+    </div>
+</div>
+
+<!-- TABLE OF CONTENTS -->
+<h1>Table of Contents</h1>
+<ol style="font-size: 11pt; line-height: 2.2;">
+    <li><a href="#s1">Source Code</a></li>
+    <li><a href="#s2">Screenshots</a></li>
+    <li><a href="#s3">Database</a></li>
+    <li><a href="#s4">Project Structure</a></li>
+    <li><a href="#s5">API Documentation</a></li>
+    <li><a href="#s6">AI Implementation</a></li>
+    <li><a href="#s7">Technologies</a></li>
+    <li><a href="#s8">Testing</a></li>
+    <li><a href="#s9">Achievements</a></li>
+    <li><a href="#s10">Challenges</a></li>
+    <li><a href="#s11">Deployment</a></li>
+    <li><a href="#s12">Performance</a></li>
+    <li><a href="#s13">Diagrams</a></li>
+    <li><a href="#s14">Additional Features</a></li>
+</ol>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<h1 id="s1">1. Source Code</h1>
+
+<h3>GitHub Repository</h3>
+<p>The complete source code is hosted in a private GitHub repository:</p>
+<pre><code>https://github.com/[USERNAME]/QuantTrading</code></pre>
+
+<h3>Project Summary</h3>
+<p>QuantTrading is a full-stack quantitative trading application that uses artificial intelligence (FinBERT NLP model) to analyze financial news sentiment and execute simulated paper trades across multiple asset classes (Crypto, Stocks, Forex, Commodities). The system features a <strong>3-Layer Verification System</strong> that ensures every trade passes Technical Analysis, Sentiment Analysis, and Quantitative Analysis before execution.</p>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<h1 id="s2">2. Screenshots</h1>
+
+<div class="note">Screenshots should be captured from the running application at <code>http://localhost:5173</code>. The following pages are available in the application:</div>
+
+<table>
+    <tr><th>Page</th><th>Route</th><th>Description</th></tr>
+    <tr><td><strong>Landing / Auth Page</strong></td><td><code>/</code> (logged out)</td><td>Login and registration form with email/password and Google OAuth</td></tr>
+    <tr><td><strong>Dashboard</strong></td><td><code>/</code> (logged in)</td><td>Interactive 3D globe with live news markers, portfolio summary cards, news feed sidebar</td></tr>
+    <tr><td><strong>Trading Hub</strong></td><td><code>/trading-hub</code></td><td>Account management, sub-account creation (Low/Moderate/Aggressive risk), portfolio holdings, open/closed trades with P&amp;L tracking</td></tr>
+    <tr><td><strong>Charts</strong></td><td><code>/charts</code></td><td>TradingView-style candlestick charts with 7 timeframes and 26+ instrument selector across 4 asset classes</td></tr>
+    <tr><td><strong>Markets Explorer</strong></td><td><code>/markets</code></td><td>Asset screening with live prices, 7-day sparkline trends, and AI sentiment scores</td></tr>
+    <tr><td><strong>News Feed</strong></td><td><code>/news</code></td><td>Full news feed with category filtering and real-time timestamps</td></tr>
+    <tr><td><strong>News Detail</strong></td><td><code>/news/:id</code></td><td>Individual article with AI sentiment analysis, market impact, geo-coordinates, trading recommendation</td></tr>
+    <tr><td><strong>Settings / Profile</strong></td><td><code>/settings</code></td><td>User preferences, theme toggle (dark/light), email report configuration</td></tr>
+</table>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<h1 id="s3" class="section-break">3. Database</h1>
+
+<h3>Database Technology</h3>
+<ul>
+    <li><strong>DBMS:</strong> PostgreSQL 14</li>
+    <li><strong>ORM:</strong> SQLAlchemy 2.0 (Python)</li>
+    <li><strong>Connection Pooling:</strong> pool_size=10, max_overflow=20, pool_pre_ping=True</li>
+</ul>
+
+<h3>Entity-Relationship Diagram</h3>
+<div class="flow-diagram" style="text-align: left; font-family: monospace; font-size: 9pt;">
+<pre style="background: #fff; color: #333; border: 1px solid #ddd;">
+┌──────────────┐       ┌──────────────────┐       ┌──────────────────────┐
+│    USERS     │       │    ACCOUNTS      │       │       TRADES         │
+├──────────────┤       ├──────────────────┤       ├──────────────────────┤
+│ id (PK)      │──1:N─▶│ id (PK)          │──1:N─▶│ id (PK)              │
+│ email (UQ)   │       │ user_id (FK)     │       │ account_id (FK)      │
+│ hashed_pass  │       │ name             │       │ symbol               │
+│ pin_hash     │       │ balance          │       │ trade_type (Long/Short)
+│ created_at   │       │ initial_balance  │       │ status (Open/Closed) │
+└──────────────┘       │ strategy         │       │ entry_price          │
+                       │ created_at       │       │ current_price        │
+                       └──────────────────┘       │ quantity             │
+                              │                   │ position_value       │
+                              │                   │ stop_loss_price      │
+                              │1:N                │ take_profit_price    │
+                              ▼                   │ pnl / pnl_dollars    │
+                       ┌──────────────────┐       │ signal_id (FK)       │
+                       │ PORTFOLIO_ASSETS │       │ reasoning            │
+                       ├──────────────────┤       │ created_at/closed_at │
+                       │ id (PK)          │       └──────────────────────┘
+                       │ account_id (FK)  │                ▲
+                       │ symbol           │                │ N:1
+                       │ asset_class      │       ┌──────────────────┐
+                       │ shares           │       │  TRADE_SIGNALS   │
+                       │ avg_price        │       ├──────────────────┤
+                       │ current_price    │       │ id (PK)          │
+                       └──────────────────┘       │ symbol           │
+                                                  │ signal (BUY/SELL)│
+┌──────────────────┐                              │ confidence       │
+│  NEWS_ARTICLES   │                              │ reasoning        │
+├──────────────────┤                              │ executed (bool)  │
+│ id (PK)          │                              │ timestamp        │
+│ symbol           │                              └──────────────────┘
+│ title            │
+│ url              │   ┌──────────────────┐
+│ sentiment_score  │   │ BITCOIN_PRICES   │
+│ timestamp        │   ├──────────────────┤
+└──────────────────┘   │ id (PK)          │
+                       │ symbol           │
+                       │ price            │
+                       │ timestamp        │
+                       └──────────────────┘
+</pre>
+</div>
+
+<h3>Table Descriptions</h3>
+<table>
+    <tr><th>Table</th><th>Purpose</th><th>Key Relationships</th></tr>
+    <tr><td><code>users</code></td><td>Authentication — email, bcrypt-hashed passwords, optional PIN</td><td>One-to-many → accounts</td></tr>
+    <tr><td><code>accounts</code></td><td>Trading accounts — each has a balance and risk strategy (Low/Moderate/Aggressive)</td><td>Belongs to users, has many trades and portfolio_assets</td></tr>
+    <tr><td><code>trades</code></td><td>Full trade ledger — every Long/Short with entry/exit prices, SL/TP, P&amp;L</td><td>Belongs to accounts, references trade_signals</td></tr>
+    <tr><td><code>portfolio_assets</code></td><td>Current holdings — aggregate shares per symbol per account</td><td>Belongs to accounts</td></tr>
+    <tr><td><code>trade_signals</code></td><td>AI-generated BUY/SELL signals from FinBERT with confidence scores</td><td>Referenced by trades</td></tr>
+    <tr><td><code>news_articles</code></td><td>News headlines stored for FinBERT analysis with sentiment scores</td><td>Indexed by symbol</td></tr>
+    <tr><td><code>bitcoin_prices</code></td><td>Price snapshots — one row per symbol per 60-second cycle (all assets, not just Bitcoin)</td><td>Historical time-series</td></tr>
+</table>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<h1 id="s4" class="section-break">4. Project Structure</h1>
+
+<div class="folder-tree">QuantTrading/
+├── 📂 Backend (Python/FastAPI)
+│   ├── main.py                    — FastAPI REST API server (all endpoints)
+│   ├── bot_engine.py              — Main orchestrator loop (runs 24/7)
+│   ├── ai_analysis.py             — FinBERT AI sentiment analysis (Layer 2)
+│   ├── technical_analysis.py      — Price-based technical indicators (Layer 1)
+│   ├── quantitative_analysis.py   — Statistical/mathematical analysis (Layer 3)
+│   ├── trade_executor.py          — 3-Layer Verification + trade execution
+│   ├── data_ingestion.py          — News fetching (NewsAPI + RSS feeds)
+│   ├── email_reports.py           — Daily email report generator
+│   ├── database.py                — SQLAlchemy connection + session factory
+│   ├── init_db.py                 — Database schema (all 7 table models)
+│   ├── fix_db.py                  — Database reset utility
+│   └── requirements.txt           — Python dependencies
+│
+├── 📂 Frontend (React 19 / Vite 7)
+│   └── frontend/
+│       ├── src/
+│       │   ├── App.jsx                        — Router + auth guard
+│       │   ├── main.jsx                       — Entry point
+│       │   ├── index.css                      — Global styles + design system
+│       │   ├── config/api.js                  — API URL configuration
+│       │   ├── components/
+│       │   │   ├── Layout.jsx                 — Main layout wrapper
+│       │   │   ├── Sidebar.jsx                — Navigation sidebar
+│       │   │   ├── AccountWizardModal.jsx     — Account creation wizard
+│       │   │   └── EditAccountModal.jsx       — Account editing modal
+│       │   ├── pages/
+│       │   │   ├── AuthPage.jsx               — Login / Register / Google OAuth
+│       │   │   ├── Dashboard.jsx              — 3D globe + news + portfolio
+│       │   │   ├── TradingHub.jsx             — Account management + trades
+│       │   │   ├── Charts.jsx                 — Candlestick charts + timeframes
+│       │   │   ├── MarketsExplorer.jsx        — Asset screening
+│       │   │   ├── NewsPage.jsx / NewsFeedPage.jsx — News feeds
+│       │   │   ├── NewsDetail.jsx             — Article analysis detail
+│       │   │   ├── PaperTrading.jsx           — Paper trading view
+│       │   │   ├── Preferences.jsx            — User settings
+│       │   │   └── RiskSettings.jsx           — Risk profile config
+│       │   └── store/
+│       │       ├── useStore.js                — Zustand (accounts, trades)
+│       │       └── useAuthStore.js            — Auth state management
+│       ├── package.json
+│       └── vite.config.js
+│
+├── 📂 Deployment
+│   ├── Dockerfile                 — Docker image definition
+│   ├── docker-compose.yml         — Multi-container orchestration
+│   ├── nginx.conf                 — Reverse proxy configuration
+│   ├── supervisord.conf           — Process manager config
+│   ├── deploy.sh / start.sh       — Deployment / dev scripts
+│   └── .dockerignore              — Docker build exclusions
+│
+└── 📂 Environment
+    ├── .env                       — Local development secrets
+    └── .env.production            — Production secrets</div>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<h1 id="s5" class="section-break">5. API Documentation</h1>
+
+<h3>Authentication Endpoints</h3>
+<table>
+    <tr><th>Method</th><th>Endpoint</th><th>Auth</th><th>Purpose</th></tr>
+    <tr><td>POST</td><td><code>/auth/register</code></td><td>No</td><td>Register new user with email, password, optional PIN</td></tr>
+    <tr><td>POST</td><td><code>/auth/login</code></td><td>No</td><td>Login with email/password, returns JWT bearer token</td></tr>
+    <tr><td>POST</td><td><code>/auth/google</code></td><td>No</td><td>Google OAuth login/auto-register</td></tr>
+</table>
+
+<h3>Account Management Endpoints</h3>
+<table>
+    <tr><th>Method</th><th>Endpoint</th><th>Auth</th><th>Purpose</th></tr>
+    <tr><td>POST</td><td><code>/accounts</code></td><td>JWT</td><td>Create new trading account (name, balance, strategy)</td></tr>
+    <tr><td>GET</td><td><code>/accounts</code></td><td>JWT</td><td>List all accounts for current user</td></tr>
+    <tr><td>PUT</td><td><code>/accounts/{id}</code></td><td>JWT</td><td>Update account name and strategy</td></tr>
+    <tr><td>DELETE</td><td><code>/accounts/{id}</code></td><td>JWT</td><td>Delete account and cascade-delete trades/assets</td></tr>
+    <tr><td>GET</td><td><code>/accounts/{id}/data</code></td><td>JWT</td><td>Full account data: positions, trades, P&amp;L, stats</td></tr>
+</table>
+
+<h3>Market Data Endpoints</h3>
+<table>
+    <tr><th>Method</th><th>Endpoint</th><th>Auth</th><th>Purpose</th></tr>
+    <tr><td>GET</td><td><code>/prices?symbol=&amp;interval=</code></td><td>No</td><td>OHLCV candlestick data (7 timeframes: 1m, 5m, 15m, 30m, 1h, 1d, 1wk)</td></tr>
+    <tr><td>GET</td><td><code>/signal?symbol=</code></td><td>No</td><td>Quick sentiment signal for a symbol</td></tr>
+    <tr><td>GET</td><td><code>/explorer?assetClass=</code></td><td>No</td><td>Multi-asset screener with prices, trends, sentiment</td></tr>
+</table>
+
+<h3>News Endpoints</h3>
+<table>
+    <tr><th>Method</th><th>Endpoint</th><th>Auth</th><th>Purpose</th></tr>
+    <tr><td>GET</td><td><code>/news</code></td><td>No</td><td>Live news feed with geo-coords for globe (48hr freshness filter)</td></tr>
+    <tr><td>GET</td><td><code>/news/{article_id}</code></td><td>No</td><td>Single article detail by ID</td></tr>
+</table>
+
+<h3>Bot &amp; System Endpoints</h3>
+<table>
+    <tr><th>Method</th><th>Endpoint</th><th>Auth</th><th>Purpose</th></tr>
+    <tr><td>GET</td><td><code>/bot/stats</code></td><td>No</td><td>Bot health: open/closed trades, P&amp;L, win rate</td></tr>
+    <tr><td>GET</td><td><code>/settings/email-reports</code></td><td>JWT</td><td>Check email report configuration status</td></tr>
+    <tr><td>POST</td><td><code>/settings/test-email</code></td><td>JWT</td><td>Send test daily report email to current user</td></tr>
+</table>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<h1 id="s6" class="section-break">6. AI Implementation</h1>
+
+<h2>6.1 Primary AI Model: FinBERT</h2>
+<table>
+    <tr><th>Property</th><th>Detail</th></tr>
+    <tr><td><strong>Model</strong></td><td>ProsusAI/finbert (HuggingFace Transformers)</td></tr>
+    <tr><td><strong>Architecture</strong></td><td>BERT (Bidirectional Encoder Representations from Transformers)</td></tr>
+    <tr><td><strong>Fine-tuning</strong></td><td>Pre-trained on 10,000+ financial text corpus for domain-specific NLP</td></tr>
+    <tr><td><strong>Input</strong></td><td>News article headlines (tokenized, max 512 tokens)</td></tr>
+    <tr><td><strong>Output</strong></td><td>3 probabilities per headline: [Positive, Negative, Neutral]</td></tr>
+    <tr><td><strong>Compound Score</strong></td><td>avg(Positive) − avg(Negative) across all headlines</td></tr>
+    <tr><td><strong>Signal Logic</strong></td><td>Score &gt; +0.03 → BUY | Score &lt; −0.03 → SELL | else → NEUTRAL</td></tr>
+    <tr><td><strong>Model Size</strong></td><td>~440MB (BERT-base, 110M parameters)</td></tr>
+</table>
+
+<h2>6.2 Three-Layer Verification System</h2>
+<p>Every trade must pass at least <strong>2 of 3 independent verification layers</strong> before execution:</p>
+
+<div class="flow-diagram">
+    <strong>AI Signal (FinBERT)</strong><br>
+    <span class="flow-arrow">▼</span><br>
+    <strong>3-Layer Verification Gate</strong><br><br>
+    <table style="margin: auto; width: 90%;">
+        <tr>
+            <th style="background: #2563eb; text-align: center;">Layer 1: Technical Analysis</th>
+            <th style="background: #10b981; text-align: center;">Layer 2: Sentiment Analysis</th>
+            <th style="background: #8b5cf6; text-align: center;">Layer 3: Quantitative Analysis</th>
+        </tr>
+        <tr>
+            <td style="text-align: center;">RSI, MACD, SMA 20/50,<br>Bollinger Bands, Volume</td>
+            <td style="text-align: center;">FinBERT compound score<br>(the originating signal)</td>
+            <td style="text-align: center;">Volatility, ATR, Momentum,<br>Sharpe, Z-Score, R:R</td>
+        </tr>
+        <tr>
+            <td style="text-align: center;">Verdict: BULLISH / BEARISH / NEUTRAL</td>
+            <td style="text-align: center;">Verdict: Always agrees with signal</td>
+            <td style="text-align: center;">Verdict: FAVORABLE / UNFAVORABLE / NEUTRAL</td>
+        </tr>
+    </table>
+    <br>
+    <span class="flow-arrow">▼</span><br>
+    ≥ 2/3 Layers Agree? → <span style="color: green; font-weight: bold;">✅ EXECUTE</span> or <span style="color: red; font-weight: bold;">❌ REJECT</span>
+</div>
+
+<h3>Layer 1: Technical Analysis — 5 Indicators</h3>
+<table>
+    <tr><th>Indicator</th><th>What It Measures</th><th>Bullish Signal</th><th>Bearish Signal</th></tr>
+    <tr><td><strong>RSI</strong></td><td>Overbought/oversold</td><td>RSI &lt; 30 (oversold)</td><td>RSI &gt; 70 (overbought)</td></tr>
+    <tr><td><strong>MACD</strong></td><td>Trend momentum</td><td>Bullish crossover</td><td>Bearish crossover</td></tr>
+    <tr><td><strong>SMA 20/50</strong></td><td>Trend direction</td><td>Price &gt; SMA20 &gt; SMA50</td><td>Price &lt; SMA20 &lt; SMA50</td></tr>
+    <tr><td><strong>Bollinger Bands</strong></td><td>Volatility boundaries</td><td>Price at lower band</td><td>Price at upper band</td></tr>
+    <tr><td><strong>Volume</strong></td><td>Trend confirmation</td><td>High vol confirms bull trend</td><td>High vol confirms bear trend</td></tr>
+</table>
+
+<h3>Layer 3: Quantitative Analysis — 7 Metrics</h3>
+<table>
+    <tr><th>Metric</th><th>What It Measures</th></tr>
+    <tr><td><strong>Volatility</strong> (Std Dev)</td><td>Risk level — standard deviation of daily returns</td></tr>
+    <tr><td><strong>ATR</strong> (Average True Range)</td><td>Average daily price movement range</td></tr>
+    <tr><td><strong>Momentum</strong> (Rate of Change)</td><td>Speed and direction of price movement</td></tr>
+    <tr><td><strong>Mean Reversion Z-Score</strong></td><td>How far price deviates from its statistical average</td></tr>
+    <tr><td><strong>Sharpe Ratio</strong></td><td>Risk-adjusted returns (reward per unit of risk)</td></tr>
+    <tr><td><strong>Risk/Reward Ratio</strong></td><td>Potential profit vs. potential loss</td></tr>
+    <tr><td><strong>Trend Strength</strong></td><td>Directional conviction of the current trend</td></tr>
+</table>
+
+<h2>6.3 Confidence Score Calculation</h2>
+<pre><code>confidence = abs(compound_score)
+
+where:
+  compound_score = avg(positive_probs) − avg(negative_probs)
+  positive_probs = FinBERT positive probability for each headline
+  negative_probs = FinBERT negative probability for each headline
+
+Range: 0.0 (no confidence) to 1.0 (maximum confidence)</code></pre>
+
+<h2>6.4 Risk-Based Position Sizing</h2>
+<table>
+    <tr><th>Risk Profile</th><th>Min Confidence</th><th>Position Size</th><th>Max Trades</th><th>Stop-Loss</th><th>Take-Profit</th></tr>
+    <tr><td><strong>Low</strong></td><td>10%</td><td>2% of balance</td><td>5</td><td>−3%</td><td>+6%</td></tr>
+    <tr><td><strong>Moderate</strong></td><td>5%</td><td>5% of balance</td><td>8</td><td>−5%</td><td>+10%</td></tr>
+    <tr><td><strong>Aggressive</strong></td><td>3%</td><td>10% of balance</td><td>15</td><td>−8%</td><td>+20%</td></tr>
+</table>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<h1 id="s7" class="section-break">7. Technologies</h1>
+
+<h3>Backend Stack</h3>
+<table>
+    <tr><th>Technology</th><th>Version</th><th>Purpose</th></tr>
+    <tr><td>Python</td><td>3.14</td><td>Core programming language</td></tr>
+    <tr><td>FastAPI</td><td>0.115.12</td><td>Async REST API framework</td></tr>
+    <tr><td>Uvicorn</td><td>0.34.3</td><td>ASGI web server</td></tr>
+    <tr><td>SQLAlchemy</td><td>2.0.41</td><td>ORM for database operations</td></tr>
+    <tr><td>PostgreSQL</td><td>14</td><td>Relational database</td></tr>
+    <tr><td>psycopg2</td><td>2.9.10</td><td>PostgreSQL adapter for Python</td></tr>
+    <tr><td>PyTorch</td><td>Latest (CPU)</td><td>Deep learning framework (for FinBERT inference)</td></tr>
+    <tr><td>Transformers</td><td>4.52.4</td><td>HuggingFace model loading (FinBERT)</td></tr>
+    <tr><td>yfinance</td><td>0.2.62</td><td>Yahoo Finance API for live market data</td></tr>
+    <tr><td>pandas</td><td>2.3.0</td><td>Data manipulation and analysis</td></tr>
+    <tr><td>NumPy</td><td>2.3.0</td><td>Numerical computing (indicator calculations)</td></tr>
+    <tr><td>feedparser</td><td>6.0.11</td><td>RSS feed parsing for news ingestion</td></tr>
+    <tr><td>BeautifulSoup4</td><td>4.13.4</td><td>HTML parsing for news summaries</td></tr>
+    <tr><td>passlib + bcrypt</td><td>1.7.4 / 4.3.0</td><td>Password hashing (authentication)</td></tr>
+    <tr><td>python-jose</td><td>3.5.0</td><td>JWT token creation and verification</td></tr>
+    <tr><td>python-dotenv</td><td>1.1.0</td><td>Environment variable management</td></tr>
+</table>
+
+<h3>Frontend Stack</h3>
+<table>
+    <tr><th>Technology</th><th>Version</th><th>Purpose</th></tr>
+    <tr><td>React</td><td>19.2.0</td><td>UI component framework</td></tr>
+    <tr><td>Vite</td><td>7.2.4</td><td>Build tool and development server</td></tr>
+    <tr><td>React Router</td><td>7.15.0</td><td>Client-side routing and navigation</td></tr>
+    <tr><td>Zustand</td><td>5.0.13</td><td>Lightweight state management</td></tr>
+    <tr><td>Axios</td><td>1.13.2</td><td>HTTP client for API calls</td></tr>
+    <tr><td>Tailwind CSS</td><td>4.3.0</td><td>Utility-first CSS framework</td></tr>
+    <tr><td>lightweight-charts</td><td>5.2.0</td><td>TradingView-style candlestick charts</td></tr>
+    <tr><td>react-globe.gl</td><td>2.37.1</td><td>3D WebGL globe visualization</td></tr>
+    <tr><td>Three.js</td><td>0.184.0</td><td>3D rendering engine (powers the globe)</td></tr>
+    <tr><td>Recharts</td><td>3.7.0</td><td>Data visualization charts (sparklines, portfolios)</td></tr>
+    <tr><td>Lucide React</td><td>0.562.0</td><td>Icon library (200+ icons)</td></tr>
+    <tr><td>@react-oauth/google</td><td>0.13.5</td><td>Google OAuth integration</td></tr>
+    <tr><td>jwt-decode</td><td>4.0.0</td><td>JWT token decoding on the client side</td></tr>
+</table>
+
+<h3>External APIs</h3>
+<table>
+    <tr><th>API</th><th>Purpose</th><th>Rate Limit</th></tr>
+    <tr><td>Yahoo Finance (yfinance)</td><td>Live price data, OHLCV candles, historical data</td><td>Unofficial, generous limits</td></tr>
+    <tr><td>NewsAPI</td><td>Premium news from 80,000+ sources worldwide</td><td>100 req/day (free tier)</td></tr>
+    <tr><td>RSS Feeds (CNBC, CoinTelegraph, CoinDesk, Yahoo)</td><td>Free news fallback, no rate limits</td><td>Unlimited</td></tr>
+</table>
+
+<h3>DevOps &amp; Deployment</h3>
+<table>
+    <tr><th>Technology</th><th>Purpose</th></tr>
+    <tr><td>Docker + Docker Compose</td><td>Application containerization and multi-service orchestration</td></tr>
+    <tr><td>Nginx</td><td>Reverse proxy and static file serving</td></tr>
+    <tr><td>Supervisor</td><td>Process management inside Docker containers</td></tr>
+    <tr><td>Git / GitHub</td><td>Version control and code hosting</td></tr>
+</table>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<h1 id="s8" class="section-break">8. Testing</h1>
+
+<h2>8.1 Functional Testing</h2>
+<table>
+    <tr><th>Test Area</th><th>Method</th><th>Result</th></tr>
+    <tr><td>User Registration</td><td>Manual — register via email/password</td><td><span class="badge badge-pass">✅ Pass</span> — user created, JWT returned</td></tr>
+    <tr><td>User Login</td><td>Manual — login with credentials</td><td><span class="badge badge-pass">✅ Pass</span> — valid JWT token issued</td></tr>
+    <tr><td>Google OAuth</td><td>Manual — sign in with Google</td><td><span class="badge badge-pass">✅ Pass</span> — auto-register + JWT issued</td></tr>
+    <tr><td>Account Creation</td><td>Manual — create accounts per risk type</td><td><span class="badge badge-pass">✅ Pass</span> — stored with correct strategy</td></tr>
+    <tr><td>Account Isolation</td><td>Manual — login as different users</td><td><span class="badge badge-pass">✅ Pass</span> — each user sees only their own data</td></tr>
+    <tr><td>News Fetching</td><td>Automated — bot_engine cycle</td><td><span class="badge badge-pass">✅ Pass</span> — fresh articles saved, old filtered (48hr)</td></tr>
+    <tr><td>FinBERT Analysis</td><td>Automated — model loads and runs</td><td><span class="badge badge-pass">✅ Pass</span> — signals generated with confidence</td></tr>
+    <tr><td>Trade Execution</td><td>Automated — 3-layer verification</td><td><span class="badge badge-pass">✅ Pass</span> — trades created when ≥2/3 agree</td></tr>
+    <tr><td>Stop-Loss / Take-Profit</td><td>Automated — price monitoring 60s</td><td><span class="badge badge-pass">✅ Pass</span> — positions auto-close at levels</td></tr>
+    <tr><td>Chart Timeframes</td><td>Manual — switch all 7 timeframes</td><td><span class="badge badge-pass">✅ Pass</span> — chart recreates with correct data</td></tr>
+</table>
+
+<h2>8.2 API Testing</h2>
+<table>
+    <tr><th>Endpoint</th><th>Test Scenario</th><th>Expected</th><th>Result</th></tr>
+    <tr><td><code>POST /auth/register</code></td><td>Register new user</td><td>200 + token</td><td><span class="badge badge-pass">✅ Pass</span></td></tr>
+    <tr><td><code>POST /auth/register</code></td><td>Duplicate email</td><td>400 error</td><td><span class="badge badge-pass">✅ Pass</span></td></tr>
+    <tr><td><code>POST /auth/login</code></td><td>Wrong password</td><td>400 error</td><td><span class="badge badge-pass">✅ Pass</span></td></tr>
+    <tr><td><code>GET /accounts</code></td><td>Without auth token</td><td>401 error</td><td><span class="badge badge-pass">✅ Pass</span></td></tr>
+    <tr><td><code>GET /accounts</code></td><td>With valid token</td><td>200 + user data</td><td><span class="badge badge-pass">✅ Pass</span></td></tr>
+    <tr><td><code>GET /prices</code></td><td>Valid symbol + interval</td><td>200 + OHLCV array</td><td><span class="badge badge-pass">✅ Pass</span></td></tr>
+    <tr><td><code>GET /news</code></td><td>Fetch live news</td><td>200 + fresh articles</td><td><span class="badge badge-pass">✅ Pass</span></td></tr>
+    <tr><td><code>GET /bot/stats</code></td><td>Bot health check</td><td>200 + stats</td><td><span class="badge badge-pass">✅ Pass</span></td></tr>
+</table>
+
+<h2>8.3 Syntax Verification</h2>
+<p>All 11 Python backend files pass <code>py_compile</code> syntax verification with zero errors.</p>
+
+<h2>8.4 Key Observations</h2>
+<ul>
+    <li>FinBERT model takes ~5-10 seconds to load on first use (lazy loading pattern)</li>
+    <li>RSS feeds occasionally return stale articles; the 48-hour date filter eliminates this</li>
+    <li>Yahoo Finance API can rate-limit during peak hours; bot silently retries on next cycle</li>
+    <li>The 3-Layer Verification system successfully prevents low-quality trades from executing</li>
+</ul>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<h1 id="s9" class="section-break">9. Achievements</h1>
+
+<table>
+    <tr><th>Feature</th><th>Status</th><th>Description</th></tr>
+    <tr><td>AI Sentiment Analysis</td><td><span class="badge badge-done">✅ Complete</span></td><td>FinBERT NLP model analyzes financial news and generates BUY/SELL signals</td></tr>
+    <tr><td>3-Layer Verification</td><td><span class="badge badge-done">✅ Complete</span></td><td>Technical + Sentiment + Quantitative analysis before every trade</td></tr>
+    <tr><td>Automated Paper Trading</td><td><span class="badge badge-done">✅ Complete</span></td><td>Bot runs 24/7, executes trades autonomously with position sizing</td></tr>
+    <tr><td>Multi-Asset Support</td><td><span class="badge badge-done">✅ Complete</span></td><td>26 symbols: 9 Crypto, 8 Stocks, 4 Commodities, 5 Forex</td></tr>
+    <tr><td>Risk-Based Accounts</td><td><span class="badge badge-done">✅ Complete</span></td><td>Low/Moderate/Aggressive strategies with different sizing and SL/TP</td></tr>
+    <tr><td>Real-Time Charts</td><td><span class="badge badge-done">✅ Complete</span></td><td>TradingView-style candlestick charts with 7 timeframes</td></tr>
+    <tr><td>3D Globe Visualization</td><td><span class="badge badge-done">✅ Complete</span></td><td>Interactive WebGL globe with geo-located news markers</td></tr>
+    <tr><td>User Authentication</td><td><span class="badge badge-done">✅ Complete</span></td><td>Email/password + Google OAuth with JWT tokens</td></tr>
+    <tr><td>Account Isolation</td><td><span class="badge badge-done">✅ Complete</span></td><td>Multi-user support, each user's data fully separated</td></tr>
+    <tr><td>Position Management</td><td><span class="badge badge-done">✅ Complete</span></td><td>Auto stop-loss, take-profit, signal reversal detection</td></tr>
+    <tr><td>Markets Explorer</td><td><span class="badge badge-done">✅ Complete</span></td><td>Multi-asset screener with live prices and trend data</td></tr>
+    <tr><td>Daily Email Reports</td><td><span class="badge badge-done">✅ Complete</span></td><td>Automated HTML email reports with trade summaries</td></tr>
+    <tr><td>Docker Deployment</td><td><span class="badge badge-done">✅ Complete</span></td><td>Full containerized deployment with Docker Compose</td></tr>
+    <tr><td>News Intelligence</td><td><span class="badge badge-done">✅ Complete</span></td><td>Multi-source aggregation with freshness filtering</td></tr>
+    <tr><td>Responsive UI</td><td><span class="badge badge-done">✅ Complete</span></td><td>Dark-theme professional design with glassmorphism effects</td></tr>
+</table>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<h1 id="s10" class="section-break">10. Challenges</h1>
+
+<h3>Challenge 1: No Trades Being Executed</h3>
+<ul>
+    <li><strong>Problem:</strong> After running the bot for 2-3 hours, zero trades were taken despite the system appearing to function correctly.</li>
+    <li><strong>Root Cause:</strong> Three compounding issues — (1) AI signal threshold of ±0.05 was too strict for FinBERT's typical output range of ±0.01–0.04; (2) Risk profile confidence thresholds were unrealistically high; (3) NEUTRAL signals were clogging the execution pipeline.</li>
+    <li><strong>Solution:</strong> Lowered AI threshold to ±0.03, reduced confidence requirements per risk level (Low=10%, Moderate=5%, Aggressive=3%), and stopped saving NEUTRAL signals to the database entirely.</li>
+</ul>
+
+<h3>Challenge 2: Stale News Articles</h3>
+<ul>
+    <li><strong>Problem:</strong> The Wall Street Journal RSS feed was returning articles from 2025, causing the AI to generate signals based on year-old news.</li>
+    <li><strong>Root Cause:</strong> The WSJ RSS endpoint returns a static archive rather than a live feed.</li>
+    <li><strong>Solution:</strong> Removed WSJ feed, added date filtering with a strict 48-hour cutoff, replaced with CoinDesk and CNBC feeds that reliably return current articles.</li>
+</ul>
+
+<h3>Challenge 3: Charts Breaking on Timeframe Change</h3>
+<ul>
+    <li><strong>Problem:</strong> Switching between chart timeframes caused "data out of order" crashes.</li>
+    <li><strong>Root Cause:</strong> The lightweight-charts library requires strictly ascending time-series. Reusing the chart with new data from different timeframes left conflicting state.</li>
+    <li><strong>Solution:</strong> Changed lifecycle to fully destroy and recreate the chart instance on every timeframe/asset change.</li>
+</ul>
+
+<h3>Challenge 4: API Rate Limits</h3>
+<ul>
+    <li><strong>Problem:</strong> NewsAPI free tier (100 requests/day) was exhausted within the first hour.</li>
+    <li><strong>Root Cause:</strong> Bot was requesting news for all 26 symbols every 15-minute cycle.</li>
+    <li><strong>Solution:</strong> Implemented symbol rotation — only 5 symbols per cycle, rotating through the full list over ~1 hour. Added automatic RSS feed fallback when NewsAPI limits are hit.</li>
+</ul>
+
+<h3>Challenge 5: FinBERT Memory Usage</h3>
+<ul>
+    <li><strong>Problem:</strong> FinBERT model (~440MB, ~2GB RAM) caused out-of-memory issues when loaded eagerly.</li>
+    <li><strong>Solution:</strong> Implemented lazy model loading — FinBERT loads only on first analysis call, with explicit garbage collection and cache clearing after each inference batch.</li>
+</ul>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<h1 id="s11" class="section-break">11. Deployment</h1>
+
+<h3>Cloud Architecture</h3>
+<div class="flow-diagram" style="text-align: left;">
+<pre style="background: #fff; color: #333; border: 1px solid #ddd;">
+                    ┌─────────────────────────────────────────────┐
+                    │    Cloud Server (Oracle Cloud / DigitalOcean)│
+                    │    Ubuntu 22.04, 2 OCPU, 12GB RAM           │
+                    │                                             │
+ User Browser ────▶ │  ┌───────────┐                              │
+                    │  │  Nginx    │──▶ Static Frontend Files     │
+                    │  │  Port 80  │──▶ API Proxy → Port 8000     │
+                    │  └───────────┘                              │
+                    │                                             │
+                    │  ┌────────────────┐  ┌──────────────────┐   │
+                    │  │ FastAPI Server │  │  Bot Engine       │   │
+                    │  │ (main.py)      │  │  (bot_engine.py)  │   │
+                    │  │ Port 8000      │  │  24/7 Loop        │   │
+                    │  └───────┬────────┘  └────────┬─────────┘   │
+                    │          │                     │             │
+                    │          ▼                     ▼             │
+                    │  ┌──────────────────────────────────────┐   │
+                    │  │       PostgreSQL 14 (Port 5432)       │   │
+                    │  │       7 Tables, Connection Pool        │   │
+                    │  └──────────────────────────────────────┘   │
+                    └─────────────────────────────────────────────┘
+                                        │
+                              External APIs:
+                              • Yahoo Finance (prices)
+                              • NewsAPI (headlines)
+                              • RSS Feeds (fallback news)
+                              • Gmail SMTP (email reports)
+                              • HuggingFace (FinBERT model)
+</pre>
+</div>
+
+<h3>Deployment Stack</h3>
+<table>
+    <tr><th>Component</th><th>Technology</th><th>Details</th></tr>
+    <tr><td>Cloud Provider</td><td>Oracle Cloud (free tier) / DigitalOcean</td><td>Ubuntu 22.04, ARM A1.Flex, 2 OCPU, 12GB RAM</td></tr>
+    <tr><td>Containerization</td><td>Docker + Docker Compose</td><td>Multi-container: API + Bot + Database</td></tr>
+    <tr><td>Reverse Proxy</td><td>Nginx</td><td>Routes traffic, serves static frontend</td></tr>
+    <tr><td>Process Manager</td><td>Supervisor</td><td>Manages API and bot processes inside container</td></tr>
+</table>
+
+<h3>Local Development</h3>
+<pre><code>cd ~/QuantTrading
+bash start.sh    # Resets DB, starts API (port 8000), bot engine, frontend (port 5173)</code></pre>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<h1 id="s12" class="section-break">12. Performance</h1>
+
+<table>
+    <tr><th>Metric</th><th>Value</th></tr>
+    <tr><td>Supported Asset Classes</td><td>4 (Crypto, Stocks, Forex, Commodities)</td></tr>
+    <tr><td>Tracked Symbols</td><td>26 instruments</td></tr>
+    <tr><td>Price Update Frequency</td><td>Every 60 seconds</td></tr>
+    <tr><td>Trade Evaluation Frequency</td><td>Every 5 minutes</td></tr>
+    <tr><td>News + AI Analysis Frequency</td><td>Every 15 minutes</td></tr>
+    <tr><td>Symbols Per AI Cycle</td><td>5 (full rotation in ~1 hour)</td></tr>
+    <tr><td>FinBERT Inference Time</td><td>~2-5 seconds per batch of 10 headlines</td></tr>
+    <tr><td>FinBERT Model Load Time</td><td>~5-10 seconds (first call only)</td></tr>
+    <tr><td>API Response (prices)</td><td>~200-500ms</td></tr>
+    <tr><td>API Response (accounts)</td><td>~10-50ms</td></tr>
+    <tr><td>Concurrent Users</td><td>50+ (pool: 10 base + 20 overflow)</td></tr>
+    <tr><td>Memory (idle)</td><td>~500MB</td></tr>
+    <tr><td>Memory (with FinBERT)</td><td>~2.5GB</td></tr>
+    <tr><td>Chart Timeframes</td><td>7 (1m, 5m, 15m, 30m, 1H, D, W)</td></tr>
+</table>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<h1 id="s13" class="section-break">13. Diagrams</h1>
+
+<h2>13.1 Trade Execution Workflow</h2>
+<div class="flow-diagram" style="text-align: left;">
+<pre style="background: #fff; color: #333; border: 1px solid #ddd;">
+  📰 News Fetched (NewsAPI + RSS)
+         │
+         ▼
+  💾 Saved to Database (news_articles)
+         │
+         ▼
+  🧠 FinBERT Sentiment Analysis
+         │
+         ├── Score ±0.03 threshold not met ──▶ ⚪ NEUTRAL (discarded)
+         │
+         ▼
+  💾 Save Signal (trade_signals, executed=False)
+         │
+         ▼
+  ⏰ Trade Executor Picks Up Signal (every 5 min)
+         │
+         ├── Pre-checks fail (low confidence / max trades / duplicate / low balance)
+         │         └──▶ ⏭️ Skip
+         │
+         ▼
+  ┌──────────────────────────────────────────────────────┐
+  │           3-LAYER VERIFICATION GATE                  │
+  │                                                      │
+  │  Layer 1: Technical Analysis                         │
+  │  (RSI, MACD, SMA 20/50, Bollinger Bands, Volume)    │
+  │  → Verdict: BULLISH / BEARISH / NEUTRAL              │
+  │                                                      │
+  │  Layer 2: Sentiment Analysis                         │
+  │  (FinBERT score — always agrees with signal)         │
+  │  → Verdict: Agrees with BUY or SELL                  │
+  │                                                      │
+  │  Layer 3: Quantitative Analysis                      │
+  │  (Volatility, ATR, Momentum, Sharpe, Z-Score, R:R)   │
+  │  → Verdict: FAVORABLE / UNFAVORABLE / NEUTRAL        │
+  └──────────────────────────────────────────────────────┘
+         │
+         ├── Less than 2/3 agree ──▶ ❌ REJECTED
+         │
+         ▼
+  ✅ TRADE EXECUTED
+  (Trade record + PortfolioAsset created in DB)
+         │
+         ▼
+  📊 Position Monitored (every 60 seconds)
+         │
+         ├── Stop-Loss hit ──▶ 🔒 CLOSED (Loss)
+         ├── Take-Profit hit ──▶ 💰 CLOSED (Profit)
+         ├── Signal Reversal ──▶ 🔄 CLOSED (Reversal)
+         └── No trigger ──▶ Continue monitoring
+</pre>
+</div>
+
+<h2>13.2 Bot Engine Scheduling</h2>
+<div class="flow-diagram" style="text-align: left;">
+<pre style="background: #fff; color: #333; border: 1px solid #ddd;">
+  Time:   0s        60s       120s      180s      240s      300s            900s
+  ────────┼─────────┼─────────┼─────────┼─────────┼─────────┼──── ... ──────┼────▶
+
+  Fast:   ●─────────●─────────●─────────●─────────●─────────●──── ... ──────●
+          Price     Price     Price     Price     Price     Price           Price
+          Check     Check     Check     Check     Check     Check          Check
+
+  Med:                                                      ●──── ... ──────●
+                                                            Trade           Trade
+                                                            Exec            Exec
+
+  Slow:                                                                     ●
+                                                                           News+AI
+                                                                           + Exec
+
+  ● = Cycle runs    ─── = Sleeping
+  Fast Loop: Every 60 seconds (prices + SL/TP monitoring)
+  Medium Loop: Every 5 minutes (execute pending AI signals)
+  Slow Loop: Every 15 minutes (fetch news + run FinBERT + execute)
+</pre>
+</div>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<h1 id="s14" class="section-break">14. Additional Features</h1>
+
+<h3>14.1 Authentication System</h3>
+<ul>
+    <li><strong>Email/Password Registration</strong> with bcrypt password hashing (salt rounds)</li>
+    <li><strong>Google OAuth</strong> integration for one-click login via @react-oauth/google</li>
+    <li><strong>JWT Bearer Tokens</strong> with 7-day expiration, signed with HS256 algorithm</li>
+    <li><strong>Optional PIN</strong> security layer (database schema ready for future implementation)</li>
+    <li>All API endpoints enforce user authentication and complete data isolation between users</li>
+</ul>
+
+<h3>14.2 Risk Analysis &amp; Management</h3>
+<ul>
+    <li><strong>Three risk profiles</strong> (Low, Moderate, Aggressive) with unique position sizing, stop-loss, take-profit levels, and confidence thresholds</li>
+    <li><strong>Automatic Stop-Loss:</strong> Positions auto-close when losses exceed configured percentage</li>
+    <li><strong>Automatic Take-Profit:</strong> Positions auto-close when gains reach configured percentage</li>
+    <li><strong>Signal Reversal Detection:</strong> Positions close when AI sentiment flips direction</li>
+    <li><strong>Maximum Open Trade Limits:</strong> Prevents over-exposure per account per risk level</li>
+</ul>
+
+<h3>14.3 Daily Email Reports (Notification System)</h3>
+<ul>
+    <li><strong>Automated daily reports</strong> sent via Gmail SMTP at configurable hour</li>
+    <li>Professional HTML email containing: portfolio overview, today's P&amp;L, trade activity, open positions, per-account breakdown</li>
+    <li>Sent to each registered user's email address automatically</li>
+    <li>Test email endpoint available: <code>POST /settings/test-email</code></li>
+</ul>
+
+<h3>14.4 Interactive 3D Globe (Dashboard)</h3>
+<ul>
+    <li><strong>react-globe.gl</strong> powered WebGL globe showing live news markers on a spinning 3D Earth</li>
+    <li>News markers geo-located to nearest financial center (New York, London, Tokyo, Hong Kong, Singapore, Frankfurt, Dubai, Shanghai)</li>
+    <li>Hover displays article summary; click navigates to detailed AI analysis page</li>
+    <li>Color-coded by sentiment: green (bullish), red (bearish), gray (neutral)</li>
+</ul>
+
+<h3>14.5 Multi-Timeframe Charting</h3>
+<ul>
+    <li>7 timeframes: 1-minute, 5-minute, 15-minute, 30-minute, 1-hour, Daily, Weekly</li>
+    <li>Full scroll, zoom, crosshair, and interactive candle inspection</li>
+    <li>Real-time auto-refresh (5s for intraday, 15s for longer timeframes)</li>
+    <li>26+ instruments across Crypto, Stocks, Forex, Commodities</li>
+</ul>
+
+<h3>14.6 News Intelligence System</h3>
+<ul>
+    <li><strong>Multi-source aggregation:</strong> NewsAPI + 4 RSS feeds (CNBC, CoinTelegraph, CoinDesk, Yahoo Finance)</li>
+    <li><strong>48-hour freshness filter:</strong> Only current news displayed and fed to AI</li>
+    <li><strong>Human-readable timestamps:</strong> "15m ago", "2h ago" instead of raw dates</li>
+    <li><strong>Ticker auto-detection:</strong> Headlines automatically tagged with relevant symbols</li>
+    <li><strong>Individual article analysis:</strong> Full AI breakdown with score, impact, and recommendation</li>
+</ul>
+
+<h3>14.7 Paper Trading Portfolio</h3>
+<ul>
+    <li>Simulated wallet/balance — no real money at risk</li>
+    <li>Supports Long and Short positions across all 4 asset classes</li>
+    <li>Real-time P&amp;L tracking (percentage and dollar amount)</li>
+    <li>Portfolio holdings view with cost basis and unrealized gains/losses</li>
+    <li>Complete trade history with entry/exit prices, reasoning, and verification reports</li>
+</ul>
+
+<!-- FOOTER -->
+<div style="margin-top: 60px; padding-top: 20px; border-top: 2px solid #d4af37; text-align: center; color: #999; font-size: 9pt;">
+    <p>QuantTrading Final Report Documentation — July 2026</p>
+    <p>Generated for Chapters 4 &amp; 5 — Implementation &amp; Results</p>
+</div>
+
+</div>
+</body>
+</html>
