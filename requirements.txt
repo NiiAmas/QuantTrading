@@ -11,7 +11,7 @@ python-dotenv==1.1.0
 # ─── Auth ───
 passlib[bcrypt]==1.7.4
 python-jose[cryptography]==3.5.0
-bcrypt==4.3.0
+bcrypt==3.2.2
 
 # ─── Data & AI ───
 yfinance==0.2.62
