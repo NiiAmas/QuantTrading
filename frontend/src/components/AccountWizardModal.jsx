@@ -23,7 +23,9 @@ export default function AccountWizardModal({ isOpen, onClose }) {
     createAccount({
       name: formData.name || 'New Account',
       balance: Number(formData.balance),
-      strategy: formData.strategy || 'Moderate'
+      strategy: formData.strategy || 'Moderate',
+      asset_types: formData.assets.length > 0 ? formData.assets : null,
+      sectors: formData.sectors.length > 0 ? formData.sectors : null
     });
     
     // reset form

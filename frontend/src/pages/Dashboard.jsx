@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import { TrendingUp, TrendingDown, Wallet, PieChart, Activity, Globe as GlobeIcon } from 'lucide-react';
 import Globe from 'react-globe.gl';
 import useStore from '../store/useStore';
+import useAuthStore from '../store/useAuthStore';
 
 const NewsCard = ({ news, onClick }) => {
   const isBullish = news.impact === 'Bullish';
@@ -48,6 +49,10 @@ export default function Dashboard() {
   const containerRef = useRef(null);
   const [dimensions, setDimensions] = useState({ width: 500, height: 400 });
 
+  // ─── LIVE PORTFOLIO DATA ───
+  const [portfolioReturn, setPortfolioReturn] = useState(0);
+  const [accountBalance, setAccountBalance] = useState(0);
+
   useEffect(() => {
     const updateDimensions = () => {
       if (containerRef.current) {
@@ -88,6 +93,29 @@ export default function Dashboard() {
     fetchNews();
   }, []);
 
+  // ─── LIVE PORTFOLIO POLLING (every 5 seconds) ───
+  useEffect(() => {
+    const fetchPortfolio = async () => {
+      if (!activeAccountId) return;
+      try {
+        const token = useAuthStore.getState().token;
+        const res = await axios.get(`${API_URL}/accounts/${activeAccountId}/data`, {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+        const stats = res.data.accountStats;
+        if (stats) {
+          setPortfolioReturn(stats.portfolioReturn || 0);
+          setAccountBalance(stats.balance || 0);
+        }
+      } catch (err) {
+        console.error("Failed to fetch portfolio data", err);
+      }
+    };
+    fetchPortfolio();
+    const interval = setInterval(fetchPortfolio, 5000);
+    return () => clearInterval(interval);
+  }, [activeAccountId]);
+
   useEffect(() => {
     // Dynamic filtering based on active account holdings
     if (activeAccount && globalNews.length > 0) {
@@ -108,37 +136,43 @@ export default function Dashboard() {
 
   const globeHtmlElements = settings.reduceAnimations ? [] : newsFeed;
 
+  // Use live balance if available, otherwise fall back to account's stored balance
+  const displayBalance = accountBalance > 0 ? accountBalance : (activeAccount?.balance || 0);
+
   return (
     <div className="flex gap-6 h-full">
       {/* LEFT PANE - KPIs and Globe */}
-      <div className="flex-1 flex flex-col gap-6">
+      <div className="flex-1 flex flex-col gap-6 min-w-0">
         
         {/* KPI Row */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="bg-card backdrop-blur-xl border border-molten/20 rounded-2xl p-6 shadow-xl flex items-center gap-4">
-            <div className="p-3 bg-molten/10 rounded-xl text-molten"><Wallet size={24} /></div>
-            <div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 lg:gap-6">
+          <div className="bg-card backdrop-blur-xl border border-molten/20 rounded-2xl p-4 lg:p-6 shadow-xl flex items-center gap-4">
+            <div className="p-3 bg-molten/10 rounded-xl text-molten shrink-0"><Wallet size={24} /></div>
+            <div className="min-w-0">
               <p className="text-xs text-gray-400 font-semibold uppercase tracking-wider">Simulated Balance</p>
-              <h3 className="text-2xl font-bold text-white">${activeAccount?.balance.toLocaleString()}</h3>
+              <h3 className="text-xl lg:text-2xl font-bold text-white truncate">${displayBalance.toLocaleString()}</h3>
             </div>
           </div>
           
-          <div className="bg-card backdrop-blur-xl border border-molten/20 rounded-2xl p-6 shadow-xl flex items-center gap-4">
-            <div className="p-3 bg-molten/10 rounded-xl text-molten"><Activity size={24} /></div>
-            <div>
+          <div className="bg-card backdrop-blur-xl border border-molten/20 rounded-2xl p-4 lg:p-6 shadow-xl flex items-center gap-4">
+            <div className="p-3 bg-molten/10 rounded-xl text-molten shrink-0"><Activity size={24} /></div>
+            <div className="min-w-0">
               <p className="text-xs text-gray-400 font-semibold uppercase tracking-wider">Active Investments</p>
-              <h3 className="text-2xl font-bold text-white mb-1">{activeAccount?.holdings?.length || 0} Assets</h3>
+              <h3 className="text-xl lg:text-2xl font-bold text-white mb-1">{activeAccount?.holdings?.length || 0} Assets</h3>
               <div className="flex gap-1 mt-1 flex-wrap">
-                 {activeAccount?.holdings?.map(h => <span key={h} className="text-[10px] bg-white/10 px-1.5 py-0.5 rounded text-gray-300">{h}</span>)}
+                 {activeAccount?.holdings?.slice(0, 5).map(h => <span key={h} className="text-[10px] bg-white/10 px-1.5 py-0.5 rounded text-gray-300">{h}</span>)}
+                 {(activeAccount?.holdings?.length || 0) > 5 && <span className="text-[10px] text-gray-500">+{activeAccount.holdings.length - 5} more</span>}
               </div>
             </div>
           </div>
 
-          <div className="bg-card backdrop-blur-xl border border-molten/20 rounded-2xl p-6 shadow-xl flex items-center gap-4">
-            <div className="p-3 bg-success/10 rounded-xl text-success"><PieChart size={24} /></div>
-            <div>
+          <div className="bg-card backdrop-blur-xl border border-molten/20 rounded-2xl p-4 lg:p-6 shadow-xl flex items-center gap-4">
+            <div className={`p-3 rounded-xl shrink-0 ${portfolioReturn >= 0 ? 'bg-success/10 text-success' : 'bg-danger/10 text-danger'}`}><PieChart size={24} /></div>
+            <div className="min-w-0">
               <p className="text-xs text-gray-400 font-semibold uppercase tracking-wider">Portfolio Return</p>
-              <h3 className="text-2xl font-bold text-gray-400">0.00%</h3>
+              <h3 className={`text-xl lg:text-2xl font-bold ${portfolioReturn >= 0 ? 'text-success' : 'text-danger'}`}>
+                {portfolioReturn >= 0 ? '+' : ''}{portfolioReturn.toFixed(2)}%
+              </h3>
             </div>
           </div>
         </div>
@@ -201,7 +235,7 @@ export default function Dashboard() {
       </div>
 
       {/* RIGHT PANE - Contextual News Feed */}
-      <div className="w-[350px] bg-obsidian/50 border border-molten/10 rounded-2xl p-4 flex flex-col h-full overflow-hidden shadow-2xl relative z-10">
+      <div className="w-[300px] lg:w-[350px] bg-obsidian/50 border border-molten/10 rounded-2xl p-4 flex flex-col h-full overflow-hidden shadow-2xl relative z-10 shrink-0">
         <div className="mb-4 border-b border-molten/20 pb-4">
           <h3 className="text-md font-bold text-white flex items-center gap-2 uppercase tracking-wide">
             <Activity size={18} className="text-molten" /> Contextual Feed

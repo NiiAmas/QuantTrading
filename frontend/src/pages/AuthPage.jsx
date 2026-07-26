@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import useAuthStore from '../store/useAuthStore';
-import { Activity, Mail, Lock, ShieldCheck } from 'lucide-react';
+import { Activity, Mail, Lock, ShieldCheck, Eye, EyeOff } from 'lucide-react';
 import { GoogleLogin } from '@react-oauth/google';
 import { jwtDecode } from "jwt-decode";
 
@@ -10,12 +10,13 @@ export default function AuthPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [pin, setPin] = useState('');
-  const [rememberMe, setRememberMe] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showPin, setShowPin] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (isLogin) {
-      await login(email, password, rememberMe);
+      await login(email, password);
     } else {
       await register(email, password, pin);
     }
@@ -25,7 +26,7 @@ export default function AuthPage() {
     try {
       const decoded = jwtDecode(credentialResponse.credential);
       const email = decoded.email;
-      await useAuthStore.getState().googleLogin(email, rememberMe);
+      await useAuthStore.getState().googleLogin(email);
     } catch (err) {
       console.error("Google Auth Error", err);
     }
@@ -62,7 +63,15 @@ export default function AuthPage() {
             <label className="block text-xs font-bold text-gray-400 mb-2 uppercase tracking-widest">Password</label>
             <div className="relative">
               <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500" size={18} />
-              <input type="password" value={password} onChange={e => setPassword(e.target.value)} required className="w-full bg-black/50 border border-white/10 rounded-lg pl-10 pr-4 py-3 text-white focus:outline-none focus:border-molten transition-colors" placeholder="••••••••" />
+              <input type={showPassword ? "text" : "password"} value={password} onChange={e => setPassword(e.target.value)} required className="w-full bg-black/50 border border-white/10 rounded-lg pl-10 pr-12 py-3 text-white focus:outline-none focus:border-molten transition-colors" placeholder="••••••••" />
+              <button 
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-white transition-colors"
+                tabIndex={-1}
+              >
+                {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+              </button>
             </div>
           </div>
 
@@ -71,15 +80,16 @@ export default function AuthPage() {
               <label className="block text-xs font-bold text-gray-400 mb-2 uppercase tracking-widest">Security PIN (Optional)</label>
               <div className="relative">
                 <ShieldCheck className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500" size={18} />
-                <input type="password" maxLength={4} value={pin} onChange={e => setPin(e.target.value)} className="w-full bg-black/50 border border-white/10 rounded-lg pl-10 pr-4 py-3 text-white focus:outline-none focus:border-molten transition-colors font-mono" placeholder="4-Digit PIN" />
+                <input type={showPin ? "text" : "password"} maxLength={4} value={pin} onChange={e => setPin(e.target.value)} className="w-full bg-black/50 border border-white/10 rounded-lg pl-10 pr-12 py-3 text-white focus:outline-none focus:border-molten transition-colors font-mono" placeholder="4-Digit PIN" />
+                <button 
+                  type="button"
+                  onClick={() => setShowPin(!showPin)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-white transition-colors"
+                  tabIndex={-1}
+                >
+                  {showPin ? <EyeOff size={18} /> : <Eye size={18} />}
+                </button>
               </div>
-            </div>
-          )}
-
-          {isLogin && (
-            <div className="flex items-center gap-2">
-              <input type="checkbox" id="remember" checked={rememberMe} onChange={e => setRememberMe(e.target.checked)} className="w-4 h-4 accent-molten" />
-              <label htmlFor="remember" className="text-sm text-gray-400 font-semibold cursor-pointer">Remember me on this device</label>
             </div>
           )}
 

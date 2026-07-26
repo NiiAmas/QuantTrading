@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
-import { Activity, LayoutDashboard, LineChart, Globe, Briefcase, ShieldAlert, Settings, ChevronDown, Plus, Wallet, LogOut, Compass } from 'lucide-react';
+import { Activity, LayoutDashboard, LineChart, Globe, Briefcase, ShieldAlert, Settings, ChevronDown, Plus, Wallet, LogOut, Compass, BarChart3 } from 'lucide-react';
 import useAccountStore from '../store/useStore';
 import useAuthStore from '../store/useAuthStore';
 import AccountWizardModal from './AccountWizardModal';
@@ -18,6 +18,7 @@ export default function Sidebar() {
     { id: 'dashboard', name: 'Dashboard', icon: <LayoutDashboard size={20} />, path: '/' },
     { id: 'trading-hub', name: 'Trading Hub', icon: <Briefcase size={20} />, path: '/trading-hub' },
     { id: 'news', name: 'News', icon: <Globe size={20} />, path: '/news' },
+    { id: 'analysis', name: 'Analysis', icon: <BarChart3 size={20} />, path: '/analysis' },
     { id: 'charts', name: 'Charts', icon: <LineChart size={20} />, path: '/charts' },
     { id: 'markets', name: 'Market Explorer', icon: <Compass size={20} />, path: '/markets' },
     { id: 'settings', name: 'Settings', icon: <Settings size={20} />, path: '/settings' },

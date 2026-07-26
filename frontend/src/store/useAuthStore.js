@@ -2,14 +2,38 @@ import { create } from 'zustand';
 import axios from 'axios';
 import API_URL from '../config/api';
 
+/* ═══════════════════════════════════════════════════════════
+   Helper: Check if a JWT token is still valid (not expired)
+   ═══════════════════════════════════════════════════════════ */
+function isTokenValid(token) {
+  if (!token) return false;
+  try {
+    const payload = JSON.parse(atob(token.split('.')[1]));
+    // exp is in seconds, Date.now() is in ms
+    return payload.exp * 1000 > Date.now();
+  } catch {
+    return false;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   Initialize: Check stored token on first load
+   ═══════════════════════════════════════════════════════════ */
+const storedToken = localStorage.getItem('token');
+const tokenValid = isTokenValid(storedToken);
+
+// Clean up invalid tokens
+if (storedToken && !tokenValid) {
+  localStorage.removeItem('token');
+}
 
 const useAuthStore = create((set) => ({
-  token: localStorage.getItem('token') || sessionStorage.getItem('token') || null,
-  isAuthenticated: !!(localStorage.getItem('token') || sessionStorage.getItem('token')),
+  token: tokenValid ? storedToken : null,
+  isAuthenticated: tokenValid,
   loading: false,
   error: null,
 
-  login: async (email, password, rememberMe) => {
+  login: async (email, password) => {
     set({ loading: true, error: null });
     try {
       const formData = new URLSearchParams();
@@ -21,11 +45,8 @@ const useAuthStore = create((set) => ({
       });
       
       const token = res.data.access_token;
-      if (rememberMe) {
-        localStorage.setItem('token', token);
-      } else {
-        sessionStorage.setItem('token', token);
-      }
+      // Always persist to localStorage for 30-day sessions
+      localStorage.setItem('token', token);
       
       set({ token, isAuthenticated: true, loading: false });
       return true;
@@ -51,17 +72,13 @@ const useAuthStore = create((set) => ({
     }
   },
 
-  googleLogin: async (email, rememberMe) => {
+  googleLogin: async (email) => {
     set({ loading: true, error: null });
     try {
       const res = await axios.post(`${API_URL}/auth/google`, { email });
       const token = res.data.access_token;
       
-      if (rememberMe) {
-        localStorage.setItem('token', token);
-      } else {
-        sessionStorage.setItem('token', token);
-      }
+      localStorage.setItem('token', token);
       
       set({ token, isAuthenticated: true, loading: false });
       return true;

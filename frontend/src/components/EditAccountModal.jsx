@@ -2,16 +2,26 @@ import React, { useState, useEffect } from 'react';
 import { X, ShieldAlert, Shield, TrendingUp, Zap, Trash2 } from 'lucide-react';
 import useAccountStore from '../store/useStore';
 
+const ALL_SECTORS = [
+  'Technology', 'Energy', 'Finance', 'SpaceX (Beta API)', 
+  'Healthcare', 'Consumer Goods', 'Real Estate', 
+  'Utilities', 'Industrials', 'Materials', 'Telecommunications'
+];
+
 export default function EditAccountModal({ isOpen, onClose, account }) {
   const { updateAccount, deleteAccount } = useAccountStore();
   const [name, setName] = useState('');
   const [strategy, setStrategy] = useState('Moderate');
+  const [assetTypes, setAssetTypes] = useState([]);
+  const [sectors, setSectors] = useState([]);
   const [showConfirmDelete, setShowConfirmDelete] = useState(false);
 
   useEffect(() => {
     if (account) {
       setName(account.name || '');
-      setStrategy(account.type || 'Moderate'); // In frontend store, strategy is mapped to 'type'
+      setStrategy(account.type || 'Moderate');
+      setAssetTypes(account.assetTypes || []);
+      setSectors(account.sectors || []);
     }
     setShowConfirmDelete(false);
   }, [account, isOpen]);
@@ -21,7 +31,9 @@ export default function EditAccountModal({ isOpen, onClose, account }) {
   const handleSave = () => {
     updateAccount(account.id, {
       name: name.trim() || 'Unnamed Account',
-      strategy: strategy
+      strategy: strategy,
+      asset_types: assetTypes,
+      sectors: sectors
     });
     onClose();
   };
@@ -31,12 +43,29 @@ export default function EditAccountModal({ isOpen, onClose, account }) {
     onClose();
   };
 
+  const toggleAsset = (asset) => {
+    setAssetTypes(prev => 
+      prev.includes(asset) ? prev.filter(a => a !== asset) : [...prev, asset]
+    );
+  };
+
+  const toggleSector = (sector) => {
+    if (sector === 'All Sectors') {
+      const allSelected = sectors.length === ALL_SECTORS.length;
+      setSectors(allSelected ? [] : [...ALL_SECTORS]);
+      return;
+    }
+    setSectors(prev => 
+      prev.includes(sector) ? prev.filter(s => s !== sector) : [...prev, sector]
+    );
+  };
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-md transition-all duration-300">
-      <div className="bg-obsidian border border-molten/30 rounded-2xl w-full max-w-lg overflow-hidden shadow-2xl flex flex-col animate-in fade-in zoom-in-95 duration-200">
+      <div className="bg-obsidian border border-molten/30 rounded-2xl w-full max-w-3xl max-h-[90vh] overflow-hidden shadow-2xl flex flex-col animate-in fade-in zoom-in-95 duration-200">
         
         {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b border-white/10">
+        <div className="flex items-center justify-between p-6 border-b border-white/10 shrink-0">
           <h2 className="text-lg font-bold text-white tracking-widest uppercase flex items-center gap-2">
             <ShieldAlert size={20} className="text-molten" /> Account Settings
           </h2>
@@ -45,8 +74,8 @@ export default function EditAccountModal({ isOpen, onClose, account }) {
           </button>
         </div>
 
-        {/* Body */}
-        <div className="p-6 flex-1 space-y-6">
+        {/* Body — scrollable */}
+        <div className="p-6 flex-1 space-y-6 overflow-y-auto custom-scrollbar">
           {!showConfirmDelete ? (
             <>
               {/* Account Name */}
@@ -60,6 +89,51 @@ export default function EditAccountModal({ isOpen, onClose, account }) {
                   placeholder="e.g. Day Trading Account"
                 />
               </div>
+
+              {/* Target Markets */}
+              <div>
+                <label className="block text-xs font-bold text-gray-400 mb-3 uppercase tracking-widest">Target Markets</label>
+                <div className="flex gap-4">
+                  {['Stocks', 'Crypto', 'Forex'].map(asset => (
+                    <button 
+                      key={asset}
+                      onClick={() => toggleAsset(asset)}
+                      className={`flex-1 p-3 rounded-xl border font-bold transition-all ${assetTypes.includes(asset) ? 'bg-molten/20 border-molten text-molten' : 'border-white/10 text-gray-400 hover:border-white/30'}`}
+                    >
+                      {asset}
+                    </button>
+                  ))}
+                </div>
+                {assetTypes.length > 0 && (
+                  <p className="text-[10px] text-gray-500 mt-2 font-bold uppercase tracking-wider">
+                    ⚠️ Only {assetTypes.join(', ')} trades will be executed on this account
+                  </p>
+                )}
+              </div>
+
+              {/* Stock Sectors (only show if Stocks is selected) */}
+              {assetTypes.includes('Stocks') && (
+                <div className="animate-in fade-in slide-in-from-top-2 duration-300">
+                  <label className="block text-xs font-bold text-gray-400 mb-3 uppercase tracking-widest">Stock Sectors</label>
+                  <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                    <button 
+                      onClick={() => toggleSector('All Sectors')}
+                      className={`p-2 rounded-lg border text-sm font-semibold transition-all ${sectors.length === ALL_SECTORS.length ? 'bg-molten/10 border-molten text-molten' : 'border-white/5 text-gray-500 hover:border-white/20 hover:text-gray-300'}`}
+                    >
+                      All Sectors
+                    </button>
+                    {ALL_SECTORS.map(sector => (
+                      <button 
+                        key={sector}
+                        onClick={() => toggleSector(sector)}
+                        className={`p-2 rounded-lg border text-sm font-semibold transition-all ${sectors.includes(sector) ? 'bg-molten/10 border-molten text-molten' : 'border-white/5 text-gray-500 hover:border-white/20 hover:text-gray-300'}`}
+                      >
+                        {sector}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
 
               {/* Risk Level / Strategy */}
               <div>
@@ -115,7 +189,7 @@ export default function EditAccountModal({ isOpen, onClose, account }) {
         </div>
 
         {/* Footer */}
-        <div className="p-4 border-t border-white/10 flex justify-between bg-white/5">
+        <div className="p-4 border-t border-white/10 flex justify-between bg-white/5 shrink-0">
           {!showConfirmDelete ? (
             <>
               <button 

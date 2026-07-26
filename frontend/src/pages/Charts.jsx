@@ -2,12 +2,11 @@ import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import API_URL from '../config/api';
 import PropTypes from 'prop-types';
-import { createChart, ColorType, CandlestickSeries } from 'lightweight-charts';
+import { createChart, ColorType, CandlestickSeries, LineSeries, BarSeries } from 'lightweight-charts';
 import { ChevronDown, ChevronRight, Activity } from 'lucide-react';
 
 /* ═══════════════════════════════════════════════════════════════════════
    Accordion Component
-   (Collapsible section for grouping instruments by asset class)
    ═══════════════════════════════════════════════════════════════════════ */
 const Accordion = ({ title, items, selectedAsset, onSelect }) => {
   const [isOpen, setIsOpen] = useState(true);
@@ -50,8 +49,6 @@ Accordion.propTypes = {
 
 /* ═══════════════════════════════════════════════════════════════════════
    Error Boundary
-   (Catches rendering errors in the chart and shows a friendly message
-    instead of crashing the entire page)
    ═══════════════════════════════════════════════════════════════════════ */
 class ErrorBoundary extends React.Component {
   constructor(props) {
@@ -78,39 +75,86 @@ class ErrorBoundary extends React.Component {
 }
 
 /* ═══════════════════════════════════════════════════════════════════════
+   Heikin-Ashi Calculation
+   ═══════════════════════════════════════════════════════════════════════ */
+function toHeikinAshi(data) {
+  if (!data || data.length === 0) return [];
+  const ha = [];
+  for (let i = 0; i < data.length; i++) {
+    const d = data[i];
+    const prevHa = i > 0 ? ha[i - 1] : null;
+    const haClose = (d.open + d.high + d.low + d.close) / 4;
+    const haOpen = prevHa ? (prevHa.open + prevHa.close) / 2 : (d.open + d.close) / 2;
+    const haHigh = Math.max(d.high, haOpen, haClose);
+    const haLow = Math.min(d.low, haOpen, haClose);
+    ha.push({ time: d.time, open: haOpen, high: haHigh, low: haLow, close: haClose });
+  }
+  return ha;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
    ChartsInner — Main Chart Component
-   (Renders a TradingView-style candlestick chart with timeframe selector)
-   
-   HOW IT WORKS:
-     - Chart is DESTROYED and RECREATED when timeframe or asset changes
-       (this prevents the "data out of order" bug from lightweight-charts)
-     - Each timeframe maps to a specific data period on the backend
-     - Chart auto-refreshes: fast intervals (1m, 5m) refresh every 5s,
-       longer intervals refresh every 15s
-     - Full scrolling, zooming, and crosshair are enabled
    ═══════════════════════════════════════════════════════════════════════ */
 function ChartsInner() {
   const [loading, setLoading] = useState(true);
   const [selectedAsset, setSelectedAsset] = useState('BTC-USD'); 
   const [selectedInterval, setSelectedInterval] = useState('1d');
+  const [chartType, setChartType] = useState('candlestick'); // candlestick | heikin-ashi | line | bar
   const [lastPrice, setLastPrice] = useState(null);
   const [priceChange, setPriceChange] = useState(0);
+  const [showTimeframeDropdown, setShowTimeframeDropdown] = useState(false);
+  const [showChartTypeDropdown, setShowChartTypeDropdown] = useState(false);
   const chartContainerRef = useRef(null);
   const chartInstanceRef = useRef(null);
   const seriesRef = useRef(null);
+  const rawDataRef = useRef([]);
 
-  /* ─── Timeframe Options ─── */
-  const timeframes = [
-    { label: '1m', value: '1m' },
-    { label: '5m', value: '5m' },
-    { label: '15m', value: '15m' },
-    { label: '30m', value: '30m' },
-    { label: '1H', value: '1h' },
-    { label: 'D', value: '1d' },
-    { label: 'W', value: '1wk' },
+  /* ─── Full Timeframe Options (TradingView-style) ─── */
+  const timeframeGroups = [
+    { label: 'Seconds', items: [
+      { label: '1s', value: '1m', note: '(uses 1m)' },
+      { label: '5s', value: '1m', note: '(uses 1m)' },
+      { label: '10s', value: '1m', note: '(uses 1m)' },
+      { label: '30s', value: '1m', note: '(uses 1m)' },
+    ]},
+    { label: 'Minutes', items: [
+      { label: '1m', value: '1m' },
+      { label: '2m', value: '2m' },
+      { label: '3m', value: '5m', note: '(uses 5m)' },
+      { label: '5m', value: '5m' },
+      { label: '15m', value: '15m' },
+      { label: '30m', value: '30m' },
+    ]},
+    { label: 'Hours', items: [
+      { label: '1H', value: '1h' },
+      { label: '2H', value: '1h', note: '(uses 1H)' },
+      { label: '4H', value: '1h', note: '(uses 1H)' },
+    ]},
+    { label: 'Days+', items: [
+      { label: '1D', value: '1d' },
+      { label: '1W', value: '1wk' },
+    ]},
   ];
 
-  /* ─── Instrument Categories (expanded list of tradeable assets) ─── */
+  // Flat list of unique display labels for the dropdown button
+  const currentTfLabel = (() => {
+    for (const g of timeframeGroups) {
+      for (const tf of g.items) {
+        if (tf.value === selectedInterval) return tf.label;
+      }
+    }
+    return selectedInterval.toUpperCase();
+  })();
+
+  /* ─── Chart Type Options ─── */
+  const chartTypes = [
+    { label: 'Candlestick', value: 'candlestick' },
+    { label: 'Heikin-Ashi', value: 'heikin-ashi' },
+    { label: 'Line', value: 'line' },
+    { label: 'Bar (OHLC)', value: 'bar' },
+  ];
+
+  /* ─── Instrument Categories ─── */
   const assetCategories = [
     { title: 'Crypto', items: [
       { label: 'Bitcoin (BTC)', value: 'BTC-USD' }, 
@@ -148,20 +192,16 @@ function ChartsInner() {
     ]},
   ];
 
-  /* ─── Create/Recreate Chart When Timeframe or Asset Changes ─── 
-     (The key fix: we DESTROY and RECREATE the chart instance each time,
-      which prevents the "data out of order" error from lightweight-charts) */
+  /* ─── Create/Recreate Chart When Anything Changes ─── */
   useEffect(() => {
     if (!chartContainerRef.current) return;
 
-    // Destroy previous chart instance if it exists
     if (chartInstanceRef.current) {
       try { chartInstanceRef.current.remove(); } catch (e) { /* already removed */ }
       chartInstanceRef.current = null;
       seriesRef.current = null;
     }
 
-    // Create fresh chart instance
     const chart = createChart(chartContainerRef.current, {
       layout: {
         background: { type: ColorType.Solid, color: 'transparent' },
@@ -173,44 +213,44 @@ function ChartsInner() {
       },
       width: chartContainerRef.current.clientWidth,
       height: chartContainerRef.current.clientHeight,
-      crosshair: {
-        mode: 0, // Normal crosshair (follows cursor)
-      },
+      crosshair: { mode: 0 },
       timeScale: {
         timeVisible: true,
-        secondsVisible: selectedInterval === '1m',
+        secondsVisible: ['1m', '2m', '5m'].includes(selectedInterval),
         borderColor: 'rgba(255, 255, 255, 0.1)',
         rightOffset: 5,
         barSpacing: 8,
       },
-      rightPriceScale: {
-        borderColor: 'rgba(255, 255, 255, 0.1)',
-      },
-      handleScroll: {
-        mouseWheel: true,
-        pressedMouseMove: true,
-        horzTouchDrag: true,
-        vertTouchDrag: true,
-      },
-      handleScale: {
-        axisPressedMouseMove: true,
-        mouseWheel: true,
-        pinch: true,
-      },
+      rightPriceScale: { borderColor: 'rgba(255, 255, 255, 0.1)' },
+      handleScroll: { mouseWheel: true, pressedMouseMove: true, horzTouchDrag: true, vertTouchDrag: true },
+      handleScale: { axisPressedMouseMove: true, mouseWheel: true, pinch: true },
     });
 
-    const candlestickSeries = chart.addSeries(CandlestickSeries, {
-      upColor: '#10B981',
-      downColor: '#EF4444',
-      borderVisible: false,
-      wickUpColor: '#10B981',
-      wickDownColor: '#EF4444',
-    });
+    let series;
+    if (chartType === 'line') {
+      series = chart.addSeries(LineSeries, {
+        color: '#D4AF37',
+        lineWidth: 2,
+      });
+    } else if (chartType === 'bar') {
+      series = chart.addSeries(BarSeries, {
+        upColor: '#10B981',
+        downColor: '#EF4444',
+      });
+    } else {
+      // candlestick or heikin-ashi (both use candlestick series)
+      series = chart.addSeries(CandlestickSeries, {
+        upColor: chartType === 'heikin-ashi' ? '#0EA5E9' : '#10B981',
+        downColor: chartType === 'heikin-ashi' ? '#F97316' : '#EF4444',
+        borderVisible: false,
+        wickUpColor: chartType === 'heikin-ashi' ? '#0EA5E9' : '#10B981',
+        wickDownColor: chartType === 'heikin-ashi' ? '#F97316' : '#EF4444',
+      });
+    }
 
     chartInstanceRef.current = chart;
-    seriesRef.current = candlestickSeries;
+    seriesRef.current = series;
 
-    // Handle window resize
     const handleResize = () => {
       if (chartContainerRef.current && chart) {
         chart.applyOptions({
@@ -225,7 +265,7 @@ function ChartsInner() {
       window.removeEventListener('resize', handleResize);
       try { chart.remove(); } catch (e) { /* cleanup */ }
     };
-  }, [selectedAsset, selectedInterval]);
+  }, [selectedAsset, selectedInterval, chartType]);
 
   /* ─── Fetch Price Data and Update Chart ─── */
   useEffect(() => {
@@ -241,7 +281,7 @@ function ChartsInner() {
         if (cancelled) return;
 
         if (Array.isArray(priceRes.data) && priceRes.data.length > 0) {
-          const ohlcData = priceRes.data.map(d => ({
+          let ohlcData = priceRes.data.map(d => ({
             time: d.time,
             open: d.open,
             high: d.high,
@@ -249,7 +289,6 @@ function ChartsInner() {
             close: d.close
           }));
            
-          // Sort by time and deduplicate
           ohlcData.sort((a, b) => a.time - b.time);
           const uniqueData = [];
           const seen = new Set();
@@ -259,13 +298,25 @@ function ChartsInner() {
               uniqueData.push(d);
             }
           }
+
+          rawDataRef.current = uniqueData;
            
           if (seriesRef.current && uniqueData.length > 0) {
             try {
-              seriesRef.current.setData(uniqueData);
+              let displayData = uniqueData;
+
+              if (chartType === 'heikin-ashi') {
+                displayData = toHeikinAshi(uniqueData);
+              }
+
+              if (chartType === 'line') {
+                seriesRef.current.setData(displayData.map(d => ({ time: d.time, value: d.close })));
+              } else {
+                seriesRef.current.setData(displayData);
+              }
+              
               chartInstanceRef.current.timeScale().fitContent();
               
-              // Update the price display in the header
               const last = uniqueData[uniqueData.length - 1];
               const first = uniqueData[0];
               setLastPrice(last.close);
@@ -285,22 +336,28 @@ function ChartsInner() {
     };
 
     fetchPrices();
-    // Fast intervals refresh faster for near-realtime feel
-    const refreshMs = ['1m', '5m'].includes(selectedInterval) ? 5000 : 15000;
+    const refreshMs = ['1m', '2m', '5m'].includes(selectedInterval) ? 5000 : 15000;
     const interval = setInterval(fetchPrices, refreshMs);
     
     return () => {
       cancelled = true;
       clearInterval(interval);
     };
-  }, [selectedAsset, selectedInterval]);
+  }, [selectedAsset, selectedInterval, chartType]);
+
+  // Close dropdowns when clicking outside
+  useEffect(() => {
+    const handler = () => { setShowTimeframeDropdown(false); setShowChartTypeDropdown(false); };
+    document.addEventListener('click', handler);
+    return () => document.removeEventListener('click', handler);
+  }, []);
 
   return (
     <div className="flex gap-6 h-full">
       {/* MAIN CHART AREA */}
       <div className="flex-1 flex flex-col bg-card backdrop-blur-xl border border-molten/20 rounded-2xl p-6 shadow-xl relative overflow-hidden">
-        {/* Header: Symbol name + price + timeframe selector */}
-        <div className="flex justify-between items-center mb-4">
+        {/* Header */}
+        <div className="flex justify-between items-center mb-4 flex-wrap gap-3">
           <div className="flex items-center gap-4">
             <h2 className="text-xl font-bold uppercase tracking-wider">{selectedAsset}</h2>
             {lastPrice && (
@@ -313,21 +370,60 @@ function ChartsInner() {
             )}
           </div>
           
-          {/* TIMEFRAME SELECTOR */}
-          <div className="flex bg-obsidian border border-molten/20 rounded-lg p-1 gap-0.5">
-            {timeframes.map(tf => (
+          <div className="flex items-center gap-2">
+            {/* CHART TYPE DROPDOWN */}
+            <div className="relative">
               <button
-                key={tf.value}
-                onClick={() => setSelectedInterval(tf.value)}
-                className={`px-3 py-1.5 rounded-md text-xs font-bold tracking-wider transition-all duration-200 ${
-                  selectedInterval === tf.value 
-                    ? 'bg-molten text-obsidian shadow-[0_0_10px_rgba(212,175,55,0.3)]' 
-                    : 'text-gray-400 hover:text-white hover:bg-white/5'
-                }`}
+                onClick={(e) => { e.stopPropagation(); setShowChartTypeDropdown(!showChartTypeDropdown); setShowTimeframeDropdown(false); }}
+                className="flex items-center gap-2 px-3 py-2 bg-obsidian border border-molten/20 rounded-lg text-xs font-bold text-gray-300 hover:text-white hover:border-molten/40 transition-colors"
               >
-                {tf.label}
+                {chartTypes.find(c => c.value === chartType)?.label || 'Candlestick'}
+                <ChevronDown size={14} />
               </button>
-            ))}
+              {showChartTypeDropdown && (
+                <div className="absolute top-full right-0 mt-1 bg-obsidian border border-molten/30 rounded-xl shadow-2xl p-1 z-50 min-w-[160px]" onClick={e => e.stopPropagation()}>
+                  {chartTypes.map(ct => (
+                    <button
+                      key={ct.value}
+                      onClick={() => { setChartType(ct.value); setShowChartTypeDropdown(false); }}
+                      className={`w-full text-left px-3 py-2 text-xs font-bold rounded-lg transition-colors ${chartType === ct.value ? 'bg-molten/20 text-molten' : 'text-gray-400 hover:bg-white/5 hover:text-white'}`}
+                    >
+                      {ct.label}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            {/* TIMEFRAME DROPDOWN */}
+            <div className="relative">
+              <button
+                onClick={(e) => { e.stopPropagation(); setShowTimeframeDropdown(!showTimeframeDropdown); setShowChartTypeDropdown(false); }}
+                className="flex items-center gap-2 px-3 py-2 bg-obsidian border border-molten/20 rounded-lg text-xs font-bold text-molten hover:border-molten/40 transition-colors"
+              >
+                {currentTfLabel}
+                <ChevronDown size={14} />
+              </button>
+              {showTimeframeDropdown && (
+                <div className="absolute top-full right-0 mt-1 bg-obsidian border border-molten/30 rounded-xl shadow-2xl p-2 z-50 min-w-[200px] max-h-[400px] overflow-y-auto custom-scrollbar" onClick={e => e.stopPropagation()}>
+                  {timeframeGroups.map(group => (
+                    <div key={group.label} className="mb-2">
+                      <div className="text-[10px] text-gray-500 font-bold uppercase tracking-widest px-2 py-1">{group.label}</div>
+                      {group.items.map(tf => (
+                        <button
+                          key={tf.label}
+                          onClick={() => { setSelectedInterval(tf.value); setShowTimeframeDropdown(false); }}
+                          className={`w-full text-left px-3 py-2 text-xs font-bold rounded-lg transition-colors flex items-center justify-between ${selectedInterval === tf.value ? 'bg-molten/20 text-molten' : 'text-gray-400 hover:bg-white/5 hover:text-white'}`}
+                        >
+                          <span>{tf.label}</span>
+                          {tf.note && <span className="text-[10px] text-gray-600">{tf.note}</span>}
+                        </button>
+                      ))}
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
           </div>
         </div>
 
@@ -367,7 +463,6 @@ function ChartsInner() {
 
 /* ═══════════════════════════════════════════════════════════════════════
    Charts Export
-   (Wraps the chart component in an error boundary for crash protection)
    ═══════════════════════════════════════════════════════════════════════ */
 export default function Charts() {
   return (

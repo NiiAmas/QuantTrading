@@ -128,6 +128,8 @@ class Account(Base):
     balance = Column(Float)                   # Current available cash
     initial_balance = Column(Float)           # Starting balance (for return % calculation)
     strategy = Column(String)                 # "Low", "Moderate", or "Aggressive"
+    asset_types = Column(Text, nullable=True) # JSON array: ["Stocks", "Crypto", "Forex"]
+    sectors = Column(Text, nullable=True)     # JSON array: ["Technology", "Energy", ...]
     created_at = Column(DateTime, default=datetime.now)
 
 

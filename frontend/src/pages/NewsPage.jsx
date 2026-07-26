@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import API_URL from '../config/api';
-import { Globe, TrendingUp, TrendingDown, Clock, Search, Filter } from 'lucide-react';
+import { Globe, TrendingUp, TrendingDown, Clock, Search, Filter, ExternalLink, Brain } from 'lucide-react';
 import useStore from '../store/useStore';
 import useAuthStore from '../store/useAuthStore';
 
@@ -9,6 +10,7 @@ export default function NewsPage() {
   const { accounts, activeAccount: activeAccountId } = useStore();
   const { token } = useAuthStore();
   const activeAccount = accounts.find(a => a.id === activeAccountId);
+  const navigate = useNavigate();
   
   const [globalNews, setGlobalNews] = useState([]);
   const [filter, setFilter] = useState('All');
@@ -65,8 +67,7 @@ export default function NewsPage() {
           return (
             <div 
               key={news.id} 
-              onClick={() => window.open(news.link, '_blank')}
-              className="bg-card/85 backdrop-blur-xl border border-molten/20 p-6 rounded-2xl shadow-xl hover:border-molten transition-all duration-300 group flex flex-col cursor-pointer hover:scale-[1.04] hover:shadow-[0_15px_30px_rgba(0,0,0,0.5)] hover:z-20 relative"
+              className="bg-card/85 backdrop-blur-xl border border-molten/20 p-6 rounded-2xl shadow-xl hover:border-molten transition-all duration-300 group flex flex-col hover:scale-[1.02] hover:shadow-[0_15px_30px_rgba(0,0,0,0.5)] hover:z-20 relative"
             >
               <div className="flex justify-between items-start mb-4">
                 <div className={`px-3 py-1 rounded-lg text-xs font-bold uppercase border flex items-center gap-1 ${isBullish ? 'bg-success/10 text-success border-success/30' : 'bg-danger/10 text-danger border-danger/30'}`}>
@@ -107,9 +108,22 @@ export default function NewsPage() {
                 </div>
               </div>
 
-              <div className="mt-4 pt-4 border-t border-white/5 flex justify-between items-center text-xs text-gray-500 font-bold uppercase tracking-wider">
-                <span>Confidence: {Math.floor(Math.random() * 20 + 80)}%</span>
-                <span>Source: RSS Matrix</span>
+              {/* Action Buttons */}
+              <div className="mt-4 pt-4 border-t border-white/5 flex justify-between items-center">
+                <button
+                  onClick={(e) => { e.stopPropagation(); navigate(`/news/${news.id}`); }}
+                  className="flex items-center gap-1.5 px-3 py-1.5 bg-molten/10 text-molten border border-molten/30 rounded-lg text-xs font-bold uppercase tracking-wider hover:bg-molten/20 transition-colors cursor-pointer"
+                >
+                  <Brain size={14} /> AI Analysis
+                </button>
+                {news.link && (
+                  <button
+                    onClick={(e) => { e.stopPropagation(); window.open(news.link, '_blank'); }}
+                    className="flex items-center gap-1 text-xs text-gray-500 font-bold uppercase tracking-wider hover:text-white transition-colors cursor-pointer"
+                  >
+                    <ExternalLink size={12} /> Source
+                  </button>
+                )}
               </div>
             </div>
           );

@@ -9,7 +9,7 @@ import feedparser
 from bs4 import BeautifulSoup
 import random
 from pydantic import BaseModel
-from typing import Optional
+from typing import Optional, List
 from database import SessionLocal
 from init_db import Account, PortfolioAsset, Trade, User
 from passlib.context import CryptContext
@@ -19,7 +19,7 @@ from datetime import datetime, timedelta
 # --- AUTH CONFIG ---
 SECRET_KEY = os.getenv("SECRET_KEY", "super-secret-quant-key-for-dev")
 ALGORITHM = "HS256"
-ACCESS_TOKEN_EXPIRE_MINUTES = 60 * 24 * 7 # 7 days
+ACCESS_TOKEN_EXPIRE_MINUTES = 60 * 24 * 30 # 30 days
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/login")
@@ -68,10 +68,14 @@ class AccountCreate(BaseModel):
     name: str
     balance: float
     strategy: str
+    asset_types: Optional[List[str]] = None
+    sectors: Optional[List[str]] = None
 
 class AccountUpdate(BaseModel):
     name: str
     strategy: str
+    asset_types: Optional[List[str]] = None
+    sectors: Optional[List[str]] = None
 
 class UserCreate(BaseModel):
     email: str
@@ -139,13 +143,20 @@ def create_account(acc: AccountCreate, current_user: User = Depends(get_current_
         name=acc.name,
         balance=acc.balance,
         initial_balance=acc.balance,
-        strategy=acc.strategy
+        strategy=acc.strategy,
+        asset_types=json.dumps(acc.asset_types) if acc.asset_types else None,
+        sectors=json.dumps(acc.sectors) if acc.sectors else None
     )
     db.add(new_acc)
     db.commit()
     db.refresh(new_acc)
     db.close()
-    return {"id": str(new_acc.id), "name": new_acc.name, "balance": new_acc.balance, "type": new_acc.strategy, "holdings": []}
+    return {
+        "id": str(new_acc.id), "name": new_acc.name, "balance": new_acc.balance,
+        "type": new_acc.strategy, "holdings": [],
+        "assetTypes": json.loads(new_acc.asset_types) if new_acc.asset_types else [],
+        "sectors": json.loads(new_acc.sectors) if new_acc.sectors else []
+    }
 
 @app.get("/accounts")
 def get_accounts(current_user: User = Depends(get_current_user)):
@@ -155,7 +166,12 @@ def get_accounts(current_user: User = Depends(get_current_user)):
     for a in accounts:
         holdings = db.query(PortfolioAsset.symbol).filter(PortfolioAsset.account_id == a.id).all()
         holdings_list = [h[0] for h in holdings]
-        res.append({"id": str(a.id), "name": a.name, "balance": a.balance, "type": a.strategy, "holdings": holdings_list})
+        res.append({
+            "id": str(a.id), "name": a.name, "balance": a.balance, "type": a.strategy,
+            "holdings": holdings_list,
+            "assetTypes": json.loads(a.asset_types) if a.asset_types else [],
+            "sectors": json.loads(a.sectors) if a.sectors else []
+        })
     db.close()
     return res
 
@@ -168,10 +184,19 @@ def update_account(account_id: int, acc: AccountUpdate, current_user: User = Dep
         raise HTTPException(status_code=404, detail="Account not found")
     db_acc.name = acc.name
     db_acc.strategy = acc.strategy
+    if acc.asset_types is not None:
+        db_acc.asset_types = json.dumps(acc.asset_types)
+    if acc.sectors is not None:
+        db_acc.sectors = json.dumps(acc.sectors)
     db.commit()
     db.refresh(db_acc)
     db.close()
-    return {"id": str(db_acc.id), "name": db_acc.name, "balance": db_acc.balance, "type": db_acc.strategy, "holdings": []}
+    return {
+        "id": str(db_acc.id), "name": db_acc.name, "balance": db_acc.balance,
+        "type": db_acc.strategy, "holdings": [],
+        "assetTypes": json.loads(db_acc.asset_types) if db_acc.asset_types else [],
+        "sectors": json.loads(db_acc.sectors) if db_acc.sectors else []
+    }
 
 @app.delete("/accounts/{account_id}")
 def delete_account(account_id: int, current_user: User = Depends(get_current_user)):
@@ -297,15 +322,16 @@ def get_prices(symbol: str = Query("BTC-USD"), interval: str = Query("1d"), peri
         # Map intervals to appropriate periods if not specified
         if not period:
             interval_period_map = {
-                "1m": "1d",       # 1-minute bars → 1 day of data
-                "5m": "5d",       # 5-minute bars → 5 days
-                "15m": "5d",      # 15-minute bars → 5 days
-                "30m": "10d",     # 30-minute bars → 10 days
-                "1h": "1mo",      # 1-hour bars → 1 month
-                "1d": "3mo",      # Daily bars → 3 months
-                "1wk": "1y",      # Weekly bars → 1 year
+                "1m": "7d",       # 1-minute bars → 7 days of data (max for 1m)
+                "2m": "14d",      # 2-minute bars → 14 days
+                "5m": "30d",      # 5-minute bars → 30 days
+                "15m": "60d",     # 15-minute bars → 60 days
+                "30m": "60d",     # 30-minute bars → 60 days
+                "1h": "2y",       # 1-hour bars → 2 years
+                "1d": "2y",       # Daily bars → 2 years
+                "1wk": "5y",      # Weekly bars → 5 years
             }
-            period = interval_period_map.get(interval, "1mo")
+            period = interval_period_map.get(interval, "3mo")
 
         ticker = yf.Ticker(symbol)
         hist = ticker.history(period=period, interval=interval)

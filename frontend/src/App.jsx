@@ -9,6 +9,7 @@ import Preferences from './pages/Preferences';
 import AuthPage from './pages/AuthPage';
 import NewsPage from './pages/NewsPage';
 import NewsDetail from './pages/NewsDetail';
+import TradeAnalysis from './pages/TradeAnalysis';
 import useAccountStore from './store/useStore';
 import useAuthStore from './store/useAuthStore';
 
@@ -51,6 +52,7 @@ export default function App() {
           <Route path="trading-hub" element={<TradingHub />} />
           <Route path="news" element={<NewsPage />} />
           <Route path="news/:id" element={<NewsDetail />} />
+          <Route path="analysis" element={<TradeAnalysis />} />
           <Route path="charts" element={<Charts />} />
           <Route path="markets" element={<MarketsExplorer />} />
           <Route path="settings" element={<Preferences />} />

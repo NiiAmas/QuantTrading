@@ -225,6 +225,39 @@ def _evaluate_and_execute(session, signal: TradeSignal, account: Account, curren
         )
         return False
 
+    # ─── PRE-CHECK 1.5: Asset Type Filter ───
+    # (Only trade asset types that the account is configured for)
+    import json as _json
+    if account.asset_types:
+        try:
+            allowed_types = _json.loads(account.asset_types)
+            if allowed_types:
+                # Determine asset class from symbol
+                symbol_lower = signal.symbol.upper()
+                crypto_symbols = ["BTC-USD", "ETH-USD", "SOL-USD", "XRP-USD", "ADA-USD", "DOGE-USD", "DOT-USD", "AVAX-USD", "LINK-USD", "BNB-USD"]
+                forex_symbols = ["EURUSD=X", "GBPUSD=X", "JPY=X", "AUDUSD=X", "CAD=X", "CHF=X", "NZD=X"]
+                commodity_symbols = ["GC=F", "SI=F", "CL=F", "NG=F"]
+                
+                is_crypto = symbol_lower in crypto_symbols or symbol_lower.endswith("-USD") and not symbol_lower.replace("-USD", "").isalpha()
+                is_forex = symbol_lower in forex_symbols or "=X" in symbol_lower
+                is_commodity = symbol_lower in commodity_symbols or "=F" in symbol_lower
+                is_stock = not is_crypto and not is_forex and not is_commodity
+                
+                symbol_class = None
+                if is_crypto: symbol_class = "Crypto"
+                elif is_forex: symbol_class = "Forex"
+                elif is_commodity: symbol_class = "Commodity"
+                elif is_stock: symbol_class = "Stocks"
+                
+                if symbol_class and symbol_class not in allowed_types:
+                    logger.debug(
+                        f"   ⏭️ Skip {signal.symbol} for [{account.name}]: "
+                        f"asset type '{symbol_class}' not in allowed types {allowed_types}"
+                    )
+                    return False
+        except Exception:
+            pass  # If JSON parsing fails, allow all types
+
     # ─── PRE-CHECK 2: Max open trades ───
     # (Has this account reached its maximum number of simultaneous positions?)
     open_trades_count = (
