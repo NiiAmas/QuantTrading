@@ -1,0 +1,1276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QuantTrading — Frontend Developer Report</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg: #0a0a0f;
+  --card: #12121a;
+  --border: #1e1e2e;
+  --accent: #60a5fa;
+  --accent-glow: rgba(96, 165, 250, 0.15);
+  --gold: #D4AF37;
+  --green: #10B981;
+  --red: #EF4444;
+  --text: #e2e8f0;
+  --muted: #64748b;
+  --code-bg: #1a1a2e;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Inter', sans-serif;
+  line-height: 1.8;
+  padding: 0;
+}
+
+/* HERO */
+.hero {
+  background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #0f172a 100%);
+  border-bottom: 2px solid var(--accent);
+  padding: 80px 40px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  top: 50%; left: 50%;
+  width: 600px; height: 600px;
+  background: radial-gradient(circle, rgba(96,165,250,0.08) 0%, transparent 70%);
+  transform: translate(-50%, -50%);
+}
+.hero-badge {
+  display: inline-block;
+  background: var(--accent-glow);
+  border: 1px solid rgba(96,165,250,0.3);
+  color: var(--accent);
+  padding: 6px 20px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  margin-bottom: 20px;
+}
+.hero h1 {
+  font-size: 3.5rem;
+  font-weight: 900;
+  background: linear-gradient(135deg, #60a5fa, #a78bfa, #60a5fa);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 16px;
+  position: relative;
+}
+.hero p {
+  color: var(--muted);
+  font-size: 1.1rem;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+/* CONTAINER */
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 40px 30px;
+}
+
+/* TABLE OF CONTENTS */
+.toc {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 40px;
+  margin: 40px 0;
+}
+.toc h2 {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--accent);
+  margin-bottom: 24px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+.toc ol {
+  list-style: none;
+  counter-reset: toc-counter;
+}
+.toc ol li {
+  counter-increment: toc-counter;
+  margin-bottom: 10px;
+}
+.toc ol li a {
+  color: var(--text);
+  text-decoration: none;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  transition: all 0.2s;
+}
+.toc ol li a:hover {
+  background: var(--accent-glow);
+  color: var(--accent);
+}
+.toc ol li a::before {
+  content: counter(toc-counter, decimal-leading-zero);
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 700;
+  color: var(--accent);
+  min-width: 30px;
+}
+
+/* SECTIONS */
+.section {
+  margin: 60px 0;
+  scroll-margin-top: 20px;
+}
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 30px;
+  padding-bottom: 16px;
+  border-bottom: 2px solid var(--border);
+}
+.section-number {
+  background: var(--accent);
+  color: #000;
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 800;
+  font-size: 1.1rem;
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.section-header h2 {
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: var(--text);
+}
+
+/* CARDS */
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 30px;
+  margin: 20px 0;
+}
+.card h3 {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--gold);
+  margin-bottom: 12px;
+}
+.card h4 {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--accent);
+  margin: 20px 0 8px;
+}
+.card p, .card li {
+  color: var(--text);
+  line-height: 1.9;
+}
+
+/* FILE CARD */
+.file-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--accent);
+  border-radius: 0 12px 12px 0;
+  padding: 24px 30px;
+  margin: 20px 0;
+}
+.file-card .file-path {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.85rem;
+  color: var(--accent);
+  background: var(--accent-glow);
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 6px;
+  margin-bottom: 12px;
+}
+
+/* CODE BLOCKS */
+pre {
+  background: var(--code-bg);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 20px;
+  overflow-x: auto;
+  margin: 16px 0;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.82rem;
+  line-height: 1.7;
+  color: #c9d1d9;
+}
+code {
+  font-family: 'JetBrains Mono', monospace;
+  background: rgba(96,165,250,0.1);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 0.85em;
+  color: var(--accent);
+}
+pre code {
+  background: none;
+  padding: 0;
+  color: inherit;
+}
+
+/* TAGS */
+.tag {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 6px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+.tag-lib { background: rgba(139, 92, 246, 0.15); color: #a78bfa; border: 1px solid rgba(139, 92, 246, 0.3); }
+.tag-file { background: rgba(96, 165, 250, 0.15); color: #60a5fa; border: 1px solid rgba(96, 165, 250, 0.3); }
+.tag-coord { background: rgba(212, 175, 55, 0.15); color: #D4AF37; border: 1px solid rgba(212, 175, 55, 0.3); }
+.tag-cmd { background: rgba(16, 185, 129, 0.15); color: #10B981; border: 1px solid rgba(16, 185, 129, 0.3); }
+
+/* COORDINATION BOX */
+.coord-box {
+  background: linear-gradient(135deg, rgba(212,175,55,0.05), rgba(212,175,55,0.02));
+  border: 1px solid rgba(212,175,55,0.2);
+  border-radius: 12px;
+  padding: 24px;
+  margin: 20px 0;
+}
+.coord-box h4 {
+  color: var(--gold);
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 12px;
+}
+.coord-box p {
+  color: #ccc;
+  line-height: 1.8;
+}
+
+/* TERMINAL BOX */
+.terminal {
+  background: #000;
+  border: 1px solid #333;
+  border-radius: 10px;
+  padding: 20px;
+  margin: 16px 0;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.82rem;
+  color: #10B981;
+  position: relative;
+}
+.terminal::before {
+  content: 'TERMINAL';
+  position: absolute;
+  top: -10px;
+  left: 16px;
+  background: #000;
+  padding: 0 8px;
+  font-size: 0.65rem;
+  color: #555;
+  letter-spacing: 2px;
+}
+
+/* LISTS */
+ul, ol { padding-left: 24px; }
+li { margin-bottom: 8px; }
+
+/* HIGHLIGHT */
+.highlight {
+  background: var(--accent-glow);
+  border-left: 3px solid var(--accent);
+  padding: 16px 20px;
+  border-radius: 0 8px 8px 0;
+  margin: 16px 0;
+}
+
+/* CORRELATION FLOW */
+.flow-diagram {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 24px;
+  background: var(--code-bg);
+  border-radius: 12px;
+  margin: 16px 0;
+  flex-wrap: wrap;
+}
+.flow-box {
+  background: var(--card);
+  border: 1px solid var(--border);
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 0.85rem;
+  text-align: center;
+}
+.flow-arrow { color: var(--accent); font-size: 1.5rem; font-weight: 900; }
+
+/* FOOTER */
+.footer {
+  text-align: center;
+  padding: 60px 20px;
+  border-top: 1px solid var(--border);
+  color: var(--muted);
+}
+
+/* PRINT */
+@media print {
+  body { background: #fff; color: #000; }
+  .hero { background: #f0f0f5; border-bottom: 2px solid #333; }
+  .hero h1 { -webkit-text-fill-color: #333; }
+  pre { background: #f5f5f5; border: 1px solid #ddd; color: #333; }
+  .card, .file-card, .toc { background: #fafafa; border-color: #ddd; }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<!--  HERO SECTION                                                      -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<div class="hero">
+  <div class="hero-badge">Role 1 of 3 — Frontend Developer</div>
+  <h1>Frontend Developer Report</h1>
+  <p>Complete step-by-step guide to every frontend file, every library, every component, every API call, and every coordination point with the Backend and Database team members.</p>
+  <p style="margin-top:12px;font-size:0.85rem;color:#555;">QuantTrading — AI-Powered Quantitative Trading Platform</p>
+</div>
+
+<div class="container">
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<!--  TABLE OF CONTENTS                                                 -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<div class="toc">
+  <h2>📑 Table of Contents</h2>
+  <ol>
+    <li><a href="#s1">Project Overview & Your Role as Frontend Developer</a></li>
+    <li><a href="#s2">Technology Stack & Every Library Explained</a></li>
+    <li><a href="#s3">Project Initialization — Step by Step from Scratch</a></li>
+    <li><a href="#s4">Foundation Files — index.html, main.jsx, index.css</a></li>
+    <li><a href="#s5">Configuration Layer — api.js & vite.config.js</a></li>
+    <li><a href="#s6">State Management — Zustand Stores (useAuthStore, useStore)</a></li>
+    <li><a href="#s7">Component Architecture — Layout, Sidebar, Modals</a></li>
+    <li><a href="#s8">Page-by-Page Breakdown — Every Page File Explained</a></li>
+    <li><a href="#s9">The Styling System — index.css Deep Dive</a></li>
+    <li><a href="#s10">Frontend ↔ Backend API Correlation Map</a></li>
+    <li><a href="#s11">Frontend ↔ Database Correlation Map</a></li>
+    <li><a href="#s12">Building, Pushing & Deploying — Terminal Commands</a></li>
+    <li><a href="#s13">Key Defense Q&A — How to Explain Everything</a></li>
+  </ol>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<!--  SECTION 1: OVERVIEW                                               -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<div class="section" id="s1">
+  <div class="section-header">
+    <div class="section-number">01</div>
+    <h2>Project Overview & Your Role as Frontend Developer</h2>
+  </div>
+
+  <div class="card">
+    <h3>What Is QuantTrading?</h3>
+    <p>QuantTrading is an AI-powered quantitative trading platform that automatically trades stocks, crypto, forex, and commodities using a <strong>3-Layer Verification System</strong>: Technical Analysis + FinBERT Sentiment Analysis + Quantitative Analysis. The platform runs a continuous bot engine in the background, while users interact with a sleek React-based dashboard to monitor their portfolios, view AI trade decisions, read global news, and configure risk settings.</p>
+
+    <h4>Your Role: Frontend Developer</h4>
+    <p>As the Frontend Developer, you were responsible for:</p>
+    <ul>
+      <li><strong>Building the entire user interface</strong> — all 8 pages the user sees and interacts with</li>
+      <li><strong>React component architecture</strong> — designing reusable, modular components</li>
+      <li><strong>State management with Zustand</strong> — managing authentication tokens, account data, and settings</li>
+      <li><strong>API integration</strong> — connecting every page to the backend's FastAPI endpoints using Axios</li>
+      <li><strong>Real-time data polling</strong> — setting up intervals to refresh live portfolio data every 5 seconds</li>
+      <li><strong>Authentication flow</strong> — login, register, Google OAuth, JWT token management</li>
+      <li><strong>Styling with TailwindCSS v4</strong> — a custom design system with a "Molten Gold" theme</li>
+      <li><strong>3D Globe visualization</strong> — integrating react-globe.gl for the geopolitical news map</li>
+      <li><strong>TradingView charts</strong> — embedding professional-grade financial charts</li>
+      <li><strong>Responsive design</strong> — dark/light theme toggle, custom scrollbars, animations</li>
+    </ul>
+
+    <h4>How Your Work Connects to the Other Two Roles</h4>
+    <p><strong>With the Backend Person:</strong> Every API call (<code>axios.get</code>, <code>axios.post</code>) in the frontend hits a FastAPI endpoint the backend person created. Your <code>config/api.js</code> file points to their server. You consume JSON responses they format. When the backend person adds a new endpoint, you build the UI that calls it.</p>
+    <p><strong>With the Database Person:</strong> You never talk to the database directly. Instead, every piece of data you show on screen (account balances, trade ledger, news articles, portfolio positions) is data that was structured by the Database person's table schemas, stored by the Backend person's logic, and served to you through API endpoints. The column names in the database (like <code>pnl_dollars</code>, <code>entry_price</code>, <code>trade_type</code>) map directly to the JSON fields you destructure in your React components.</p>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<!--  SECTION 2: TECH STACK                                             -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<div class="section" id="s2">
+  <div class="section-header">
+    <div class="section-number">02</div>
+    <h2>Technology Stack & Every Library Explained</h2>
+  </div>
+
+  <div class="card">
+    <h3>Every NPM Package & Why It Was Chosen</h3>
+    <p>These are all listed in <code>frontend/package.json</code>. Each one has a specific purpose:</p>
+  </div>
+
+  <div class="file-card">
+    <div class="file-path">frontend/package.json — dependencies</div>
+
+    <h4>1. React 19 <span class="tag tag-lib">CORE</span></h4>
+    <pre><code>"react": "^19.2.0",
+"react-dom": "^19.2.0"</code></pre>
+    <p><strong>Why:</strong> React is the core UI library. We use React 19 (the latest) which includes improvements like automatic batching, concurrent features, and better performance. <code>react-dom</code> is required to render React components into the actual browser DOM. Every single <code>.jsx</code> file in our project uses React.</p>
+    <p><strong>Key line in code:</strong> In <code>main.jsx</code>: <code>createRoot(document.getElementById('root')).render(...)</code> — this is the React 19 way of mounting the app. Older React used <code>ReactDOM.render()</code>.</p>
+
+    <h4>2. React Router DOM 7 <span class="tag tag-lib">NAVIGATION</span></h4>
+    <pre><code>"react-router-dom": "^7.15.0"</code></pre>
+    <p><strong>Why:</strong> Enables client-side routing — navigating between pages (Dashboard, Trading Hub, Charts, etc.) without reloading the browser. We use <code>BrowserRouter</code>, <code>Routes</code>, <code>Route</code>, <code>NavLink</code>, <code>Navigate</code>, <code>useNavigate</code>, and <code>Outlet</code>.</p>
+    <p><strong>Key line in code:</strong> In <code>App.jsx</code>: <code>&lt;Route path="trading-hub" element={&lt;TradingHub /&gt;} /&gt;</code> — this maps the URL <code>/trading-hub</code> to the TradingHub page component.</p>
+
+    <h4>3. Axios <span class="tag tag-lib">HTTP CLIENT</span></h4>
+    <pre><code>"axios": "^1.13.2"</code></pre>
+    <p><strong>Why:</strong> HTTP client for making API requests to our FastAPI backend. We chose Axios over the native <code>fetch()</code> API because Axios automatically parses JSON, handles errors better (throws on 4xx/5xx status codes), and supports request/response interceptors. Every page that shows live data uses Axios.</p>
+    <p><strong>Key line in code:</strong> <code>const res = await axios.get(`${API_URL}/accounts`, { headers: { Authorization: `Bearer ${token}` } });</code></p>
+    <p><strong>Coordination with Backend:</strong> Every <code>axios.get()</code> or <code>axios.post()</code> in our frontend directly maps to a <code>@app.get()</code> or <code>@app.post()</code> decorator in the Backend person's <code>main.py</code> file.</p>
+
+    <h4>4. Zustand 5 <span class="tag tag-lib">STATE MANAGEMENT</span></h4>
+    <pre><code>"zustand": "^5.0.13"</code></pre>
+    <p><strong>Why:</strong> Zustand is a lightweight state management library (alternative to Redux). We chose it because: (a) it has zero boilerplate — no providers, reducers, or action types, (b) it's only ~1KB, (c) it works with React hooks naturally. We have two stores: <code>useAuthStore</code> (authentication state) and <code>useStore</code> (account/settings state).</p>
+    <p><strong>Key line in code:</strong> <code>const useAuthStore = create((set) => ({ token: null, isAuthenticated: false, login: async () => { ... } }))</code></p>
+
+    <h4>5. Lucide React <span class="tag tag-lib">ICONS</span></h4>
+    <pre><code>"lucide-react": "^0.562.0"</code></pre>
+    <p><strong>Why:</strong> A modern icon library with 1000+ clean, consistent SVG icons. We use icons like <code>Activity</code>, <code>LayoutDashboard</code>, <code>Wallet</code>, <code>TrendingUp</code>, <code>TrendingDown</code>, <code>Globe</code>, <code>Settings</code>, <code>LogOut</code>, etc. throughout the entire UI. Chosen over FontAwesome because Lucide is tree-shakeable (only imports icons you use) and designed for modern React.</p>
+
+    <h4>6. React Globe.gl + Three.js <span class="tag tag-lib">3D VISUALIZATION</span></h4>
+    <pre><code>"react-globe.gl": "^2.37.1",
+"three": "^0.184.0"</code></pre>
+    <p><strong>Why:</strong> <code>react-globe.gl</code> renders the interactive 3D Earth globe on the Dashboard page. It uses Three.js under the hood for WebGL 3D rendering. News articles are plotted as interactive HTML markers on the globe at their geographic coordinates. Users can rotate, zoom, and click on markers to see article details.</p>
+    <p><strong>Key line in code:</strong> <code>&lt;Globe globeImageUrl="//unpkg.com/three-globe/example/img/earth-blue-marble.jpg" htmlElementsData={newsFeed} /&gt;</code></p>
+    <p><strong>Coordination with Backend:</strong> The globe data comes from the <code>/news</code> API endpoint. The backend assigns <code>lat</code>/<code>lng</code> coordinates to each article, which React Globe uses to position markers.</p>
+
+    <h4>7. Recharts <span class="tag tag-lib">CHARTING</span></h4>
+    <pre><code>"recharts": "^3.7.0"</code></pre>
+    <p><strong>Why:</strong> Used for the sparkline mini-charts in the Markets Explorer page. Each asset row shows a 7-day trend sparkline rendered with <code>&lt;LineChart&gt;</code> and <code>&lt;Line&gt;</code> components. Recharts is React-native (built specifically for React) and renders as SVG, making it crisp at any resolution.</p>
+
+    <h4>8. Lightweight Charts <span class="tag tag-lib">FINANCIAL CHARTS</span></h4>
+    <pre><code>"lightweight-charts": "^5.2.0"</code></pre>
+    <p><strong>Why:</strong> TradingView's open-source charting library. While we primarily embed TradingView's full widget via iframe on the Charts page, this library is available for custom candlestick charts. It provides professional-grade OHLCV (Open, High, Low, Close, Volume) chart rendering.</p>
+
+    <h4>9. @react-oauth/google + jwt-decode <span class="tag tag-lib">AUTHENTICATION</span></h4>
+    <pre><code>"@react-oauth/google": "^0.13.5",
+"jwt-decode": "^4.0.0"</code></pre>
+    <p><strong>Why:</strong> <code>@react-oauth/google</code> provides the Google Sign-In button and OAuth flow. When a user clicks "Sign in with Google," Google returns a JWT credential. We decode it with <code>jwt-decode</code> to extract the user's email, then send it to our backend's <code>/auth/google</code> endpoint.</p>
+    <p><strong>Key line in code:</strong> <code>const decoded = jwtDecode(credentialResponse.credential); const email = decoded.email;</code></p>
+    <p><strong>Coordination with Backend:</strong> The decoded email is sent to <code>POST /auth/google</code> which the Backend person created. Their endpoint auto-registers new Google users or logs in existing ones.</p>
+
+    <h4>10. TailwindCSS v4 + PostCSS <span class="tag tag-lib">STYLING</span></h4>
+    <pre><code>"tailwindcss": "^4.3.0",
+"@tailwindcss/postcss": "^4.3.0",
+"postcss": "^8.5.14",
+"autoprefixer": "^10.5.0"</code></pre>
+    <p><strong>Why:</strong> TailwindCSS v4 is a utility-first CSS framework that lets us style everything directly in JSX using class names like <code>bg-obsidian</code>, <code>text-molten</code>, <code>border-molten/20</code>. We extended Tailwind with custom colors in <code>index.css</code> using the <code>@theme</code> directive. PostCSS processes Tailwind at build time.</p>
+    <p><strong>Custom theme colors defined in index.css:</strong></p>
+    <pre><code>@theme {
+  --color-obsidian: var(--bg-main);     /* #0B0C10 — main background */
+  --color-molten: var(--accent);        /* #D4AF37 — Molten Gold accent */
+  --color-success: var(--success);      /* #10B981 — green for profits */
+  --color-danger: var(--danger);        /* #EF4444 — red for losses */
+  --color-card: var(--card-bg);         /* semi-transparent glass effect */
+}</code></pre>
+
+    <h4>11. Vite 7 + @vitejs/plugin-react <span class="tag tag-lib">BUILD TOOL</span></h4>
+    <pre><code>"vite": "^7.2.4",
+"@vitejs/plugin-react": "^5.1.1"</code></pre>
+    <p><strong>Why:</strong> Vite is the build tool and development server. It's 10-100x faster than Webpack because it uses native ES modules during development (no bundling needed). The React plugin enables JSX transformation and Fast Refresh (instant updates when you save a file). When you run <code>npm run dev</code>, Vite starts a dev server on port 5173. When you run <code>npm run build</code>, Vite bundles everything into optimized static files in <code>frontend/dist/</code>.</p>
+
+    <h4>12. prop-types <span class="tag tag-lib">TYPE CHECKING</span></h4>
+    <pre><code>"prop-types": "^15.8.1"</code></pre>
+    <p><strong>Why:</strong> Runtime type-checking for React component props. We use it in components like <code>Layout</code>, <code>Charts</code>, and <code>NewsCard</code> to validate that required props are passed correctly. Example: <code>Layout.propTypes = { theme: PropTypes.string.isRequired }</code></p>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<!--  SECTION 3: INITIALIZATION                                        -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<div class="section" id="s3">
+  <div class="section-header">
+    <div class="section-number">03</div>
+    <h2>Project Initialization — Step by Step from Scratch</h2>
+  </div>
+
+  <div class="card">
+    <h3>How We Created the Frontend from Zero</h3>
+    <p>This is the exact sequence of commands and actions taken to create the frontend project. If someone asks "how did you start?", these are the steps:</p>
+
+    <h4>Step 1: Create the Vite + React Project</h4>
+    <div class="terminal">
+      $ cd ~/QuantTrading<br>
+      $ npx -y create-vite@latest frontend -- --template react<br>
+      <br>
+      ✔ Project created in ./frontend<br>
+      <br>
+      $ cd frontend<br>
+      $ npm install
+    </div>
+    <p>This scaffolds a new React project using Vite. The <code>--template react</code> flag sets up JSX support with the React plugin. <code>npm install</code> downloads all base dependencies into <code>node_modules/</code>.</p>
+
+    <h4>Step 2: Install All Required Libraries</h4>
+    <div class="terminal">
+      $ npm install axios zustand react-router-dom lucide-react recharts<br>
+      $ npm install react-globe.gl three<br>
+      $ npm install @react-oauth/google jwt-decode<br>
+      $ npm install lightweight-charts react-ts-tradingview-widgets<br>
+      $ npm install prop-types<br>
+      <br>
+      # Dev dependencies (Tailwind v4 + PostCSS)<br>
+      $ npm install -D tailwindcss @tailwindcss/postcss postcss autoprefixer
+    </div>
+
+    <h4>Step 3: Configure PostCSS for Tailwind v4</h4>
+    <p>Created <code>postcss.config.js</code>:</p>
+    <pre><code>export default {
+  plugins: {
+    '@tailwindcss/postcss': {},
+  },
+}</code></pre>
+    <p><strong>Why this file matters:</strong> PostCSS is a CSS transformer. This config tells PostCSS to use the TailwindCSS v4 plugin, which processes all our utility classes (like <code>bg-molten</code>, <code>text-white</code>) and generates the actual CSS.</p>
+
+    <h4>Step 4: Create the Folder Structure</h4>
+    <div class="terminal">
+      frontend/src/<br>
+      ├── components/       ← Reusable UI components<br>
+      │   ├── Layout.jsx<br>
+      │   ├── Sidebar.jsx<br>
+      │   ├── AccountWizardModal.jsx<br>
+      │   └── EditAccountModal.jsx<br>
+      ├── pages/            ← One file per route/page<br>
+      │   ├── AuthPage.jsx<br>
+      │   ├── Dashboard.jsx<br>
+      │   ├── TradingHub.jsx<br>
+      │   ├── Charts.jsx<br>
+      │   ├── NewsPage.jsx<br>
+      │   ├── NewsDetail.jsx<br>
+      │   ├── TradeAnalysis.jsx<br>
+      │   ├── MarketsExplorer.jsx<br>
+      │   └── Preferences.jsx<br>
+      ├── store/            ← Zustand state stores<br>
+      │   ├── useAuthStore.js<br>
+      │   └── useStore.js<br>
+      ├── config/           ← Configuration files<br>
+      │   └── api.js<br>
+      ├── App.jsx           ← Root component with routing<br>
+      ├── main.jsx          ← Application entry point<br>
+      └── index.css         ← Global styles + Tailwind theme
+    </div>
+
+    <div class="coord-box">
+      <h4>🤝 Coordination Point — When Did We Start Frontend?</h4>
+      <p>The Frontend Developer started after the Database Person had defined the table schemas (so we knew what data fields to expect) and after the Backend Person had at least the <code>/auth/login</code>, <code>/auth/register</code>, and <code>/accounts</code> endpoints working. We needed those endpoints to test our login flow and account display. The API contract (what JSON fields each endpoint returns) was agreed upon first so we could build the UI in parallel.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<!--  SECTION 4: FOUNDATION FILES                                       -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<div class="section" id="s4">
+  <div class="section-header">
+    <div class="section-number">04</div>
+    <h2>Foundation Files — index.html, main.jsx, index.css</h2>
+  </div>
+
+  <div class="file-card">
+    <div class="file-path">frontend/index.html</div>
+    <p>The single HTML file that hosts our entire React app. This is a Single Page Application (SPA) — the browser loads this one HTML file, and React dynamically renders all pages inside the <code>&lt;div id="root"&gt;</code> element.</p>
+    <pre><code>&lt;!doctype html&gt;
+&lt;html lang="en"&gt;
+  &lt;head&gt;
+    &lt;meta charset="UTF-8" /&gt;
+    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0" /&gt;
+    &lt;title&gt;QuantTrading&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;div id="root"&gt;&lt;/div&gt;        ← React mounts the ENTIRE app here
+    &lt;script type="module" src="/src/main.jsx"&gt;&lt;/script&gt;
+  &lt;/body&gt;
+&lt;/html&gt;</code></pre>
+    <p><strong>Why <code>type="module"</code>:</strong> Tells the browser to load the script as an ES Module, which supports <code>import/export</code> syntax natively. Vite requires this for its development server to work.</p>
+  </div>
+
+  <div class="file-card">
+    <div class="file-path">frontend/src/main.jsx — The Application Entry Point</div>
+    <p>This is the very first JavaScript file that runs. It bootstraps the React app:</p>
+    <pre><code>import { StrictMode } from 'react'
+import { createRoot } from 'react-dom/client'
+import { GoogleOAuthProvider } from '@react-oauth/google'
+import './index.css'
+import App from './App.jsx'
+
+const GOOGLE_CLIENT_ID = "16736128830-60gc...apps.googleusercontent.com";
+
+createRoot(document.getElementById('root')).render(
+  &lt;StrictMode&gt;
+    &lt;GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}&gt;
+      &lt;App /&gt;
+    &lt;/GoogleOAuthProvider&gt;
+  &lt;/StrictMode&gt;,
+)</code></pre>
+    <p><strong>Line-by-line breakdown:</strong></p>
+    <ul>
+      <li><code>StrictMode</code> — Development helper that highlights potential bugs (double-renders in dev mode to catch side effects).</li>
+      <li><code>createRoot</code> — React 19's new rendering API (replaces <code>ReactDOM.render</code>). Creates a root render container attached to the DOM element with id <code>"root"</code>.</li>
+      <li><code>GoogleOAuthProvider</code> — Wraps the entire app so Google Sign-In works on any page. The <code>clientId</code> is our Google Cloud Console OAuth 2.0 Client ID.</li>
+      <li><code>import './index.css'</code> — Loads our global styles and Tailwind theme BEFORE any component renders.</li>
+      <li><code>&lt;App /&gt;</code> — Our root React component that handles routing and layout.</li>
+    </ul>
+    <div class="coord-box">
+      <h4>🤝 Coordination — Google Client ID</h4>
+      <p>The Google Client ID was set up on Google Cloud Console. The Backend person needed to know about this because their <code>/auth/google</code> endpoint receives the decoded email. Both Frontend and Backend had to agree: "Frontend decodes the Google JWT to extract the email, then sends just the email to the backend."</p>
+    </div>
+  </div>
+
+  <div class="file-card">
+    <div class="file-path">frontend/src/App.jsx — The Root Component & Router</div>
+    <p>This is the brain of the frontend. It:</p>
+    <ol>
+      <li>Checks if the user is authenticated (via Zustand store)</li>
+      <li>If NOT authenticated → show <code>&lt;AuthPage /&gt;</code> (login/register screen)</li>
+      <li>If authenticated → show the full app with sidebar, header, and page routing</li>
+      <li>Manages the dark/light theme toggle</li>
+      <li>Fetches the user's accounts on first load</li>
+    </ol>
+    <pre><code>import React, { useState, useEffect } from 'react';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+// ... all page imports ...
+import useAccountStore from './store/useStore';
+import useAuthStore from './store/useAuthStore';
+
+export default function App() {
+  const { fetchAccounts } = useAccountStore();
+  const { isAuthenticated } = useAuthStore();
+  const [theme, setTheme] = useState(() => localStorage.getItem('theme') || 'dark');
+
+  // When user logs in, fetch their accounts from the backend
+  useEffect(() => {
+    if (isAuthenticated) {
+      fetchAccounts();   // ← This calls GET /accounts with the JWT token
+    }
+  }, [fetchAccounts, isAuthenticated]);
+
+  // If not logged in, show the auth page (no routing needed)
+  if (!isAuthenticated) {
+    return &lt;AuthPage /&gt;;
+  }
+
+  // Authenticated: show the full app with all routes
+  return (
+    &lt;BrowserRouter&gt;
+      &lt;Routes&gt;
+        &lt;Route path="/" element={&lt;Layout theme={theme} toggleTheme={toggleTheme} /&gt;}&gt;
+          &lt;Route index element={&lt;Dashboard /&gt;} /&gt;
+          &lt;Route path="trading-hub" element={&lt;TradingHub /&gt;} /&gt;
+          &lt;Route path="news" element={&lt;NewsPage /&gt;} /&gt;
+          &lt;Route path="news/:id" element={&lt;NewsDetail /&gt;} /&gt;
+          &lt;Route path="analysis" element={&lt;TradeAnalysis /&gt;} /&gt;
+          &lt;Route path="charts" element={&lt;Charts /&gt;} /&gt;
+          &lt;Route path="markets" element={&lt;MarketsExplorer /&gt;} /&gt;
+          &lt;Route path="settings" element={&lt;Preferences /&gt;} /&gt;
+          &lt;Route path="*" element={&lt;Navigate to="/" /&gt;} /&gt;
+        &lt;/Route&gt;
+      &lt;/Routes&gt;
+    &lt;/BrowserRouter&gt;
+  );
+}</code></pre>
+    <p><strong>Important concepts:</strong></p>
+    <ul>
+      <li><strong>Nested Routes:</strong> All pages are nested under <code>&lt;Layout&gt;</code>, which provides the sidebar and header. The <code>&lt;Outlet /&gt;</code> inside Layout renders whichever child route matches.</li>
+      <li><strong>Catch-all Route:</strong> <code>path="*"</code> redirects any unknown URL to the dashboard.</li>
+      <li><strong>Theme Persistence:</strong> Theme preference is saved to <code>localStorage</code> so it survives page refreshes.</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<!--  SECTION 5: CONFIG                                                 -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<div class="section" id="s5">
+  <div class="section-header">
+    <div class="section-number">05</div>
+    <h2>Configuration Layer — api.js & vite.config.js</h2>
+  </div>
+
+  <div class="file-card">
+    <div class="file-path">frontend/src/config/api.js — API Base URL Configuration</div>
+    <pre><code>let API_URL = 'http://127.0.0.1:8000';
+if (import.meta.env.VITE_API_URL !== undefined) {
+    API_URL = import.meta.env.VITE_API_URL;
+}
+export default API_URL;</code></pre>
+    <p><strong>Why this file is critical:</strong> This 9-line file is the single connection point between frontend and backend. Every API call in the entire frontend imports <code>API_URL</code> from this file. In development, it points to <code>localhost:8000</code> (where the Backend person runs their FastAPI server). In production, the <code>VITE_API_URL</code> environment variable overrides it to point to the deployed server.</p>
+    <p><strong><code>import.meta.env</code>:</strong> This is Vite's way of accessing environment variables. Only variables prefixed with <code>VITE_</code> are exposed to the frontend code (for security — you don't want secret keys leaking to the browser).</p>
+
+    <div class="coord-box">
+      <h4>🤝 Coordination — Backend URL Agreement</h4>
+      <p>The Frontend and Backend developers had to agree: "The API server runs on port 8000." If the Backend person changes the port, this file needs updating. For production deployment, the Backend person sets <code>VITE_API_URL=""</code> (empty string) during <code>npm run build</code>, which makes API calls use relative URLs — this works because nginx proxies <code>/accounts</code>, <code>/auth</code>, etc. to the backend container.</p>
+    </div>
+  </div>
+
+  <div class="file-card">
+    <div class="file-path">frontend/vite.config.js — Build Tool Configuration</div>
+    <pre><code>import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react'
+
+export default defineConfig({
+  plugins: [react()],
+})</code></pre>
+    <p><strong>Why it's minimal:</strong> Vite works with sensible defaults. The only plugin we need is <code>@vitejs/plugin-react</code>, which enables JSX transformation (converting <code>&lt;div&gt;</code> syntax into <code>React.createElement()</code> calls) and React Fast Refresh (hot module replacement during development).</p>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<!--  SECTION 6: STATE MANAGEMENT                                       -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<div class="section" id="s6">
+  <div class="section-header">
+    <div class="section-number">06</div>
+    <h2>State Management — Zustand Stores</h2>
+  </div>
+
+  <div class="file-card">
+    <div class="file-path">frontend/src/store/useAuthStore.js — Authentication State</div>
+    <h4>What This Store Manages:</h4>
+    <ul>
+      <li><code>token</code> — The JWT access token from the backend (string or null)</li>
+      <li><code>isAuthenticated</code> — Boolean flag derived from token validity</li>
+      <li><code>loading</code> — Loading state during login/register API calls</li>
+      <li><code>error</code> — Error message from failed auth attempts</li>
+    </ul>
+
+    <h4>Key Function: <code>login(email, password)</code></h4>
+    <pre><code>login: async (email, password) => {
+  set({ loading: true, error: null });
+  try {
+    const formData = new URLSearchParams();
+    formData.append('username', email);   // OAuth2 spec uses 'username'
+    formData.append('password', password);
+
+    const res = await axios.post(`${API_URL}/auth/login`, formData, {
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+    });
+
+    const token = res.data.access_token;
+    localStorage.setItem('token', token);   // Persist for 30-day sessions
+
+    set({ token, isAuthenticated: true, loading: false });
+    return true;
+  } catch (err) {
+    set({ error: err.response?.data?.detail || 'Login failed', loading: false });
+    return false;
+  }
+}</code></pre>
+    <p><strong>Why <code>URLSearchParams</code> instead of JSON?</strong> The Backend person's <code>/auth/login</code> endpoint uses FastAPI's <code>OAuth2PasswordRequestForm</code>, which expects form-encoded data (<code>application/x-www-form-urlencoded</code>), not JSON. This is the OAuth2 spec standard.</p>
+    <p><strong>Token persistence:</strong> We save the JWT to <code>localStorage</code> so the user stays logged in even after closing the browser. On app load, we check if the stored token is still valid by decoding its <code>exp</code> (expiration) claim.</p>
+
+    <h4>Key Function: <code>isTokenValid(token)</code></h4>
+    <pre><code>function isTokenValid(token) {
+  if (!token) return false;
+  try {
+    const payload = JSON.parse(atob(token.split('.')[1]));
+    return payload.exp * 1000 > Date.now();
+  } catch { return false; }
+}</code></pre>
+    <p><strong>How JWT decoding works:</strong> A JWT has 3 parts separated by dots: <code>header.payload.signature</code>. We split on <code>'.'</code>, take the middle part (payload), base64-decode it with <code>atob()</code>, and parse the JSON. The <code>exp</code> field is the expiration timestamp in seconds — we multiply by 1000 to compare with JavaScript's millisecond-based <code>Date.now()</code>.</p>
+
+    <div class="coord-box">
+      <h4>🤝 Coordination — JWT Token Contract</h4>
+      <p>The Backend person creates the JWT with <code>python-jose</code> library, encoding the user's email as <code>"sub"</code> (subject) and setting <code>"exp"</code> to 30 days. The Frontend trusts this token and sends it as <code>Authorization: Bearer {token}</code> in every subsequent API request. If the token expires, any API call returns 401, and the frontend auto-logs out.</p>
+    </div>
+  </div>
+
+  <div class="file-card">
+    <div class="file-path">frontend/src/store/useStore.js — Account & Settings State</div>
+    <h4>What This Store Manages:</h4>
+    <ul>
+      <li><code>accounts</code> — Array of all user's trading accounts</li>
+      <li><code>activeAccount</code> — ID of the currently selected account</li>
+      <li><code>globalBalance</code> — Sum of all account balances</li>
+      <li><code>settings</code> — Platform settings (persisted to localStorage)</li>
+      <li><code>isWizardOpen</code> — Whether the "Create Account" wizard is open</li>
+    </ul>
+
+    <h4>Key Function: <code>fetchAccounts()</code></h4>
+    <pre><code>fetchAccounts: async () => {
+  try {
+    const token = useAuthStore.getState().token;
+    const res = await axios.get(`${API_URL}/accounts`, {
+      headers: { Authorization: `Bearer ${token}` }
+    });
+    const accounts = res.data;
+    const globalBalance = accounts.reduce((acc, curr) => acc + curr.balance, 0);
+    set({
+      accounts,
+      globalBalance,
+      activeAccount: get().activeAccount || (accounts.length > 0 ? accounts[0].id : null)
+    });
+  } catch (err) {
+    if (err.response?.status === 401) {
+      useAuthStore.getState().logout();  // Token expired — force logout
+    }
+  }
+}</code></pre>
+    <p><strong>Cross-store communication:</strong> Notice how <code>useStore</code> reads the token from <code>useAuthStore</code> using <code>useAuthStore.getState().token</code>. This is Zustand's way of accessing another store's state without React hooks (since we're inside an async function, not a component).</p>
+
+    <div class="coord-box">
+      <h4>🤝 Coordination — Account Data Shape</h4>
+      <p>The Backend person's <code>GET /accounts</code> endpoint returns an array like: <code>[{ id: "1", name: "High Risk Fund", balance: 10000, type: "Aggressive", holdings: ["BTC-USD", "AAPL"], assetTypes: ["Crypto", "Stocks"], sectors: [...] }]</code>. The Frontend relies on these exact field names. If the Backend person changes <code>type</code> to <code>strategy</code>, the Frontend breaks. This is the API contract.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<!--  SECTION 7: COMPONENTS                                             -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<div class="section" id="s7">
+  <div class="section-header">
+    <div class="section-number">07</div>
+    <h2>Component Architecture — Layout, Sidebar, Modals</h2>
+  </div>
+
+  <div class="file-card">
+    <div class="file-path">frontend/src/components/Layout.jsx — The Shell</div>
+    <p>Layout wraps every authenticated page. It provides: the Sidebar (left), the Header (top), and the content area (center). React Router's <code>&lt;Outlet /&gt;</code> renders the current page inside the content area.</p>
+    <pre><code>export default function Layout({ theme, toggleTheme }) {
+  return (
+    &lt;div className="flex h-screen overflow-hidden"&gt;
+      &lt;Sidebar /&gt;
+      &lt;div className="flex-1 flex flex-col"&gt;
+        &lt;header&gt;...ONLINE badge...theme toggle...&lt;/header&gt;
+        &lt;main&gt;
+          &lt;Outlet /&gt;   {/* ← Current page renders HERE */}
+        &lt;/main&gt;
+      &lt;/div&gt;
+      &lt;AccountWizardModal /&gt;
+    &lt;/div&gt;
+  );
+}</code></pre>
+    <p><strong>Why <code>&lt;Outlet /&gt;</code> matters:</strong> This is React Router's way of rendering child routes. When the URL is <code>/trading-hub</code>, the <code>&lt;Outlet&gt;</code> renders <code>&lt;TradingHub /&gt;</code>. When it's <code>/charts</code>, it renders <code>&lt;Charts /&gt;</code>. The Layout (sidebar + header) stays constant.</p>
+  </div>
+
+  <div class="file-card">
+    <div class="file-path">frontend/src/components/Sidebar.jsx — Navigation + Account Switcher</div>
+    <p>The sidebar contains: the QuantTrading logo, the Account Switcher dropdown, all 7 navigation links, and the Sign Out button.</p>
+    <h4>Navigation Items:</h4>
+    <pre><code>const navItems = [
+  { name: 'Dashboard',       icon: &lt;LayoutDashboard /&gt;, path: '/' },
+  { name: 'Trading Hub',     icon: &lt;Briefcase /&gt;,      path: '/trading-hub' },
+  { name: 'News',            icon: &lt;Globe /&gt;,          path: '/news' },
+  { name: 'Analysis',        icon: &lt;BarChart3 /&gt;,      path: '/analysis' },
+  { name: 'Charts',          icon: &lt;LineChart /&gt;,      path: '/charts' },
+  { name: 'Market Explorer',  icon: &lt;Compass /&gt;,       path: '/markets' },
+  { name: 'Settings',        icon: &lt;Settings /&gt;,       path: '/settings' },
+];</code></pre>
+    <p><strong>Account Switcher:</strong> Users can have multiple trading accounts (e.g., "High Risk Crypto" and "Low Risk Stocks"). The dropdown lets them switch which account is "active" — all dashboard data updates to show the selected account's portfolio.</p>
+    <p><strong>Active state with NavLink:</strong> React Router's <code>&lt;NavLink&gt;</code> automatically adds a class when the current URL matches its <code>to</code> prop. We use this to highlight the current page in the sidebar with a gold accent.</p>
+  </div>
+
+  <div class="file-card">
+    <div class="file-path">frontend/src/components/AccountWizardModal.jsx — 3-Step Account Creator</div>
+    <p>A modal with 3 wizard steps that guides users through creating a new trading account:</p>
+    <ol>
+      <li><strong>Step 1: Account Setup</strong> — Enter name and starting balance (default $10,000)</li>
+      <li><strong>Step 2: Market Selection</strong> — Choose asset types (Stocks, Crypto, Forex) and stock sectors</li>
+      <li><strong>Step 3: Risk Profile</strong> — Choose Low, Moderate, or Aggressive strategy</li>
+    </ol>
+    <p><strong>Why <code>createPortal</code>:</strong> The modal uses React's <code>createPortal()</code> to render outside the normal DOM hierarchy, directly onto <code>document.body</code>. This ensures the modal overlay covers the entire screen without being clipped by parent elements with <code>overflow: hidden</code>.</p>
+    <pre><code>return createPortal(
+  &lt;div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-md"&gt;
+    ...modal content...
+  &lt;/div&gt;,
+  document.body
+);</code></pre>
+    <div class="coord-box">
+      <h4>🤝 Coordination — Account Creation Flow</h4>
+      <p>When the user clicks "Create & Deploy Bot," the modal calls <code>createAccount()</code> from the Zustand store, which sends a <code>POST /accounts</code> request to the Backend. The Backend creates the Account record in the Database. The <code>asset_types</code> and <code>sectors</code> are stored as JSON strings (because PostgreSQL Text columns store strings — the Database person designed it this way). The Backend then returns the new account data, which the Frontend adds to its local state.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<!--  SECTION 8: PAGES                                                  -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<div class="section" id="s8">
+  <div class="section-header">
+    <div class="section-number">08</div>
+    <h2>Page-by-Page Breakdown — Every Page File Explained</h2>
+  </div>
+
+  <div class="file-card">
+    <div class="file-path">pages/AuthPage.jsx — Login & Registration</div>
+    <p><strong>What it does:</strong> Shows when the user is NOT authenticated. Contains a form with Email + Password fields, a toggle between "Sign In" and "Create ID" modes, and a "Sign in with Google" button.</p>
+    <p><strong>Backend endpoints used:</strong></p>
+    <ul>
+      <li><code>POST /auth/login</code> — sends form-encoded username + password</li>
+      <li><code>POST /auth/register</code> — sends JSON with email, password, optional PIN</li>
+      <li><code>POST /auth/google</code> — sends JSON with just the email (decoded from Google JWT)</li>
+    </ul>
+    <p><strong>Special feature — Password visibility toggle:</strong> Uses <code>showPassword</code> state with <code>&lt;Eye /&gt;</code> / <code>&lt;EyeOff /&gt;</code> icons to let users see what they're typing.</p>
+    <p><strong>Google OAuth flow:</strong></p>
+    <pre><code>const handleGoogleSuccess = async (credentialResponse) => {
+  const decoded = jwtDecode(credentialResponse.credential);
+  const email = decoded.email;
+  await useAuthStore.getState().googleLogin(email);
+};</code></pre>
+    <p>Google returns a JWT credential → we decode it to get the email → we send the email to our backend → backend creates/finds the user → returns our own JWT → frontend stores it.</p>
+  </div>
+
+  <div class="file-card">
+    <div class="file-path">pages/Dashboard.jsx — Main Dashboard with Globe</div>
+    <p><strong>What it does:</strong> The main landing page after login. Shows 3 KPI cards (Account Equity, Active Investments, Portfolio Return), a 3D interactive globe with news markers, and a contextual news feed sidebar.</p>
+    <p><strong>Backend endpoints used:</strong></p>
+    <ul>
+      <li><code>GET /news</code> — fetches live news articles with geo-coordinates</li>
+      <li><code>GET /accounts/{id}/data</code> — fetches live portfolio stats (polled every 5 seconds)</li>
+    </ul>
+    <p><strong>Live polling pattern:</strong></p>
+    <pre><code>useEffect(() => {
+  const fetchPortfolio = async () => {
+    const res = await axios.get(`${API_URL}/accounts/${activeAccountId}/data`, {
+      headers: { Authorization: `Bearer ${token}` }
+    });
+    setStats(res.data.accountStats);
+  };
+  fetchPortfolio();
+  const interval = setInterval(fetchPortfolio, 5000);   // Every 5 seconds
+  return () => clearInterval(interval);                   // Cleanup on unmount
+}, [activeAccountId]);</code></pre>
+    <p><strong>Why 5-second polling:</strong> The bot engine updates prices every 60 seconds. We poll every 5 seconds to ensure the UI feels responsive. The <code>return () => clearInterval(interval)</code> cleanup prevents memory leaks when the user navigates away.</p>
+    <p><strong>Globe interactivity:</strong> Each news marker on the globe is an HTML element with a hover tooltip showing the headline, ticker, impact (Bullish/Bearish), and coordinates. Clicking a marker navigates to <code>/news/{id}</code> for the full AI analysis.</p>
+  </div>
+
+  <div class="file-card">
+    <div class="file-path">pages/TradingHub.jsx — Portfolio & Trade Ledger</div>
+    <p><strong>What it does:</strong> Two-pane layout. Left pane shows Asset Holdings (what the account owns) with tabs for "Holding" and "Sold." Right pane shows the Active Trade Ledger with tabs for "Open" and "Closed" trades.</p>
+    <p><strong>Backend endpoint:</strong> <code>GET /accounts/{id}/data</code> — returns <code>{ positions: [...], tradeLedger: [...] }</code></p>
+    <p><strong>Scanner animation:</strong> The top bar has a green scanning light that slides back and forth using pure CSS:</p>
+    <pre><code>@keyframes scanner {
+  0% { transform: translateX(0%); }
+  100% { transform: translateX(566%); }
+}
+.scanner-animation {
+  animation: scanner 2.5s ease-in-out infinite alternate;
+}</code></pre>
+    <p><strong>Data relationship:</strong> Each trade in the ledger shows: symbol, type (Long/Short), entry price, current price, P&L percentage, P&L dollars, stop-loss, take-profit, and the AI reasoning. This data is all computed by the Backend's <code>trade_executor.py</code> module and stored in the Database's <code>trades</code> table.</p>
+  </div>
+
+  <div class="file-card">
+    <div class="file-path">pages/Charts.jsx — TradingView Financial Charts</div>
+    <p><strong>What it does:</strong> Full-screen professional financial chart with a sidebar instrument selector. Uses TradingView's embedded widget via iframe.</p>
+    <p><strong>No backend call needed:</strong> The chart data comes directly from TradingView's servers. We just pass the symbol (e.g., <code>BINANCE:BTCUSD</code>, <code>NASDAQ:AAPL</code>) as a URL parameter to the iframe.</p>
+    <pre><code>&lt;iframe src={`https://s.tradingview.com/widgetembed/?symbol=${selectedAsset}&interval=D&theme=dark`}
+  width="100%" height="100%" /&gt;</code></pre>
+    <p><strong>Accordion component:</strong> The right sidebar uses a reusable <code>Accordion</code> component to organize instruments by category (Crypto, Stocks, Commodities, Forex). Each accordion section can be expanded/collapsed.</p>
+  </div>
+
+  <div class="file-card">
+    <div class="file-path">pages/NewsPage.jsx — Global News Grid</div>
+    <p><strong>What it does:</strong> A full-page grid view of all news articles with filter buttons (All, Portfolio, Bullish, Bearish). Each card shows headline, summary, ticker, impact sentiment, time, and an expandable hover panel with geo-coordinates and impact forecast.</p>
+    <p><strong>Backend endpoint:</strong> <code>GET /news</code></p>
+    <p><strong>Portfolio filter logic:</strong> When the user selects "Portfolio," we filter news to only show articles related to the active account's holdings:</p>
+    <pre><code>const filteredNews = globalNews.filter(n => {
+  if (filter === 'Portfolio' && activeAccount) {
+    return activeAccount.holdings.some(h => n.ticker.includes(h) || h.includes(n.ticker));
+  }
+  if (filter === 'Bullish') return n.impact === 'Bullish';
+  if (filter === 'Bearish') return n.impact === 'Bearish';
+  return true;
+});</code></pre>
+  </div>
+
+  <div class="file-card">
+    <div class="file-path">pages/TradeAnalysis.jsx — Deep Trade Analytics</div>
+    <p><strong>What it does:</strong> A full analytics dashboard for every trade the bot has made. Shows KPI summary (total trades, win rate, wins/losses, total P&L, returns), filter/sort controls, and an expandable trade list with full AI reasoning breakdown.</p>
+    <p><strong>Backend endpoint:</strong> <code>GET /accounts/{id}/data</code> (same as TradingHub, but displayed differently)</p>
+    <p><strong>Trade categorization logic:</strong> We categorize trades into "Holding" (Long on Crypto/Stocks = physical ownership), "Long" (Long on Forex/Commodities = leveraged position), and "Short" (all short positions).</p>
+    <p><strong>AI Reasoning display:</strong> Each trade's reasoning contains the full 3-Layer Verification report. Example: <code>"3-LAYER VERIFIED (3/3) | ✅ TA: BULLISH (conf: 0.420) | ✅ SA: BUY (conf: 0.156) | ✅ QA: FAVORABLE (conf: 0.280) | CLOSED: TAKE-PROFIT hit ($105,283.00)"</code></p>
+  </div>
+
+  <div class="file-card">
+    <div class="file-path">pages/MarketsExplorer.jsx — Market Screener Table</div>
+    <p><strong>What it does:</strong> A sortable table showing all tracked assets with live prices, 24h change, 7-day sparkline, and analysis scores.</p>
+    <p><strong>Backend endpoint:</strong> <code>GET /explorer?assetClass={tab}</code></p>
+    <p><strong>Sparkline rendering with Recharts:</strong></p>
+    <pre><code>const TrendSparkline = ({ data, color }) => (
+  &lt;div className="w-24 h-8"&gt;
+    &lt;ResponsiveContainer width="100%" height="100%"&gt;
+      &lt;LineChart data={data}&gt;
+        &lt;Line type="monotone" dataKey="value" stroke={color} strokeWidth={2} dot={false} /&gt;
+      &lt;/LineChart&gt;
+    &lt;/ResponsiveContainer&gt;
+  &lt;/div&gt;
+);</code></pre>
+    <div class="coord-box">
+      <h4>🤝 Coordination — Parallel API Fetching</h4>
+      <p>The Backend person's <code>/explorer</code> endpoint uses <code>concurrent.futures.ThreadPoolExecutor</code> to fetch prices for all symbols in parallel (max 10 threads, 3-second timeout). Without this, fetching 12+ symbols sequentially would take 20+ seconds. The Backend optimized this so the Frontend gets fast responses.</p>
+    </div>
+  </div>
+
+  <div class="file-card">
+    <div class="file-path">pages/Preferences.jsx — Platform Settings</div>
+    <p><strong>What it does:</strong> A settings page with 4 tabs: API Integrations (Alpaca, Binance, NewsAPI keys), Risk Management (max drawdown, slippage tolerance), Alerts & Notifications (email reports, Telegram), and System UI (animations, base currency, compact mode).</p>
+    <p><strong>No backend calls:</strong> All settings are stored locally in <code>localStorage</code> via the Zustand store's <code>updateSettings()</code> function. API keys are never sent to the backend for security.</p>
+    <p><strong>Reusable components:</strong> The page defines two inner components — <code>Toggle</code> (switch for boolean settings) and <code>Slider</code> (range input for numeric settings) — used across all tabs.</p>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<!--  SECTION 9: STYLING                                                -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<div class="section" id="s9">
+  <div class="section-header">
+    <div class="section-number">09</div>
+    <h2>The Styling System — index.css Deep Dive</h2>
+  </div>
+
+  <div class="card">
+    <h3>Design Philosophy</h3>
+    <p>The QuantTrading UI uses a "Dark Luxury" design language inspired by premium financial terminals like Bloomberg and TradingView. Key design decisions:</p>
+    <ul>
+      <li><strong>Obsidian Black (#0B0C10)</strong> — Main background, almost pure black</li>
+      <li><strong>Molten Gold (#D4AF37)</strong> — Primary accent color for branding, buttons, active states</li>
+      <li><strong>Glass-morphism</strong> — Card backgrounds use <code>rgba(24, 27, 33, 0.6)</code> with <code>backdrop-blur</code> for a frosted glass effect</li>
+      <li><strong>Dark/Light theme</strong> — CSS custom properties (<code>:root</code> variables) swap between themes via <code>data-theme</code> attribute</li>
+      <li><strong>Custom scrollbars</strong> — Thin, subtle scrollbars that match the dark theme</li>
+      <li><strong>Scanner animation</strong> — A green light that slides across the TradingHub header, indicating the bot is actively scanning</li>
+    </ul>
+
+    <h4>TailwindCSS v4 Custom Theme</h4>
+    <pre><code>@import "tailwindcss";
+
+@theme {
+  --color-obsidian: var(--bg-main);
+  --color-molten: var(--accent);
+  --color-success: var(--success);
+  --color-danger: var(--danger);
+  --color-card: var(--card-bg);
+}</code></pre>
+    <p>This <code>@theme</code> block (new in Tailwind v4) maps our CSS custom properties to Tailwind utility classes. So when we write <code>className="bg-obsidian text-molten"</code>, Tailwind generates <code>background-color: var(--bg-main)</code> and <code>color: var(--accent)</code>.</p>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<!--  SECTION 10: FRONTEND ↔ BACKEND CORRELATION                       -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<div class="section" id="s10">
+  <div class="section-header">
+    <div class="section-number">10</div>
+    <h2>Frontend ↔ Backend API Correlation Map</h2>
+  </div>
+
+  <div class="card">
+    <h3>Every API Call and Which Backend Endpoint It Hits</h3>
+    <p>This is the complete map of every HTTP request the frontend makes:</p>
+
+    <table style="width:100%;border-collapse:collapse;margin:16px 0;">
+      <thead>
+        <tr style="border-bottom:2px solid var(--border);">
+          <th style="padding:12px;text-align:left;color:var(--accent);font-size:0.75rem;text-transform:uppercase;">Frontend File</th>
+          <th style="padding:12px;text-align:left;color:var(--accent);font-size:0.75rem;text-transform:uppercase;">HTTP Method + Endpoint</th>
+          <th style="padding:12px;text-align:left;color:var(--accent);font-size:0.75rem;text-transform:uppercase;">Backend Handler (main.py)</th>
+          <th style="padding:12px;text-align:left;color:var(--accent);font-size:0.75rem;text-transform:uppercase;">Auth Required?</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr style="border-bottom:1px solid var(--border);"><td style="padding:10px;">useAuthStore.js</td><td style="padding:10px;font-family:monospace;font-size:0.8rem;">POST /auth/login</td><td style="padding:10px;">login()</td><td style="padding:10px;">No</td></tr>
+        <tr style="border-bottom:1px solid var(--border);"><td style="padding:10px;">useAuthStore.js</td><td style="padding:10px;font-family:monospace;font-size:0.8rem;">POST /auth/register</td><td style="padding:10px;">register()</td><td style="padding:10px;">No</td></tr>
+        <tr style="border-bottom:1px solid var(--border);"><td style="padding:10px;">useAuthStore.js</td><td style="padding:10px;font-family:monospace;font-size:0.8rem;">POST /auth/google</td><td style="padding:10px;">google_auth()</td><td style="padding:10px;">No</td></tr>
+        <tr style="border-bottom:1px solid var(--border);"><td style="padding:10px;">useStore.js</td><td style="padding:10px;font-family:monospace;font-size:0.8rem;">GET /accounts</td><td style="padding:10px;">get_accounts()</td><td style="padding:10px;">Yes (JWT)</td></tr>
+        <tr style="border-bottom:1px solid var(--border);"><td style="padding:10px;">useStore.js</td><td style="padding:10px;font-family:monospace;font-size:0.8rem;">POST /accounts</td><td style="padding:10px;">create_account()</td><td style="padding:10px;">Yes (JWT)</td></tr>
+        <tr style="border-bottom:1px solid var(--border);"><td style="padding:10px;">useStore.js</td><td style="padding:10px;font-family:monospace;font-size:0.8rem;">PUT /accounts/{id}</td><td style="padding:10px;">update_account()</td><td style="padding:10px;">Yes (JWT)</td></tr>
+        <tr style="border-bottom:1px solid var(--border);"><td style="padding:10px;">useStore.js</td><td style="padding:10px;font-family:monospace;font-size:0.8rem;">DELETE /accounts/{id}</td><td style="padding:10px;">delete_account()</td><td style="padding:10px;">Yes (JWT)</td></tr>
+        <tr style="border-bottom:1px solid var(--border);"><td style="padding:10px;">Dashboard.jsx</td><td style="padding:10px;font-family:monospace;font-size:0.8rem;">GET /news</td><td style="padding:10px;">get_news()</td><td style="padding:10px;">No</td></tr>
+        <tr style="border-bottom:1px solid var(--border);"><td style="padding:10px;">Dashboard.jsx</td><td style="padding:10px;font-family:monospace;font-size:0.8rem;">GET /accounts/{id}/data</td><td style="padding:10px;">get_account_data()</td><td style="padding:10px;">Yes (JWT)</td></tr>
+        <tr style="border-bottom:1px solid var(--border);"><td style="padding:10px;">TradingHub.jsx</td><td style="padding:10px;font-family:monospace;font-size:0.8rem;">GET /accounts/{id}/data</td><td style="padding:10px;">get_account_data()</td><td style="padding:10px;">Yes (JWT)</td></tr>
+        <tr style="border-bottom:1px solid var(--border);"><td style="padding:10px;">TradeAnalysis.jsx</td><td style="padding:10px;font-family:monospace;font-size:0.8rem;">GET /accounts/{id}/data</td><td style="padding:10px;">get_account_data()</td><td style="padding:10px;">Yes (JWT)</td></tr>
+        <tr style="border-bottom:1px solid var(--border);"><td style="padding:10px;">NewsPage.jsx</td><td style="padding:10px;font-family:monospace;font-size:0.8rem;">GET /news</td><td style="padding:10px;">get_news()</td><td style="padding:10px;">No</td></tr>
+        <tr style="border-bottom:1px solid var(--border);"><td style="padding:10px;">MarketsExplorer.jsx</td><td style="padding:10px;font-family:monospace;font-size:0.8rem;">GET /explorer?assetClass=X</td><td style="padding:10px;">get_explorer()</td><td style="padding:10px;">No</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<!--  SECTION 11: FRONTEND ↔ DATABASE                                   -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<div class="section" id="s11">
+  <div class="section-header">
+    <div class="section-number">11</div>
+    <h2>Frontend ↔ Database Correlation Map</h2>
+  </div>
+
+  <div class="card">
+    <h3>How Database Tables Map to Frontend Pages</h3>
+    <p>The Frontend never talks to the database directly. But every piece of data displayed on screen originates from a database table. Here's the mapping:</p>
+
+    <div class="flow-diagram">
+      <div class="flow-box" style="border-color:var(--accent);">Database Table</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-box" style="border-color:var(--gold);">Backend Endpoint</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-box" style="border-color:var(--green);">Frontend Page</div>
+    </div>
+
+    <table style="width:100%;border-collapse:collapse;margin:16px 0;">
+      <thead>
+        <tr style="border-bottom:2px solid var(--border);">
+          <th style="padding:12px;text-align:left;color:var(--accent);font-size:0.75rem;">DB Table</th>
+          <th style="padding:12px;text-align:left;color:var(--gold);font-size:0.75rem;">Via Endpoint</th>
+          <th style="padding:12px;text-align:left;color:var(--green);font-size:0.75rem;">Shown On</th>
+          <th style="padding:12px;text-align:left;color:var(--muted);font-size:0.75rem;">Frontend Fields Used</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr style="border-bottom:1px solid var(--border);"><td style="padding:10px;font-family:monospace;">users</td><td style="padding:10px;">/auth/*</td><td style="padding:10px;">AuthPage</td><td style="padding:10px;">email (for login/display)</td></tr>
+        <tr style="border-bottom:1px solid var(--border);"><td style="padding:10px;font-family:monospace;">accounts</td><td style="padding:10px;">/accounts</td><td style="padding:10px;">Sidebar, Dashboard</td><td style="padding:10px;">name, balance, strategy, holdings</td></tr>
+        <tr style="border-bottom:1px solid var(--border);"><td style="padding:10px;font-family:monospace;">portfolio_assets</td><td style="padding:10px;">/accounts/{id}/data</td><td style="padding:10px;">TradingHub, Dashboard</td><td style="padding:10px;">symbol, shares, avgPrice, currentPrice, value, pnl</td></tr>
+        <tr style="border-bottom:1px solid var(--border);"><td style="padding:10px;font-family:monospace;">trades</td><td style="padding:10px;">/accounts/{id}/data</td><td style="padding:10px;">TradingHub, TradeAnalysis</td><td style="padding:10px;">pair, type, entry, current, pnl, pnlDollars, reasoning, status</td></tr>
+        <tr style="border-bottom:1px solid var(--border);"><td style="padding:10px;font-family:monospace;">news_articles</td><td style="padding:10px;">/news</td><td style="padding:10px;">Dashboard (Globe), NewsPage</td><td style="padding:10px;">headline, summary, ticker, impact, lat, lng, time, emoji</td></tr>
+      </tbody>
+    </table>
+    <p><strong>Key insight:</strong> The Database Person designed the tables. The Backend Person writes queries and formats JSON. The Frontend Person consumes JSON and renders UI. All three must agree on field names.</p>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<!--  SECTION 12: BUILDING & DEPLOYING                                  -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<div class="section" id="s12">
+  <div class="section-header">
+    <div class="section-number">12</div>
+    <h2>Building, Pushing & Deploying — Terminal Commands</h2>
+  </div>
+
+  <div class="card">
+    <h3>Local Development</h3>
+    <div class="terminal">
+      # Start the frontend dev server (from frontend/ directory)<br>
+      $ cd ~/QuantTrading/frontend<br>
+      $ npm run dev<br>
+      <br>
+      # Output:<br>
+      #   VITE v7.2.4  ready in 250ms<br>
+      #   ➜  Local:   http://localhost:5173/<br>
+      #   ➜  Network: http://192.168.x.x:5173/
+    </div>
+    <p>This starts Vite's dev server with Hot Module Replacement (HMR). When you edit a file, the change appears instantly in the browser without a full page reload.</p>
+
+    <h3>Building for Production</h3>
+    <div class="terminal">
+      # Build optimized static files<br>
+      $ cd ~/QuantTrading/frontend<br>
+      $ VITE_API_URL="" npm run build<br>
+      <br>
+      # Output files go to frontend/dist/<br>
+      # These are static HTML/CSS/JS files served by nginx
+    </div>
+    <p><strong>Why <code>VITE_API_URL=""</code>:</strong> Setting it to empty makes API calls use relative URLs (e.g., <code>/accounts</code> instead of <code>http://localhost:8000/accounts</code>). This works in production because nginx proxies API paths to the backend container.</p>
+
+    <h3>Pushing to GitHub</h3>
+    <div class="terminal">
+      # From the project root<br>
+      $ cd ~/QuantTrading<br>
+      $ bash push_to_github.sh "Updated frontend dashboard"<br>
+      <br>
+      # Or manually:<br>
+      $ git add .<br>
+      $ git commit -m "Updated frontend dashboard"<br>
+      $ git push origin main
+    </div>
+
+    <h3>Deploying to Server</h3>
+    <div class="terminal">
+      # SSH into the Oracle Cloud server<br>
+      $ ssh user@your-server-ip<br>
+      <br>
+      # Pull latest code<br>
+      $ cd ~/QuantTrading<br>
+      $ git pull<br>
+      <br>
+      # Rebuild frontend<br>
+      $ cd frontend<br>
+      $ npm install<br>
+      $ VITE_API_URL="" npm run build<br>
+      <br>
+      # Restart Docker (which serves the built files via nginx)<br>
+      $ cd ..<br>
+      $ docker compose up -d --build
+    </div>
+    <div class="coord-box">
+      <h4>🤝 Coordination — The Build/Deploy Pipeline</h4>
+      <p>The Frontend Developer builds static files → the Backend Developer configured nginx to serve them → the Database Person ensured PostgreSQL runs as a Docker container. All three roles come together in <code>docker-compose.yml</code>: the <code>frontend</code> service serves our <code>dist/</code> folder, the <code>backend</code> service runs FastAPI + bot engine, and the <code>db</code> service runs PostgreSQL.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<!--  SECTION 13: DEFENSE Q&A                                           -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<div class="section" id="s13">
+  <div class="section-header">
+    <div class="section-number">13</div>
+    <h2>Key Defense Q&A — How to Explain Everything</h2>
+  </div>
+
+  <div class="card">
+    <h3>Common Questions & Perfect Answers</h3>
+
+    <h4>Q: "Why did you choose React over Angular or Vue?"</h4>
+    <p><strong>A:</strong> React 19 was chosen for its component-based architecture, massive ecosystem (Globe.gl, Recharts, TradingView widgets all have React wrappers), and the team's familiarity with JSX. React's virtual DOM provides excellent performance for our data-intensive dashboard that polls live data every 5 seconds. Additionally, React's ecosystem has the best financial charting libraries and 3D visualization tools.</p>
+
+    <h4>Q: "Why Zustand instead of Redux?"</h4>
+    <p><strong>A:</strong> Zustand is significantly lighter (1KB vs Redux's 7KB+), requires zero boilerplate (no reducers, action types, or Provider wrappers), and naturally works with React hooks. For our project's state complexity (2 stores: auth + accounts), Redux would be over-engineering. Zustand's <code>getState()</code> also lets us access store state outside React components (e.g., in async API calls), which Redux makes difficult.</p>
+
+    <h4>Q: "How does the frontend stay in sync with the backend?"</h4>
+    <p><strong>A:</strong> We use polling-based real-time data. The Dashboard and TradingHub pages poll <code>GET /accounts/{id}/data</code> every 5 seconds using <code>setInterval</code> inside <code>useEffect</code>. We chose polling over WebSockets because: (a) the bot engine updates prices every 60 seconds, so 5-second polling is more than sufficient, (b) WebSockets add complexity and the data doesn't change fast enough to justify it, (c) polling is simpler to implement and debug.</p>
+
+    <h4>Q: "How does authentication work end-to-end?"</h4>
+    <p><strong>A:</strong> User enters email + password → Frontend sends form-encoded POST to <code>/auth/login</code> → Backend verifies bcrypt hash against database → Backend creates a JWT with 30-day expiry containing the user's email → Frontend stores JWT in localStorage → Every subsequent API request includes <code>Authorization: Bearer {token}</code> header → Backend's <code>get_current_user()</code> dependency decodes the JWT to identify the user → If token expires, any API call returns 401, and our frontend auto-logs out.</p>
+
+    <h4>Q: "Explain the 3D Globe on the dashboard."</h4>
+    <p><strong>A:</strong> We use <code>react-globe.gl</code>, which is a React wrapper around the Globe.gl library (built on Three.js for WebGL 3D rendering). The globe displays a high-resolution Earth texture from NASA's Blue Marble dataset. News articles from the backend <code>/news</code> endpoint include latitude/longitude coordinates assigned based on the financial center most relevant to the article (New York, London, Tokyo, etc.). These are rendered as interactive HTML elements on the globe surface using the <code>htmlElementsData</code> prop. Users can rotate the globe, hover for tooltips, and click markers to navigate to the full AI analysis page.</p>
+
+    <h4>Q: "What would you improve if you had more time?"</h4>
+    <p><strong>A:</strong> (1) WebSocket connection for truly real-time price updates instead of polling. (2) Service Worker for offline capability and push notifications. (3) Mobile-responsive design (currently optimized for desktop). (4) Performance optimization with React.memo and useMemo for expensive re-renders. (5) End-to-end tests with Cypress or Playwright. (6) Accessibility improvements (ARIA labels, keyboard navigation).</p>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <p style="color:var(--gold);font-weight:700;font-size:1.1rem;margin-bottom:8px;">QuantTrading — Frontend Developer Report</p>
+  <p>Generated for project defense preparation • Role 1 of 3</p>
+  <p style="margin-top:16px;font-size:0.8rem;">Total Frontend Files: 19 • Total Libraries: 12 • Total Pages: 8 • Total Components: 4</p>
+</div>
+
+</div>
+</body>
+</html>

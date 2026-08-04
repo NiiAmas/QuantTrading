@@ -426,33 +426,34 @@ def _evaluate_and_execute(session, signal: TradeSignal, account: Account, curren
     session.add(new_trade)
 
     # Create or update the PortfolioAsset record
-    # (This tracks the total holding of each symbol per account)
-    asset = (
-        session.query(PortfolioAsset)
-        .filter(PortfolioAsset.account_id == account.id, PortfolioAsset.symbol == signal.symbol)
-        .first()
-    )
-
+    # (Only physical spot holdings for Long Crypto/Stocks. Never for Shorts or Forex/Commodities)
     asset_class = _classify_asset(signal.symbol)
-
-    if asset:
-        # Average into existing position
-        total_shares = asset.shares + quantity
-        total_cost = (asset.shares * asset.avg_price) + (quantity * current_price)
-        asset.avg_price = total_cost / total_shares if total_shares > 0 else current_price
-        asset.shares = total_shares
-        asset.current_price = current_price
-    else:
-        # Create new portfolio entry
-        new_asset = PortfolioAsset(
-            account_id=account.id,
-            symbol=signal.symbol,
-            asset_class=asset_class,
-            shares=quantity,
-            avg_price=current_price,
-            current_price=current_price
+    
+    if trade_type == "Long" and asset_class in ("Crypto", "Stock"):
+        asset = (
+            session.query(PortfolioAsset)
+            .filter(PortfolioAsset.account_id == account.id, PortfolioAsset.symbol == signal.symbol)
+            .first()
         )
-        session.add(new_asset)
+
+        if asset:
+            # Average into existing position
+            total_shares = asset.shares + quantity
+            total_cost = (asset.shares * asset.avg_price) + (quantity * current_price)
+            asset.avg_price = total_cost / total_shares if total_shares > 0 else current_price
+            asset.shares = total_shares
+            asset.current_price = current_price
+        else:
+            # Create new portfolio entry
+            new_asset = PortfolioAsset(
+                account_id=account.id,
+                symbol=signal.symbol,
+                asset_class=asset_class,
+                shares=quantity,
+                avg_price=current_price,
+                current_price=current_price
+            )
+            session.add(new_asset)
 
     # Deduct position value from account balance
     # (This simulates "spending money" to buy the asset)
@@ -681,19 +682,21 @@ def _close_trade(session, trade: Trade, close_price: float, reason: str):
         returned_value = trade.position_value + pnl_dollars
         account.balance += returned_value
 
-    # Remove from portfolio assets (or reduce quantity)
-    asset = (
-        session.query(PortfolioAsset)
-        .filter(
-            PortfolioAsset.account_id == trade.account_id,
-            PortfolioAsset.symbol == trade.symbol
+    # Remove from portfolio assets (only if this was a physical Spot Long trade)
+    asset_class = _classify_asset(trade.symbol)
+    if trade.trade_type == "Long" and asset_class in ("Crypto", "Stock"):
+        asset = (
+            session.query(PortfolioAsset)
+            .filter(
+                PortfolioAsset.account_id == trade.account_id,
+                PortfolioAsset.symbol == trade.symbol
+            )
+            .first()
         )
-        .first()
-    )
-    if asset:
-        asset.shares -= trade.quantity
-        if asset.shares <= 0.0001:  # Effectively zero
-            session.delete(asset)
+        if asset:
+            asset.shares -= trade.quantity
+            if asset.shares <= 0.0001:  # Effectively zero
+                session.delete(asset)
 
     result_emoji = "💰" if pnl_dollars >= 0 else "💸"
     logger.info(

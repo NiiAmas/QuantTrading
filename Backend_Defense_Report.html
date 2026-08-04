@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuantTrading — Backend & Systems Engineer Report</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #0B0E14;
+            color: #E2E8F0;
+            line-height: 1.7;
+            font-size: 11pt;
+        }
+        
+        .page {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 50px;
+        }
+        
+        /* Cover Page */
+        .cover {
+            page-break-after: always;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 90vh;
+            text-align: center;
+            border: 3px solid #10B981; /* Emerald */
+            padding: 60px;
+            margin-bottom: 40px;
+            background: linear-gradient(135deg, #064E3B, #0B0E14);
+            border-radius: 12px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
+        }
+        .cover h1 {
+            font-size: 36pt;
+            font-weight: 800;
+            color: #F8FAFC;
+            margin-bottom: 8px;
+            border-bottom: none;
+        }
+        .cover .subtitle {
+            font-size: 16pt;
+            color: #94A3B8;
+            margin-bottom: 40px;
+        }
+        .cover .version {
+            font-size: 12pt;
+            color: #64748B;
+            margin-top: 20px;
+        }
+        .cover .gold-line {
+            width: 150px;
+            height: 4px;
+            background: #10B981;
+            margin: 20px auto;
+            border-radius: 2px;
+        }
+        
+        h1 { font-size: 22pt; font-weight: 800; color: #F8FAFC; margin: 50px 0 20px 0; border-bottom: 3px solid #10B981; padding-bottom: 10px; }
+        h2 { font-size: 16pt; font-weight: 700; color: #10B981; margin: 40px 0 16px 0; }
+        h3 { font-size: 13pt; font-weight: 600; color: #34D399; margin: 25px 0 10px 0; }
+        h4 { font-size: 11pt; font-weight: 600; color: #94A3B8; margin: 15px 0 6px 0; }
+        
+        p { margin: 12px 0; color: #CBD5E1; }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 16px 0 24px 0;
+            font-size: 10pt;
+            background: #151922;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+        }
+        th {
+            background: #064E3B;
+            color: #F8FAFC;
+            padding: 12px 16px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 9.5pt;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: 2px solid #10B981;
+        }
+        td {
+            padding: 12px 16px;
+            border-bottom: 1px solid #334155;
+            vertical-align: top;
+            color: #CBD5E1;
+        }
+        tr:nth-child(even) td { background: #0F172A; }
+        
+        code {
+            background: rgba(52, 211, 153, 0.1);
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-family: 'SF Mono', 'Fira Code', monospace;
+            font-size: 9.5pt;
+            color: #34D399;
+            border: 1px solid rgba(52, 211, 153, 0.2);
+        }
+        
+        pre {
+            background: #000;
+            color: #A78BFA;
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-size: 9.5pt;
+            line-height: 1.6;
+            margin: 16px 0;
+            border: 1px solid #334155;
+            box-shadow: inset 0 2px 4px 0 rgba(0, 0, 0, 0.5);
+        }
+        pre code { background: none; color: inherit; padding: 0; border: none; }
+        
+        .note {
+            background: rgba(16, 185, 129, 0.1);
+            border-left: 4px solid #10B981;
+            padding: 16px 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+            font-size: 10.5pt;
+            color: #F8FAFC;
+        }
+        
+        .folder-tree {
+            background: #0F172A;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #334155;
+            font-family: 'SF Mono', monospace;
+            font-size: 9.5pt;
+            line-height: 1.6;
+            white-space: pre;
+            color: #94A3B8;
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 8.5pt;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+        .badge-pass { background: rgba(16, 185, 129, 0.2); color: #34D399; border: 1px solid #10B981; }
+        .badge-warn { background: rgba(245, 158, 11, 0.2); color: #FBBF24; border: 1px solid #F59E0B; }
+        
+        .flow-diagram {
+            background: #151922;
+            border: 1px solid #334155;
+            border-radius: 8px;
+            padding: 30px;
+            margin: 20px 0;
+            text-align: center;
+            font-size: 10pt;
+            color: #CBD5E1;
+        }
+        .flow-arrow { color: #10B981; font-weight: bold; font-size: 16pt; margin: 10px 0; display: block; }
+        
+        ul, ol { margin: 12px 0 12px 30px; color: #CBD5E1; }
+        li { margin: 6px 0; }
+    </style>
+</head>
+<body>
+<div class="page">
+
+<!-- COVER PAGE -->
+<div class="cover">
+    <h1>⚙️ QuantTrading</h1>
+    <div class="subtitle">Backend Architecture & Systems Engineering</div>
+    <div class="gold-line"></div>
+    <p style="font-size: 14pt; color: #CBD5E1; max-width: 600px; margin: 20px auto;">
+        Comprehensive Project Defense Document<br>
+        <strong>Role: Backend & Systems Engineer</strong>
+    </p>
+    <div class="gold-line"></div>
+    <div class="version">
+        <p><strong>System:</strong> Python / FastAPI / Docker / FinBERT AI</p>
+        <p><strong>Prepared for:</strong> Final Presentation Defense</p>
+    </div>
+</div>
+
+<!-- TABLE OF CONTENTS -->
+<h1>Table of Contents</h1>
+<ol style="font-size: 12pt; line-height: 2.2;">
+    <li><a href="#s1" style="color: #34D399; text-decoration: none;">Role Overview & Responsibilities</a></li>
+    <li><a href="#s2" style="color: #34D399; text-decoration: none;">Technology Stack & Libraries</a></li>
+    <li><a href="#s3" style="color: #34D399; text-decoration: none;">The AI Trading Engine (Orchestration)</a></li>
+    <li><a href="#s4" style="color: #34D399; text-decoration: none;">FinBERT & 3-Layer Verification</a></li>
+    <li><a href="#s5" style="color: #34D399; text-decoration: none;">Cross-Role Collaboration</a></li>
+    <li><a href="#s6" style="color: #34D399; text-decoration: none;">Cloud Infrastructure & Deployment</a></li>
+    <li><a href="#s7" style="color: #34D399; text-decoration: none;">Critical Challenges & Solutions</a></li>
+</ol>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<h1 id="s1">1. Role Overview & Responsibilities</h1>
+
+<p>As the Backend and Systems Engineer, my mandate was to design the "Brain" and the "Spine" of the operation. I built the high-speed REST APIs for the frontend, programmed the autonomous 24/7 AI trading orchestrator, implemented the NLP sentiment models, and architected the secure cloud deployment infrastructure using Docker and Nginx.</p>
+
+<p>My core responsibilities included:</p>
+<ul>
+    <li>Architecting the asynchronous Python web server using FastAPI.</li>
+    <li>Designing the 3-Layer Verification logic (Technical, Sentiment, and Quantitative Analysis).</li>
+    <li>Managing the massive 2GB HuggingFace FinBERT machine learning model securely in memory.</li>
+    <li>Building the multi-speed infinite loop that fetches live data without triggering third-party API rate limits.</li>
+    <li>Orchestrating containerized deployment (Docker Compose) and configuring the Reverse Proxy (Nginx) for live production cloud hosting.</li>
+</ul>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<h1 id="s2" class="section-break">2. Technology Stack & Libraries</h1>
+
+<p>I selected highly specialized backend technologies focused heavily on concurrency and machine learning efficiency.</p>
+
+<table>
+    <tr><th>Library / Tech</th><th>Version</th><th>Specific Purpose & Justification</th></tr>
+    <tr><td><strong>FastAPI & Uvicorn</strong></td><td>0.115 / 0.34</td><td>Chosen over Flask or Django because it uses Python's native <code>async/await</code>. This allows the server to handle thousands of concurrent HTTP requests (ASGI) extremely fast, which is critical for live financial charting data.</td></tr>
+    <tr><td><strong>HuggingFace Transformers</strong></td><td>4.52.4</td><td>The industry standard for loading and inferencing advanced NLP models. I used this to load the <code>ProsusAI/finbert</code> weights to analyze financial headlines.</td></tr>
+    <tr><td><strong>yfinance</strong></td><td>0.2.62</td><td>Used to scrape live ticker prices and OHLCV (Open, High, Low, Close, Volume) candlestick data directly from Yahoo Finance APIs in real-time.</td></tr>
+    <tr><td><strong>passlib & python-jose</strong></td><td>1.7.4 / 3.5.0</td><td>Security libraries. Passlib hashes user passwords using the military-grade <code>bcrypt</code> algorithm, and python-jose generates the JWT (JSON Web Tokens) for session authentication.</td></tr>
+    <tr><td><strong>Docker & Nginx</strong></td><td>Latest</td><td>DevOps infrastructure. Docker ensures the app runs identically on my laptop and the cloud server. Nginx acts as a firewall, intercepting Port 80 traffic and safely proxying it to our Python backend on Port 8000.</td></tr>
+</table>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<h1 id="s3" class="section-break">3. The AI Trading Engine (Orchestration)</h1>
+
+<p>The core of the backend is not just responding to HTTP requests, but actively trading in the background. I built <code>bot_engine.py</code> to act as the autonomous orchestrator.</p>
+
+<div class="folder-tree">📂 Backend/
+├── bot_engine.py              — Main infinite loop (runs 24/7)
+├── ai_analysis.py             — FinBERT lazy loading & sentiment scoring
+├── trade_executor.py          — 3-Layer verification logic & DB entry
+├── data_ingestion.py          — Fetches news from NewsAPI and RSS</div>
+
+<h3>Deep Dive: The Multi-Speed Loop</h3>
+<p>If the bot checked the News APIs every 60 seconds, we would get permanently banned for rate-limiting. I engineered a multi-speed timing architecture to solve this.</p>
+
+<pre><code># Inside bot_engine.py main loop
+while True:
+    now = time.time()
+
+    # FAST LOOP: Price check + Stop-Loss monitor (Every 60 seconds)
+    price_check_cycle()
+
+    # MEDIUM LOOP: Trade Execution (Every 5 minutes)
+    if now - _last_trade_exec >= 300:
+        trade_execution_cycle()
+        _last_trade_exec = now
+
+    # SLOW LOOP: News Fetching + FinBERT AI (Every 15 minutes)
+    if now - _last_news_ai >= 900:
+        news_ai_cycle()
+        trade_execution_cycle() # Immediately execute new signals
+        _last_news_ai = now
+        
+    time.sleep(60)</code></pre>
+<p><strong>Code Defense:</strong> This infinite loop staggers resource-heavy operations. The Fast Loop ensures we never miss a stop-loss (executing every minute). The Slow Loop only hits the NewsAPI every 15 minutes, fetching a maximum of 5 rotating symbols per cycle to guarantee we stay completely under the free-tier rate limits.</p>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<h1 id="s4" class="section-break">4. FinBERT & 3-Layer Verification</h1>
+
+<h3>FinBERT Lazy Loading</h3>
+<p>FinBERT is a 2GB model. If I loaded it globally on server startup, the server would crash from out-of-memory errors before the APIs even booted.</p>
+
+<pre><code># Inside ai_analysis.py
+def _load_model():
+    global _tokenizer, _model, _model_loaded
+    if _model_loaded: return
+    
+    _tokenizer = AutoTokenizer.from_pretrained("ProsusAI/finbert")
+    _model = AutoModelForSequenceClassification.from_pretrained("ProsusAI/finbert")
+    _model.eval()  # Disables dropout for faster inference
+    
+    _model_loaded = True</code></pre>
+<p><strong>Code Defense:</strong> The <code>_load_model()</code> function is only called when the very first news article needs analysis. Furthermore, setting <code>_model.eval()</code> puts the PyTorch tensors into Evaluation Mode. This disables gradient calculations (which are only needed when training AI), massively speeding up the AI's response time and saving server RAM.</p>
+
+<h3>The 3-Layer Verification Gate</h3>
+<p>Before any AI signal becomes a real trade, I routed it through my custom verification engine in <code>trade_executor.py</code>.</p>
+<ol>
+    <li><strong>Layer 1 (Technical):</strong> Uses NumPy to calculate RSI, MACD, and Bollinger Bands.</li>
+    <li><strong>Layer 2 (Sentiment):</strong> The FinBERT NLP probability output.</li>
+    <li><strong>Layer 3 (Quantitative):</strong> Uses standard deviation to calculate Volatility and Sharpe ratios.</li>
+</ol>
+<p>The system requires at least <strong>2 out of the 3 layers to agree</strong> before a database insertion is allowed. This mathematically eliminated false positives caused by AI hallucinations.</p>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<h1 id="s5" class="section-break">5. Cross-Role Collaboration</h1>
+
+<h2>🤝 Correlating with the Frontend Developer</h2>
+<p>I had to build the infrastructure that the Frontend Developer relied on.</p>
+<ul>
+    <li><strong>CORS & Security:</strong> When the Frontend Developer tried to connect their React app on Port 5173 to my FastAPI server on Port 8000, their browser blocked it. I had to import <code>CORSMiddleware</code> in FastAPI and specifically whitelist their origins.</li>
+    <li><strong>API Design:</strong> I built highly specific JSON response models. For example, instead of making the frontend calculate math, I designed the <code>/bot/stats</code> endpoint to pre-calculate total open trades, total P&L, and win-rates, serving it as a clean JSON payload for them to inject into Zustand.</li>
+</ul>
+
+<h2>🤝 Correlating with the Database Architect</h2>
+<p>I correlated heavily with the DB Architect. While they designed the tables, I was the one writing the SQLAlchemy ORM logic to inject data into them.</p>
+<ul>
+    <li>When my FinBERT model finishes a cycle, I had to import the <code>TradeSignal</code> class from the DB Architect's <code>init_db.py</code> file and commit the row to PostgreSQL with <code>executed=False</code> so my executor loop could find it later.</li>
+</ul>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<h1 id="s6" class="section-break">6. Cloud Infrastructure & Deployment</h1>
+
+<p>I didn't just write code; I put it live on the internet using professional DevOps practices.</p>
+
+<h3>Docker & Docker Compose</h3>
+<p>To avoid "It works on my machine" syndrome, I containerized the entire stack.</p>
+<pre><code># Inside docker-compose.yml
+services:
+  backend:
+    build: .
+    restart: always
+    ports:
+      - "8000:8000"
+    depends_on:
+      db:
+        condition: service_healthy</code></pre>
+<p><strong>Code Defense:</strong> This YAML file orchestrates our servers. <code>restart: always</code> ensures that if the Python bot crashes due to an out-of-memory error, Docker will automatically reboot it within seconds. The <code>depends_on</code> block ensures the Python server waits for the PostgreSQL database to fully boot up before trying to connect, preventing race conditions.</p>
+
+<h3>The Deployment Script</h3>
+<p>I wrote a bash script (<code>deploy.sh</code>) to automate CI/CD updates on the live server.</p>
+<pre><code>#!/bin/bash
+# Rebuild containers in the background without downtime
+docker-compose up --build -d
+
+# Prune old images to save disk space
+docker image prune -f</code></pre>
+<p>When the team needed to push an update, I simply ran this SSH command from my terminal:</p>
+<pre><code>ssh root@188.166.155.154 "cd /root/QuantTrading && bash deploy.sh"</code></pre>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<h1 id="s7" class="section-break">7. Critical Challenges & Solutions</h1>
+
+<table>
+    <tr><th>The Challenge</th><th>The Engineering Solution</th></tr>
+    <tr>
+        <td><strong>API Rate Limit Bans</strong><br>We were using the free tier of NewsAPI (100 requests per day). In Version 1.0, the bot requested news for all 26 symbols every 15 minutes, exhausting our entire daily quota in less than an hour.</td>
+        <td><span class="badge badge-pass">Resolved</span><br>I engineered a Symbol Rotation algorithm. The bot now takes the list of 26 symbols, slices it, and only analyzes 5 symbols per cycle. It takes ~1 hour to loop through all symbols, perfectly pacing our requests to stay under 100 per day. I also built a fallback system to scrape free RSS feeds if the API fails.</td>
+    </tr>
+    <tr>
+        <td><strong>Zombie Python Processes</strong><br>During development, when I pressed Ctrl+C to kill the server, the Uvicorn web server died, but the background <code>bot_engine.py</code> loop kept running in the background as an orphaned zombie process, secretly placing duplicate trades.</td>
+        <td><span class="badge badge-pass">Resolved</span><br>I implemented <code>supervisord.conf</code> inside our Docker container. Supervisor acts as a master process manager that strictly binds the FastAPI server and the Bot Engine together. If one process receives a kill signal, Supervisor ensures the other is violently terminated, preventing rogue bot trading.</td>
+    </tr>
+</table>
+
+</div>
+</body>
+</html>

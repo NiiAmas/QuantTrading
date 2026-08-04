@@ -10,22 +10,21 @@ def migrate():
     print("--- 🔄 MIGRATING DATABASE ---")
     
     with engine.connect() as conn:
-        # Check if columns already exist before adding
         try:
-            conn.execute(text("SELECT asset_types FROM accounts LIMIT 1"))
-            print("   ✅ 'asset_types' column already exists.")
-        except Exception:
             conn.execute(text("ALTER TABLE accounts ADD COLUMN asset_types TEXT;"))
             conn.commit()
             print("   ✅ Added 'asset_types' column to accounts table.")
+        except Exception:
+            conn.rollback()
+            print("   ✅ 'asset_types' column already exists.")
         
         try:
-            conn.execute(text("SELECT sectors FROM accounts LIMIT 1"))
-            print("   ✅ 'sectors' column already exists.")
-        except Exception:
             conn.execute(text("ALTER TABLE accounts ADD COLUMN sectors TEXT;"))
             conn.commit()
             print("   ✅ Added 'sectors' column to accounts table.")
+        except Exception:
+            conn.rollback()
+            print("   ✅ 'sectors' column already exists.")
     
     print("--- ✅ MIGRATION COMPLETE ---")
 

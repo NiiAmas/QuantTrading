@@ -1,0 +1,1379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QuantTrading — Backend & Engineering Report</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg: #0a0a0f;
+  --card: #12121a;
+  --border: #1e1e2e;
+  --accent: #10B981;
+  --accent-glow: rgba(16, 185, 129, 0.12);
+  --gold: #D4AF37;
+  --blue: #60a5fa;
+  --red: #EF4444;
+  --text: #e2e8f0;
+  --muted: #64748b;
+  --code-bg: #1a1a2e;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Inter', sans-serif;
+  line-height: 1.8;
+}
+
+.hero {
+  background: linear-gradient(135deg, #0f172a 0%, #064e3b 50%, #0f172a 100%);
+  border-bottom: 2px solid var(--accent);
+  padding: 80px 40px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  top: 50%; left: 50%;
+  width: 600px; height: 600px;
+  background: radial-gradient(circle, rgba(16,185,129,0.08) 0%, transparent 70%);
+  transform: translate(-50%, -50%);
+}
+.hero-badge {
+  display: inline-block;
+  background: var(--accent-glow);
+  border: 1px solid rgba(16,185,129,0.3);
+  color: var(--accent);
+  padding: 6px 20px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  margin-bottom: 20px;
+}
+.hero h1 {
+  font-size: 3.5rem;
+  font-weight: 900;
+  background: linear-gradient(135deg, #10B981, #34d399, #10B981);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 16px;
+  position: relative;
+}
+.hero p {
+  color: var(--muted);
+  font-size: 1.1rem;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.container { max-width: 1100px; margin: 0 auto; padding: 40px 30px; }
+
+.toc {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 40px;
+  margin: 40px 0;
+}
+.toc h2 {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--accent);
+  margin-bottom: 24px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+.toc ol { list-style: none; counter-reset: toc-counter; }
+.toc ol li { counter-increment: toc-counter; margin-bottom: 10px; }
+.toc ol li a {
+  color: var(--text);
+  text-decoration: none;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  transition: all 0.2s;
+}
+.toc ol li a:hover { background: var(--accent-glow); color: var(--accent); }
+.toc ol li a::before {
+  content: counter(toc-counter, decimal-leading-zero);
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 700;
+  color: var(--accent);
+  min-width: 30px;
+}
+
+.section { margin: 60px 0; scroll-margin-top: 20px; }
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 30px;
+  padding-bottom: 16px;
+  border-bottom: 2px solid var(--border);
+}
+.section-number {
+  background: var(--accent);
+  color: #000;
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 800;
+  font-size: 1.1rem;
+  width: 48px; height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.section-header h2 { font-size: 1.8rem; font-weight: 800; }
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 30px;
+  margin: 20px 0;
+}
+.card h3 { font-size: 1.2rem; font-weight: 700; color: var(--gold); margin-bottom: 12px; }
+.card h4 { font-size: 1rem; font-weight: 700; color: var(--accent); margin: 20px 0 8px; }
+
+.file-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--accent);
+  border-radius: 0 12px 12px 0;
+  padding: 24px 30px;
+  margin: 20px 0;
+}
+.file-card .file-path {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.85rem;
+  color: var(--accent);
+  background: var(--accent-glow);
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 6px;
+  margin-bottom: 12px;
+}
+
+pre {
+  background: var(--code-bg);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 20px;
+  overflow-x: auto;
+  margin: 16px 0;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.82rem;
+  line-height: 1.7;
+  color: #c9d1d9;
+}
+code {
+  font-family: 'JetBrains Mono', monospace;
+  background: rgba(16,185,129,0.1);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 0.85em;
+  color: var(--accent);
+}
+pre code { background: none; padding: 0; color: inherit; }
+
+.tag {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 6px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+.tag-lib { background: rgba(139,92,246,0.15); color: #a78bfa; border: 1px solid rgba(139,92,246,0.3); }
+.tag-file { background: rgba(96,165,250,0.15); color: #60a5fa; border: 1px solid rgba(96,165,250,0.3); }
+.tag-coord { background: rgba(212,175,55,0.15); color: #D4AF37; border: 1px solid rgba(212,175,55,0.3); }
+.tag-cmd { background: rgba(16,185,129,0.15); color: #10B981; border: 1px solid rgba(16,185,129,0.3); }
+.tag-net { background: rgba(239,68,68,0.15); color: #EF4444; border: 1px solid rgba(239,68,68,0.3); }
+
+.coord-box {
+  background: linear-gradient(135deg, rgba(212,175,55,0.05), rgba(212,175,55,0.02));
+  border: 1px solid rgba(212,175,55,0.2);
+  border-radius: 12px;
+  padding: 24px;
+  margin: 20px 0;
+}
+.coord-box h4 {
+  color: var(--gold);
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 12px;
+}
+
+.terminal {
+  background: #000;
+  border: 1px solid #333;
+  border-radius: 10px;
+  padding: 20px;
+  margin: 16px 0;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.82rem;
+  color: #10B981;
+  position: relative;
+}
+.terminal::before {
+  content: 'TERMINAL';
+  position: absolute;
+  top: -10px; left: 16px;
+  background: #000;
+  padding: 0 8px;
+  font-size: 0.65rem;
+  color: #555;
+  letter-spacing: 2px;
+}
+
+ul, ol { padding-left: 24px; }
+li { margin-bottom: 8px; }
+
+.highlight {
+  background: var(--accent-glow);
+  border-left: 3px solid var(--accent);
+  padding: 16px 20px;
+  border-radius: 0 8px 8px 0;
+  margin: 16px 0;
+}
+
+.flow-diagram {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 24px;
+  background: var(--code-bg);
+  border-radius: 12px;
+  margin: 16px 0;
+  flex-wrap: wrap;
+}
+.flow-box {
+  background: var(--card);
+  border: 1px solid var(--border);
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 0.85rem;
+  text-align: center;
+}
+.flow-arrow { color: var(--accent); font-size: 1.5rem; font-weight: 900; }
+
+.footer {
+  text-align: center;
+  padding: 60px 20px;
+  border-top: 1px solid var(--border);
+  color: var(--muted);
+}
+
+@media print {
+  body { background: #fff; color: #000; }
+  .hero { background: #f0f0f5; }
+  pre { background: #f5f5f5; color: #333; }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<!--  HERO                                                              -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<div class="hero">
+  <div class="hero-badge">Role 2 of 3 — Backend Engineer</div>
+  <h1>Backend & Engineering Report</h1>
+  <p>Complete step-by-step guide to the FastAPI server, bot engine orchestration, AI analysis pipeline, trade execution, networking, Docker containerization, and cloud deployment.</p>
+  <p style="margin-top:12px;font-size:0.85rem;color:#555;">QuantTrading — AI-Powered Quantitative Trading Platform</p>
+</div>
+
+<div class="container">
+
+<!-- TABLE OF CONTENTS -->
+<div class="toc">
+  <h2>📑 Table of Contents</h2>
+  <ol>
+    <li><a href="#s1">Project Overview & Your Role as Backend Engineer</a></li>
+    <li><a href="#s2">Technology Stack & Every Python Library Explained</a></li>
+    <li><a href="#s3">Project Initialization — Setting Up the Python Backend</a></li>
+    <li><a href="#s4">main.py — The FastAPI Server (Every Endpoint Explained)</a></li>
+    <li><a href="#s5">database.py — The Database Connection Engine</a></li>
+    <li><a href="#s6">bot_engine.py — The 3-Speed Orchestration Engine</a></li>
+    <li><a href="#s7">trade_executor.py — 3-Layer Verification & Trade Logic</a></li>
+    <li><a href="#s8">data_ingestion.py — Market Data & News Pipeline</a></li>
+    <li><a href="#s9">ai_analysis.py — FinBERT Sentiment Analysis Engine</a></li>
+    <li><a href="#s10">quantitative_analysis.py — Statistical Math Engine</a></li>
+    <li><a href="#s11">email_reports.py — Automated Email Reports</a></li>
+    <li><a href="#s12">Networking, Docker & Cloud Deployment</a></li>
+    <li><a href="#s13">Shell Scripts — start.sh, deploy.sh, push_to_github.sh</a></li>
+    <li><a href="#s14">Backend ↔ Frontend Correlation Map</a></li>
+    <li><a href="#s15">Backend ↔ Database Correlation Map</a></li>
+    <li><a href="#s16">Key Defense Q&A</a></li>
+  </ol>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<!--  SECTION 1                                                         -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<div class="section" id="s1">
+  <div class="section-header">
+    <div class="section-number">01</div>
+    <h2>Project Overview & Your Role as Backend Engineer</h2>
+  </div>
+  <div class="card">
+    <h3>What the Backend Does</h3>
+    <p>The backend is the <strong>brain and nervous system</strong> of the entire QuantTrading platform. It does everything the user CANNOT see: authenticating users, connecting to the database, running the autonomous trading bot 24/7, fetching live market prices, running AI sentiment analysis, executing trades, managing risk, computing portfolio statistics, and serving all this data to the frontend through API endpoints.</p>
+
+    <h4>Your Role: Backend & Engineering</h4>
+    <p>As the Backend Engineer, you were responsible for:</p>
+    <ul>
+      <li><strong>FastAPI REST API</strong> — 15+ endpoints serving data to the frontend</li>
+      <li><strong>Authentication system</strong> — JWT-based auth with bcrypt password hashing + Google OAuth</li>
+      <li><strong>Bot Engine</strong> — The autonomous trading bot with 3-speed loop architecture</li>
+      <li><strong>3-Layer Verification System</strong> — Technical Analysis + FinBERT Sentiment + Quantitative Analysis</li>
+      <li><strong>Data ingestion</strong> — Live prices from yfinance + news from NewsAPI + RSS feeds</li>
+      <li><strong>AI/ML pipeline</strong> — FinBERT model loading, inference, and lazy caching</li>
+      <li><strong>Trade execution</strong> — Position sizing, stop-loss/take-profit, risk management</li>
+      <li><strong>Email reporting</strong> — Automated daily SMTP email reports</li>
+      <li><strong>Networking & Hosting</strong> — Docker containerization, nginx reverse proxy, cloud deployment</li>
+      <li><strong>DevOps scripts</strong> — start.sh, deploy.sh, push_to_github.sh</li>
+    </ul>
+
+    <h4>How Your Work Connects to Other Roles</h4>
+    <p><strong>With the Frontend Person:</strong> Every endpoint you create in <code>main.py</code> is consumed by an <code>axios</code> call in the React frontend. You define the JSON response shape; they build UI around it. You handle authentication; they send the JWT token in headers.</p>
+    <p><strong>With the Database Person:</strong> You write SQLAlchemy queries against the tables they designed. When you call <code>session.query(Trade).filter(...)</code>, you're querying table schemas they defined in <code>init_db.py</code>. You import their ORM models and use them throughout your code.</p>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<!--  SECTION 2                                                         -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<div class="section" id="s2">
+  <div class="section-header">
+    <div class="section-number">02</div>
+    <h2>Technology Stack & Every Python Library Explained</h2>
+  </div>
+
+  <div class="file-card">
+    <div class="file-path">requirements.txt — All Python Dependencies</div>
+
+    <h4>Core Framework <span class="tag tag-lib">API SERVER</span></h4>
+    <pre><code>fastapi==0.115.12    # The web framework for building APIs
+uvicorn[standard]==0.34.3  # ASGI server that runs FastAPI
+pydantic==2.11.3     # Data validation (request/response models)
+python-multipart==0.0.9  # Form data parsing (for OAuth2 login)</code></pre>
+    <p><strong>FastAPI</strong> — A modern, high-performance Python web framework. Chosen because: (a) it's the fastest Python framework (built on Starlette/ASGI), (b) automatic API documentation via Swagger UI at <code>/docs</code>, (c) native async support, (d) Pydantic integration for request/response validation. Our <code>main.py</code> defines the entire API.</p>
+    <p><strong>Uvicorn</strong> — The ASGI server that actually serves FastAPI. When you run <code>uvicorn main:app --host 0.0.0.0 --port 8000</code>, Uvicorn starts an HTTP server that forwards requests to our FastAPI app.</p>
+    <p><strong>Pydantic</strong> — Validates incoming request data. When a frontend sends JSON like <code>{"email":"user@test.com","password":"abc"}</code>, Pydantic ensures the fields exist and are the correct type.</p>
+
+    <h4>Database <span class="tag tag-lib">ORM</span></h4>
+    <pre><code>sqlalchemy==2.0.41       # ORM for database operations
+psycopg2-binary==2.9.10  # PostgreSQL driver
+python-dotenv==1.1.0     # Load .env files</code></pre>
+    <p><strong>SQLAlchemy 2.0</strong> — Object-Relational Mapper (ORM) that lets us interact with PostgreSQL using Python classes instead of raw SQL. Each database table is represented by a Python class (e.g., <code>class Trade(Base)</code>), and we query with <code>session.query(Trade).filter(Trade.status == "Open")</code>.</p>
+    <p><strong>psycopg2-binary</strong> — The PostgreSQL driver for Python. SQLAlchemy uses this under the hood to connect to PostgreSQL. The <code>-binary</code> variant includes pre-compiled C extensions so you don't need to compile them yourself.</p>
+    <p><strong>python-dotenv</strong> — Loads environment variables from <code>.env</code> files. We use this to keep secrets (API keys, database passwords) out of source code.</p>
+
+    <h4>Authentication <span class="tag tag-lib">SECURITY</span></h4>
+    <pre><code>passlib[bcrypt]==1.7.4         # Password hashing
+python-jose[cryptography]==3.5.0  # JWT token creation/validation
+bcrypt==3.2.2                  # bcrypt algorithm</code></pre>
+    <p><strong>passlib + bcrypt</strong> — Hashes passwords with the bcrypt algorithm before storing them. Bcrypt is specifically designed for password hashing — it's intentionally slow (making brute-force attacks impractical) and automatically salts each hash (preventing rainbow table attacks). When a user registers with password <code>"abc123"</code>, we store something like <code>"$2b$12$eXaMpLe..."</code>.</p>
+    <p><strong>python-jose</strong> — Creates and validates JSON Web Tokens (JWT). When a user logs in successfully, we create a JWT containing their email and an expiration date (30 days). The frontend stores this token and sends it with every request.</p>
+
+    <h4>Data & AI <span class="tag tag-lib">ML/DATA</span></h4>
+    <pre><code>yfinance==0.2.62      # Yahoo Finance API for live prices
+pandas==2.3.0         # Data manipulation
+numpy==2.3.0          # Mathematical operations
+requests==2.32.4      # HTTP requests (for NewsAPI)
+feedparser==6.0.11    # RSS feed parser
+beautifulsoup4==4.13.4  # HTML parsing for web scraping
+python-dateutil==2.9.0  # Date parsing</code></pre>
+    <p><strong>yfinance</strong> — Our primary data source for live stock/crypto/forex prices. We call <code>yf.Ticker("AAPL").history(period="3mo")</code> to get historical price data for technical and quantitative analysis. It's free, requires no API key, and covers all major markets.</p>
+    <p><strong>NumPy</strong> — Used in <code>quantitative_analysis.py</code> for mathematical calculations: volatility (standard deviation), Sharpe ratio, mean reversion z-scores, and trend strength. These are computed on NumPy arrays of closing prices.</p>
+
+    <h4>FinBERT AI Model <span class="tag tag-lib">ARTIFICIAL INTELLIGENCE</span></h4>
+    <pre><code>torch              # PyTorch deep learning framework
+transformers==4.52.4  # Hugging Face model library</code></pre>
+    <p><strong>PyTorch</strong> — The deep learning framework that runs FinBERT. We install CPU-only PyTorch (no GPU needed) to keep the Docker image small. PyTorch handles tensor operations and neural network inference.</p>
+    <p><strong>Transformers (Hugging Face)</strong> — Provides <code>AutoTokenizer</code> and <code>AutoModelForSequenceClassification</code> to load the pre-trained FinBERT model. FinBERT is a BERT model fine-tuned specifically on financial text. It classifies news headlines as positive/negative/neutral with confidence scores.</p>
+    <p><strong>Model details:</strong> FinBERT (<code>ProsusAI/finbert</code>) is ~440MB. We use lazy loading — the model is only loaded into memory when the first sentiment analysis request comes in. This prevents ~2GB RAM usage at startup.</p>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<!--  SECTION 3                                                         -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<div class="section" id="s3">
+  <div class="section-header">
+    <div class="section-number">03</div>
+    <h2>Project Initialization — Setting Up the Python Backend</h2>
+  </div>
+  <div class="card">
+    <h3>Step-by-Step from Zero</h3>
+
+    <h4>Step 1: Create the Python Virtual Environment</h4>
+    <div class="terminal">
+      $ cd ~/QuantTrading<br>
+      $ python3 -m venv venv<br>
+      $ source venv/bin/activate    # On macOS/Linux<br>
+      (venv) $
+    </div>
+    <p><strong>Why a virtual environment?</strong> It isolates Python dependencies from your system Python. This project uses specific versions (FastAPI 0.115, SQLAlchemy 2.0, etc.) that might conflict with other projects.</p>
+
+    <h4>Step 2: Install All Dependencies</h4>
+    <div class="terminal">
+      (venv) $ pip install --extra-index-url https://download.pytorch.org/whl/cpu -r requirements.txt
+    </div>
+    <p><strong>Why <code>--extra-index-url</code>:</strong> By default, <code>pip install torch</code> downloads the GPU version (~2GB). The <code>--extra-index-url https://download.pytorch.org/whl/cpu</code> tells pip to use the CPU-only PyTorch index, which is ~200MB. We don't need GPU because FinBERT inference on CPU is fast enough for our use case (analyzing ~20 headlines per cycle).</p>
+
+    <h4>Step 3: Set Up Environment Variables</h4>
+    <div class="terminal">
+      $ cp .env.example .env<br>
+      $ nano .env
+    </div>
+    <pre><code># .env file
+DB_USER=niiamas
+DB_PASS=
+DB_HOST=localhost
+DB_NAME=quant_db
+NEWS_API_KEY=4870e71a24d441d6bc1f980745c9a0c8</code></pre>
+    <p><strong>Why <code>.env</code> files:</strong> Secrets like API keys and database passwords should never be committed to Git. The <code>python-dotenv</code> library loads these at runtime.</p>
+
+    <h4>Step 4: Initialize the Database</h4>
+    <div class="terminal">
+      (venv) $ python init_db.py
+    </div>
+    <p>This creates all 7 database tables using SQLAlchemy's <code>Base.metadata.create_all()</code>. The Database person defined the models; we run this to create the physical tables.</p>
+
+    <h4>Step 5: Start the API Server</h4>
+    <div class="terminal">
+      (venv) $ python main.py<br>
+      <br>
+      INFO:     Uvicorn running on http://0.0.0.0:8000<br>
+      INFO:     Application startup complete.
+    </div>
+
+    <h4>Step 6: Start the Bot Engine (separate process)</h4>
+    <div class="terminal">
+      (venv) $ python bot_engine.py<br>
+      <br>
+      🚀 BOT ENGINE STARTED — 3-LAYER VERIFICATION SYSTEM ONLINE<br>
+      ⏱️  Fast Loop: 60s | Medium: 5min | Slow: 15min
+    </div>
+
+    <div class="coord-box">
+      <h4>🤝 Coordination — Timing with Frontend</h4>
+      <p>The Backend must be running on port 8000 BEFORE the Frontend developer starts their React dev server. The Frontend's <code>api.js</code> points to <code>http://127.0.0.1:8000</code>. If the backend isn't running, every API call in the frontend returns a network error.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<!--  SECTION 4                                                         -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<div class="section" id="s4">
+  <div class="section-header">
+    <div class="section-number">04</div>
+    <h2>main.py — The FastAPI Server (Every Endpoint)</h2>
+  </div>
+
+  <div class="file-card">
+    <div class="file-path">main.py — 500+ lines — The API Brain</div>
+    <p>This is the central file of the backend. It creates the FastAPI application, defines all REST API endpoints, handles authentication, and serves data to the frontend.</p>
+
+    <h4>Application Setup</h4>
+    <pre><code>app = FastAPI(title="QuantTrading API")
+
+# CORS — Allow frontend to talk to us
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],          # Accept from any origin
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)</code></pre>
+    <p><strong>Why CORS?</strong> Browsers block JavaScript from making requests to a different origin (port 5173 → port 8000). CORS middleware tells the browser "it's okay, allow requests from the frontend." <code>allow_origins=["*"]</code> allows all origins (in production, you'd restrict this to your domain).</p>
+
+    <h4>Database Dependency Injection</h4>
+    <pre><code>def get_db():
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()</code></pre>
+    <p><strong>Why <code>yield</code>?</strong> This is FastAPI's dependency injection pattern. Every endpoint that needs database access declares <code>db: Session = Depends(get_db)</code>. FastAPI calls <code>get_db()</code>, creates a session, <code>yield</code>s it to the endpoint function, and after the endpoint returns (or raises an error), the <code>finally</code> block closes the session. This prevents database connection leaks.</p>
+
+    <h4>Authentication Endpoints</h4>
+    <pre><code># POST /auth/register
+@app.post("/auth/register")
+def register(data: dict, db: Session = Depends(get_db)):
+    # 1. Check if email already exists
+    # 2. Hash password with bcrypt: pwd_context.hash(data["password"])
+    # 3. Create User record in database
+    # 4. Return JWT token
+
+# POST /auth/login
+@app.post("/auth/login")
+def login(form: OAuth2PasswordRequestForm, db: Session = Depends(get_db)):
+    # 1. Find user by email (form.username maps to email)
+    # 2. Verify bcrypt hash: pwd_context.verify(form.password, user.hashed_password)
+    # 3. If valid, create JWT: create_access_token(data={"sub": user.email})
+    # 4. Return {"access_token": token, "token_type": "bearer"}</code></pre>
+    <p><strong>JWT creation function:</strong></p>
+    <pre><code>def create_access_token(data: dict):
+    to_encode = data.copy()
+    expire = datetime.utcnow() + timedelta(days=30)  # 30-day expiry
+    to_encode.update({"exp": expire})
+    encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm="HS256")
+    return encoded_jwt</code></pre>
+    <p><strong>Why HS256?</strong> HMAC-SHA256 is a symmetric signing algorithm. The same <code>SECRET_KEY</code> is used to both sign and verify tokens. This is simpler than RS256 (asymmetric) and appropriate for single-server deployments.</p>
+
+    <h4>Account CRUD Endpoints</h4>
+    <pre><code># GET /accounts — List all accounts for the logged-in user
+@app.get("/accounts")
+def get_accounts(user=Depends(get_current_user), db=Depends(get_db)):
+    accounts = db.query(Account).filter(Account.user_id == user.id).all()
+    return [{
+        "id": str(a.id),
+        "name": a.name,
+        "balance": a.balance,
+        "type": a.strategy,
+        "holdings": [pa.symbol for pa in db.query(PortfolioAsset).filter(
+            PortfolioAsset.account_id == a.id, PortfolioAsset.shares > 0
+        ).all()],
+        # ... more fields
+    } for a in accounts]</code></pre>
+    <p><strong>Key concept — <code>Depends(get_current_user)</code>:</strong> This is the authentication gate. <code>get_current_user</code> extracts the JWT from the <code>Authorization</code> header, decodes it, finds the user in the database, and returns the User object. If the token is invalid/expired, it raises <code>HTTPException(401)</code> automatically.</p>
+
+    <h4>The Critical <code>/accounts/{id}/data</code> Endpoint</h4>
+    <p>This is the most important data endpoint — it computes and returns ALL live portfolio data for a single account:</p>
+    <pre><code>@app.get("/accounts/{account_id}/data")
+def get_account_data(account_id: int, user=Depends(get_current_user), db=Depends(get_db)):
+    # Returns:
+    # {
+    #   "positions": [...],     ← PortfolioAsset records with live prices
+    #   "tradeLedger": [...],   ← All trades (open + closed) with live P&L
+    #   "accountStats": {       ← Computed portfolio statistics
+    #     "realizedBalance": ...,
+    #     "unrealizedBalance": ...,
+    #     "availableMargin": ...,
+    #     "realizedReturn": ...,
+    #     "unrealizedReturn": ...
+    #   }
+    # }</code></pre>
+    <p>This endpoint is polled by the frontend every 5 seconds. It queries <code>PortfolioAsset</code> and <code>Trade</code> tables, computes unrealized P&L using current market prices, and returns a comprehensive JSON payload.</p>
+
+    <h4>Market Explorer Endpoint</h4>
+    <pre><code>@app.get("/explorer")
+def get_explorer(assetClass: str = "All"):
+    # Uses ThreadPoolExecutor for parallel price fetching
+    with concurrent.futures.ThreadPoolExecutor(max_workers=10) as executor:
+        futures = {executor.submit(fetch_single_asset, sym): sym for sym in symbols}
+        for future in concurrent.futures.as_completed(futures, timeout=3):
+            result = future.result()
+            # ... process result</code></pre>
+    <p><strong>Why ThreadPoolExecutor?</strong> Fetching live prices from yfinance is an I/O-bound operation. Without parallel execution, fetching 12 symbols sequentially takes 15-20 seconds. With 10 threads, we fetch all in ~2 seconds. The 3-second timeout prevents slow symbols from blocking the response.</p>
+
+    <h4>Auto-start Table Creation</h4>
+    <pre><code>@app.on_event("startup")
+def on_startup():
+    Base.metadata.create_all(bind=engine)  # Create tables if they don't exist</code></pre>
+    <p>FastAPI's startup event ensures database tables exist before any request is served. This is idempotent — if tables already exist, <code>create_all()</code> does nothing.</p>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<!--  SECTION 5                                                         -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<div class="section" id="s5">
+  <div class="section-header">
+    <div class="section-number">05</div>
+    <h2>database.py — The Database Connection Engine</h2>
+  </div>
+  <div class="file-card">
+    <div class="file-path">database.py — Database Configuration</div>
+    <pre><code>from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
+
+# Build the PostgreSQL connection URL from environment variables
+DB_USER = os.getenv("DB_USER", "niiamas")
+DB_PASS = os.getenv("DB_PASS", "")
+DB_HOST = os.getenv("DB_HOST", "localhost")
+DB_NAME = os.getenv("DB_NAME", "quant_db")
+
+# Support both individual vars and full DATABASE_URL (for Docker)
+DATABASE_URL = os.getenv("DATABASE_URL",
+    f"postgresql://{DB_USER}:{DB_PASS}@{DB_HOST}/{DB_NAME}")
+
+# Create the SQLAlchemy engine with connection pooling
+engine = create_engine(
+    DATABASE_URL,
+    pool_size=5,          # Keep 5 connections ready
+    max_overflow=10,      # Allow 10 extra during spikes
+    pool_pre_ping=True    # Test connections before using (handles DB restarts)
+)
+
+SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)</code></pre>
+    <p><strong>Connection pooling explained:</strong></p>
+    <ul>
+      <li><code>pool_size=5</code> — SQLAlchemy maintains 5 persistent connections to PostgreSQL. These are reused across requests, avoiding the overhead of creating new connections.</li>
+      <li><code>max_overflow=10</code> — During traffic spikes, up to 10 additional temporary connections can be created (total max: 15).</li>
+      <li><code>pool_pre_ping=True</code> — Before using a pooled connection, SQLAlchemy sends a lightweight query (<code>SELECT 1</code>) to check if it's still alive. This handles cases where PostgreSQL restarted.</li>
+    </ul>
+    <div class="coord-box">
+      <h4>🤝 Coordination — How This Connects to Database Person</h4>
+      <p>The <code>DATABASE_URL</code> connects to the PostgreSQL instance the Database person set up. In development, it's <code>postgresql://niiamas:@localhost/quant_db</code>. In Docker production, it's <code>postgresql://quantbot:quantbot_secure_pw@db:5432/quant_db</code> (where <code>db</code> is the Docker service name). The <code>SessionLocal</code> factory is imported by <code>main.py</code>, <code>bot_engine.py</code>, <code>trade_executor.py</code>, and <code>email_reports.py</code>.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<!--  SECTION 6                                                         -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<div class="section" id="s6">
+  <div class="section-header">
+    <div class="section-number">06</div>
+    <h2>bot_engine.py — The 3-Speed Orchestration Engine</h2>
+  </div>
+  <div class="file-card">
+    <div class="file-path">bot_engine.py — 200+ lines — The Autonomous Trading Brain</div>
+    <p>This is the heart of the system. It runs as a separate process alongside the API server and executes the trading strategy autonomously.</p>
+
+    <h4>Architecture: 3-Speed Loop</h4>
+    <pre><code># The main loop — runs forever until killed
+while True:
+    # ─── FAST LOOP (every 60 seconds) ───
+    # Update live prices for all tracked symbols
+    fast_cycle(session)
+
+    # ─── MEDIUM LOOP (every 5 minutes) ───
+    if cycles_since_medium >= 5:
+        medium_cycle(session)     # Run 3-Layer Verification + Execute Trades
+        cycles_since_medium = 0
+
+    # ─── SLOW LOOP (every 15 minutes) ───
+    if cycles_since_slow >= 15:
+        slow_cycle(session)       # Fetch fresh news + AI analysis
+        cycles_since_slow = 0
+
+    time.sleep(60)  # Base tick: 60 seconds</code></pre>
+
+    <p><strong>Why 3 speeds?</strong></p>
+    <ul>
+      <li><strong>Fast (60s):</strong> Price updates need to be frequent for accurate P&L calculations. The frontend polls every 5 seconds, so stale prices = stale portfolio values.</li>
+      <li><strong>Medium (5min):</strong> Trade decisions don't need to be made every second. 5-minute intervals give enough time for price movements to develop meaningful patterns while avoiding over-trading.</li>
+      <li><strong>Slow (15min):</strong> News API has a free-tier limit of 100 requests/day. At 15-minute intervals, that's 96 requests/day — just under the limit. The AI analysis is also CPU-intensive, so spacing it out prevents overload.</li>
+    </ul>
+
+    <h4>Fast Cycle: <code>fast_cycle(session)</code></h4>
+    <pre><code>def fast_cycle(session):
+    """Update live prices for every tracked symbol across all accounts."""
+    accounts = session.query(Account).all()
+    all_symbols = set()
+    for account in accounts:
+        assets = session.query(PortfolioAsset).filter(
+            PortfolioAsset.account_id == account.id, PortfolioAsset.shares > 0
+        ).all()
+        for asset in assets:
+            all_symbols.add(asset.symbol)
+    
+    # Batch-fetch prices from yfinance
+    prices = data_ingestion.get_bulk_prices(list(all_symbols))
+    
+    # Update each asset's current_price in the database
+    for symbol, price in prices.items():
+        session.query(PortfolioAsset).filter(
+            PortfolioAsset.symbol == symbol
+        ).update({"current_price": price})</code></pre>
+
+    <h4>Medium Cycle: <code>medium_cycle(session)</code></h4>
+    <pre><code>def medium_cycle(session):
+    """Run 3-Layer Verification and execute trades for all accounts."""
+    accounts = session.query(Account).all()
+    for account in accounts:
+        trade_executor.process_account(session, account)
+        # Also check stop-loss and take-profit on existing positions
+        trade_executor.check_exit_conditions(session, account)</code></pre>
+
+    <h4>Slow Cycle: <code>slow_cycle(session)</code></h4>
+    <pre><code>def slow_cycle(session):
+    """Fetch news from NewsAPI + RSS feeds, run FinBERT sentiment analysis."""
+    # Rotate through symbols in batches of 5 to stay under API limits
+    news_data = data_ingestion.fetch_news_for_symbols(current_batch)
+    
+    # Run FinBERT sentiment on each headline
+    for article in news_data:
+        sentiment = ai_analysis.analyze_sentiment(article["headline"])
+        article["impact"] = sentiment["label"]   # "Bullish" or "Bearish"
+        article["confidence"] = sentiment["score"]
+    
+    # Store in database for the frontend /news endpoint
+    data_ingestion.store_news(session, news_data)
+    
+    # Check if it's time to send daily email report
+    email_reports.check_and_send_daily_report()</code></pre>
+
+    <div class="coord-box">
+      <h4>🤝 Coordination — Bot Engine + API Server Run Simultaneously</h4>
+      <p>The bot engine runs as a SEPARATE Python process. In development, you open two terminals: one for <code>python main.py</code> (API) and one for <code>python bot_engine.py</code> (bot). In production Docker, <code>supervisord</code> manages both processes inside a single container. The Database person designed the tables so both processes can read/write concurrently (SQLAlchemy handles connection pooling).</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<!--  SECTION 7                                                         -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<div class="section" id="s7">
+  <div class="section-header">
+    <div class="section-number">07</div>
+    <h2>trade_executor.py — 3-Layer Verification & Trade Logic</h2>
+  </div>
+  <div class="file-card">
+    <div class="file-path">trade_executor.py — 550+ lines — The Decision Engine</div>
+
+    <h4>Risk Profiles</h4>
+    <pre><code>RISK_PROFILES = {
+    "Low":        {"position_pct": 0.05, "sl_mult": 1.0, "tp_mult": 1.5, "min_layers": 3},
+    "Moderate":   {"position_pct": 0.08, "sl_mult": 1.5, "tp_mult": 2.5, "min_layers": 2},
+    "Aggressive":  {"position_pct": 0.12, "sl_mult": 2.5, "tp_mult": 4.0, "min_layers": 2},
+}</code></pre>
+    <p><strong>What each parameter means:</strong></p>
+    <ul>
+      <li><code>position_pct</code> — How much of the account balance to risk per trade (5%, 8%, or 12%)</li>
+      <li><code>sl_mult</code> — Stop-loss multiplier based on ATR (Average True Range). Higher = wider stop, less likely to get stopped out but larger potential loss</li>
+      <li><code>tp_mult</code> — Take-profit multiplier. Higher = larger target, but less likely to be reached</li>
+      <li><code>min_layers</code> — Minimum number of verification layers that must pass. Low risk requires ALL 3 layers; Moderate and Aggressive need 2/3</li>
+    </ul>
+
+    <h4>The 3-Layer Verification Process</h4>
+    <pre><code>def run_3_layer_verification(symbol, direction):
+    """
+    Layer 1: Technical Analysis (TA)
+      → Checks RSI, MACD, Bollinger Bands, SMA crossover
+      → Returns: BULLISH, BEARISH, or NEUTRAL with confidence
+    
+    Layer 2: Sentiment Analysis (SA)
+      → Runs FinBERT AI on recent news headlines for this symbol
+      → Returns: BUY, SELL, or HOLD with confidence
+    
+    Layer 3: Quantitative Analysis (QA)
+      → Calculates volatility, ATR, momentum, Sharpe ratio, R:R ratio
+      → Returns: FAVORABLE, UNFAVORABLE, or NEUTRAL with confidence
+    """
+    ta_result = technical_analysis(symbol)     # Layer 1
+    sa_result = ai_analysis.analyze(symbol)    # Layer 2
+    qa_result = quantitative_analysis.analyze(symbol, direction)  # Layer 3
+    
+    # Count how many layers agree with the proposed trade
+    passed = 0
+    if ta_result matches direction: passed += 1
+    if sa_result matches direction: passed += 1
+    if qa_result matches direction: passed += 1
+    
+    return passed  # Must be >= min_layers to execute</code></pre>
+
+    <div class="flow-diagram">
+      <div class="flow-box" style="border-color:#60a5fa;">Layer 1<br>Technical Analysis<br><small>RSI, MACD, Bollinger, SMA</small></div>
+      <div class="flow-arrow">+</div>
+      <div class="flow-box" style="border-color:#a78bfa;">Layer 2<br>Sentiment Analysis<br><small>FinBERT AI on news</small></div>
+      <div class="flow-arrow">+</div>
+      <div class="flow-box" style="border-color:#10B981;">Layer 3<br>Quantitative Analysis<br><small>Volatility, Sharpe, R:R</small></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-box" style="border-color:#D4AF37;">Trade Decision<br><small>2/3 or 3/3 must pass</small></div>
+    </div>
+
+    <h4>Position Sizing Formula</h4>
+    <pre><code># How much money to put into a trade
+position_size = account.balance * RISK_PROFILES[strategy]["position_pct"]
+# Example: $10,000 balance × 8% = $800 per trade position
+
+# How many shares/coins to buy
+shares = position_size / current_price
+# Example: $800 / $150.00 per share = 5.33 shares of AAPL</code></pre>
+
+    <h4>Stop-Loss & Take-Profit Calculation</h4>
+    <pre><code># Stop-loss = entry price - (ATR × sl_mult)
+stop_loss = entry_price - (atr * risk_profile["sl_mult"])
+
+# Take-profit = entry price + (ATR × tp_mult)
+take_profit = entry_price + (atr * risk_profile["tp_mult"])</code></pre>
+    <p><strong>Why ATR-based?</strong> ATR (Average True Range) measures how much the price typically moves in a day. Using ATR-based stops adapts to each asset's volatility. A volatile crypto like BTC might have an ATR of $2,000, while a stable stock like JNJ might have an ATR of $1.50. Fixed dollar stops wouldn't work across such different assets.</p>
+
+    <div class="coord-box">
+      <h4>🤝 Coordination — Trade Storage</h4>
+      <p>When a trade is executed, <code>trade_executor.py</code> creates a <code>Trade</code> record in the database (using the Database person's model) with all fields: symbol, entry_price, quantity, trade_type, stop_loss, take_profit, reasoning, status ("Open"). When a stop-loss or take-profit is hit, we update the record to status "Closed", set <code>exit_price</code> and <code>closed_at</code>. The Frontend displays this data via the <code>/accounts/{id}/data</code> endpoint.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<!--  SECTION 8                                                         -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<div class="section" id="s8">
+  <div class="section-header">
+    <div class="section-number">08</div>
+    <h2>data_ingestion.py — Market Data & News Pipeline</h2>
+  </div>
+  <div class="file-card">
+    <div class="file-path">data_ingestion.py — Data Fetching Engine</div>
+    <p>This module handles all external data fetching: live prices from yfinance, news from NewsAPI, and RSS feeds from financial websites.</p>
+
+    <h4>Price Fetching</h4>
+    <pre><code>def get_bulk_prices(symbols: list) -> dict:
+    """Fetch current prices for multiple symbols at once."""
+    prices = {}
+    for symbol in symbols:
+        try:
+            ticker = yf.Ticker(symbol)
+            hist = ticker.history(period="1d")
+            if not hist.empty:
+                prices[symbol] = hist["Close"].iloc[-1]
+        except Exception as e:
+            logger.warning(f"Price fetch failed for {symbol}: {e}")
+    return prices</code></pre>
+
+    <h4>News Fetching (NewsAPI)</h4>
+    <pre><code>def fetch_news_for_symbols(symbols: list) -> list:
+    """Fetch financial news from NewsAPI for given symbols."""
+    NEWS_API_KEY = os.getenv("NEWS_API_KEY")
+    articles = []
+    
+    for symbol in symbols[:5]:  # Batch of 5 to conserve API quota
+        query = symbol.replace("-USD", "")  # "BTC-USD" → "BTC"
+        url = f"https://newsapi.org/v2/everything?q={query}&language=en&sortBy=publishedAt&pageSize=5&apiKey={NEWS_API_KEY}"
+        response = requests.get(url)
+        # ... parse and format articles with geo-coordinates</code></pre>
+    <p><strong>API rate limit management:</strong> NewsAPI free tier allows 100 requests/day. We rotate through symbols in batches of 5, fetching every 15 minutes. With 20 tracked symbols and 4 fetches/hour × 16 hours = 64 requests/day — well within the limit.</p>
+
+    <h4>Geo-Coordinate Assignment</h4>
+    <pre><code>FINANCIAL_CENTERS = {
+    "AAPL": {"lat": 37.33, "lng": -122.03, "emoji": "🍎"},  # Cupertino
+    "BTC-USD": {"lat": 25.03, "lng": 121.57, "emoji": "₿"},  # Global/Asia
+    "GOOGL": {"lat": 37.42, "lng": -122.08, "emoji": "🔍"},  # Mountain View
+    # ...
+}</code></pre>
+    <p>Each symbol is assigned a financial center location. These lat/lng values are sent to the frontend so the 3D Globe can position news markers geographically.</p>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<!--  SECTION 9                                                         -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<div class="section" id="s9">
+  <div class="section-header">
+    <div class="section-number">09</div>
+    <h2>ai_analysis.py — FinBERT Sentiment Analysis Engine</h2>
+  </div>
+  <div class="file-card">
+    <div class="file-path">ai_analysis.py — The AI Brain</div>
+
+    <h4>Lazy Model Loading</h4>
+    <pre><code>_tokenizer = None
+_model = None
+
+def _load_model():
+    """Load FinBERT model ONLY when first needed (saves ~2GB RAM at startup)."""
+    global _tokenizer, _model
+    if _tokenizer is None:
+        logger.info("🧠 Loading FinBERT model (first time — this takes 30-60 seconds)...")
+        _tokenizer = AutoTokenizer.from_pretrained("ProsusAI/finbert")
+        _model = AutoModelForSequenceClassification.from_pretrained("ProsusAI/finbert")
+        _model.eval()  # Set to inference mode (no gradient computation)
+        logger.info("✅ FinBERT loaded successfully!")
+    return _tokenizer, _model</code></pre>
+    <p><strong>Why lazy loading?</strong> FinBERT uses ~2GB RAM. If we loaded it at startup, the API server would take 60+ seconds to start and immediately consume 2GB. With lazy loading, the model loads only when the first sentiment analysis request comes in (during the slow cycle). The global variables <code>_tokenizer</code> and <code>_model</code> persist across function calls, so the model is loaded exactly once.</p>
+
+    <h4>Sentiment Inference</h4>
+    <pre><code>def analyze_sentiment(text: str) -> dict:
+    tokenizer, model = _load_model()
+    
+    # Tokenize the text (convert words to numbers)
+    inputs = tokenizer(text, return_tensors="pt", truncation=True, max_length=512)
+    
+    # Run through the neural network (no gradients needed for inference)
+    with torch.no_grad():
+        outputs = model(**inputs)
+    
+    # Convert logits to probabilities with softmax
+    probs = torch.nn.functional.softmax(outputs.logits, dim=-1)
+    
+    # FinBERT labels: [positive, negative, neutral]
+    labels = ["positive", "negative", "neutral"]
+    scores = probs[0].tolist()
+    
+    # Return the highest-confidence label
+    max_idx = scores.index(max(scores))
+    return {
+        "label": labels[max_idx],        # "positive" or "negative"
+        "score": scores[max_idx],         # 0.0 to 1.0 confidence
+        "all_scores": dict(zip(labels, scores))
+    }</code></pre>
+    <p><strong>Step-by-step inference pipeline:</strong></p>
+    <ol>
+      <li><strong>Tokenization:</strong> Converts "Apple stock surges on AI chip news" into numerical token IDs that the neural network understands</li>
+      <li><strong>Forward pass:</strong> The FinBERT model (12 layers of transformer attention) processes the tokens and outputs raw logit scores</li>
+      <li><strong>Softmax:</strong> Converts raw logits into probability distribution (sums to 1.0)</li>
+      <li><strong>Classification:</strong> The highest probability determines the sentiment label</li>
+    </ol>
+    <p><strong><code>torch.no_grad()</code></strong> — Disables gradient computation during inference. During training, PyTorch tracks gradients for backpropagation. During inference, we don't need gradients, so disabling them saves ~50% memory and speeds up computation.</p>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<!--  SECTION 10                                                        -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<div class="section" id="s10">
+  <div class="section-header">
+    <div class="section-number">10</div>
+    <h2>quantitative_analysis.py — Statistical Math Engine</h2>
+  </div>
+  <div class="file-card">
+    <div class="file-path">quantitative_analysis.py — Layer 3 of 3-Layer Verification</div>
+    <p>This module uses pure mathematics and statistics to evaluate if a trade setup has a favorable risk/reward profile. It calculates 7 metrics:</p>
+
+    <h4>1. Volatility (Standard Deviation of Returns)</h4>
+    <pre><code>def _calculate_volatility(closes, period=20):
+    returns = np.diff(closes) / closes[:-1]  # Daily % changes
+    return float(np.std(returns[-period:]))   # Std dev of last 20 days</code></pre>
+    <p><strong>What it measures:</strong> How much the price fluctuates day-to-day. Low volatility (&lt;1.5%) = stable, good for conservative trades. High volatility (&gt;5%) = risky, needs wider stop-losses.</p>
+
+    <h4>2. ATR (Average True Range)</h4>
+    <pre><code>def _calculate_atr(highs, lows, closes, period=14):
+    for i in range(1, period + 1):
+        tr = max(
+            highs[-i] - lows[-i],            # Today's range
+            abs(highs[-i] - closes[-i-1]),    # Gap up
+            abs(lows[-i] - closes[-i-1])      # Gap down
+        )
+    return np.mean(tr_list)</code></pre>
+    <p><strong>Why 3 components?</strong> True Range captures gaps (when today's open is far from yesterday's close), which simple High-Low range misses.</p>
+
+    <h4>3. Sharpe Ratio</h4>
+    <pre><code>def _calculate_sharpe_ratio(closes, period=30, risk_free_rate=0.05):
+    returns = np.diff(closes[-period:]) / closes[-period:-1]
+    excess_return = np.mean(returns) - (risk_free_rate / 252)  # Daily risk-free rate
+    return excess_return / np.std(returns) * np.sqrt(252)       # Annualized</code></pre>
+    <p><strong>Formula:</strong> Sharpe = (Return - Risk-Free Rate) / Standard Deviation. A Sharpe &gt; 1.0 means excellent risk-adjusted returns. We annualize by multiplying by √252 (trading days per year). The risk-free rate is 5% (current US Treasury yield).</p>
+
+    <h4>4. Mean Reversion Z-Score</h4>
+    <pre><code>def _mean_reversion_score(closes, period=50):
+    mean = np.mean(closes[-period:])
+    std = np.std(closes[-period:])
+    return (closes[-1] - mean) / std  # How many std devs from mean</code></pre>
+    <p><strong>Trading logic:</strong> Z-score &lt; -1.5 = price is far below average → potential bounce up (good for BUY). Z-score &gt; 1.5 = price is far above average → potential pullback (good for SELL).</p>
+
+    <h4>Scoring System</h4>
+    <pre><code># Each metric produces a score from -0.7 to +0.7
+# The average of all 7 scores determines the verdict:
+if avg_score > 0.15:  verdict = "FAVORABLE"     # Math supports the trade
+elif avg_score < -0.15: verdict = "UNFAVORABLE"  # Math is against the trade
+else: verdict = "NEUTRAL"                         # Inconclusive — soft pass</code></pre>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<!--  SECTION 11                                                        -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<div class="section" id="s11">
+  <div class="section-header">
+    <div class="section-number">11</div>
+    <h2>email_reports.py — Automated Email Reports</h2>
+  </div>
+  <div class="file-card">
+    <div class="file-path">email_reports.py — Daily SMTP Reports</div>
+    <p>Sends professional HTML email reports to every registered user at 11 PM daily.</p>
+
+    <h4>How It Works</h4>
+    <pre><code># Called every bot cycle by bot_engine.py
+def check_and_send_daily_report():
+    if not is_configured(): return      # Skip if no SMTP credentials
+    if datetime.now().hour < 23: return  # Not time yet
+    if _last_report_date == today: return  # Already sent today
+    
+    # Generate and send for ALL users
+    for user in session.query(User).all():
+        report_html = _generate_report_html(session, user)
+        _send_email(user.email, "Daily Report", report_html)</code></pre>
+
+    <h4>SMTP Configuration</h4>
+    <pre><code># Required environment variables:
+SMTP_EMAIL = os.getenv("SMTP_EMAIL")       # From: address
+SMTP_PASSWORD = os.getenv("SMTP_PASSWORD") # Gmail App Password (NOT regular password)
+SMTP_HOST = os.getenv("SMTP_HOST", "smtp.gmail.com")
+SMTP_PORT = int(os.getenv("SMTP_PORT", "587"))  # TLS port</code></pre>
+    <p><strong>Gmail App Password setup:</strong> Google doesn't allow regular password login for SMTP. You need: Google Account → Security → 2-Step Verification → App Passwords → Generate a 16-character password for "Mail".</p>
+
+    <h4>Email Sending</h4>
+    <pre><code>def _send_email(to_email, subject, html_body):
+    msg = MIMEMultipart("alternative")
+    msg["Subject"] = subject
+    msg["From"] = f"QuantTrading Bot <{SMTP_EMAIL}>"
+    msg["To"] = to_email
+    msg.attach(MIMEText(html_body, "html"))
+    
+    with smtplib.SMTP(SMTP_HOST, SMTP_PORT) as server:
+        server.starttls()   # Upgrade to encrypted connection
+        server.login(SMTP_EMAIL, SMTP_PASSWORD)
+        server.sendmail(SMTP_EMAIL, to_email, msg.as_string())</code></pre>
+    <p><strong>Why STARTTLS?</strong> Port 587 starts as unencrypted, then <code>starttls()</code> upgrades to TLS encryption. This is more compatible than direct TLS on port 465.</p>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<!--  SECTION 12                                                        -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<div class="section" id="s12">
+  <div class="section-header">
+    <div class="section-number">12</div>
+    <h2>Networking, Docker & Cloud Deployment</h2>
+  </div>
+
+  <div class="card">
+    <h3>The Networking Architecture <span class="tag tag-net">NETWORKING</span></h3>
+    <div class="flow-diagram">
+      <div class="flow-box" style="border-color:#60a5fa;">User Browser<br><small>:80</small></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-box" style="border-color:#EF4444;">Nginx<br><small>Reverse Proxy</small></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-box" style="border-color:#10B981;">FastAPI<br><small>:8000</small></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-box" style="border-color:#D4AF37;">PostgreSQL<br><small>:5432</small></div>
+    </div>
+    <p><strong>How requests flow:</strong></p>
+    <ol>
+      <li>User visits <code>http://your-server-ip</code> → hits nginx on port 80</li>
+      <li>Nginx serves static React files from <code>/usr/share/nginx/html</code></li>
+      <li>React code makes API calls to <code>/accounts</code>, <code>/news</code>, etc.</li>
+      <li>Nginx sees these paths and proxies them to the backend container on port 8000</li>
+      <li>FastAPI processes the request, queries PostgreSQL on port 5432</li>
+      <li>Response flows back: PostgreSQL → FastAPI → Nginx → Browser</li>
+    </ol>
+  </div>
+
+  <div class="file-card">
+    <div class="file-path">nginx.conf — Reverse Proxy Configuration</div>
+    <pre><code>server {
+    listen 80;
+    server_name _;
+
+    # Serve frontend static files (React build output)
+    root /usr/share/nginx/html;
+    index index.html;
+
+    # SPA routing — all non-file URLs go to index.html
+    location / {
+        try_files $uri $uri/ /index.html;
+    }
+
+    # Proxy API requests to the backend container
+    location /api/ {
+        proxy_pass http://backend:8000/;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+    }
+
+    # Also proxy direct backend paths
+    location ~ ^/(accounts|auth|signal|prices|explorer|news|bot)(/|$) {
+        proxy_pass http://backend:8000;
+    }
+}</code></pre>
+    <p><strong>Key concept — <code>try_files $uri $uri/ /index.html</code>:</strong> This is critical for Single Page Applications. When a user navigates to <code>/trading-hub</code>, nginx doesn't have a file at that path. Without this directive, nginx returns 404. With it, nginx falls back to <code>index.html</code>, which loads React, which reads the URL and renders the correct page.</p>
+    <p><strong><code>proxy_pass http://backend:8000</code>:</strong> In Docker Compose, services can reference each other by name. <code>backend</code> resolves to the backend container's IP address via Docker's internal DNS.</p>
+  </div>
+
+  <div class="file-card">
+    <div class="file-path">Dockerfile — Container Image Definition</div>
+    <pre><code>FROM python:3.11-slim
+
+WORKDIR /app
+
+# System deps for PostgreSQL driver
+RUN apt-get update && apt-get install -y gcc libpq-dev
+
+# Install supervisord (manages multiple processes)
+RUN pip install supervisor
+
+# Install Python dependencies (CPU-only PyTorch)
+COPY requirements.txt .
+RUN pip install --no-cache-dir \
+    --extra-index-url https://download.pytorch.org/whl/cpu \
+    -r requirements.txt
+
+# Copy application code
+COPY *.py ./
+COPY .env.production .env
+
+# Pre-download FinBERT during build (not at runtime!)
+RUN python -c "from transformers import AutoTokenizer, AutoModelForSequenceClassification; \
+    AutoTokenizer.from_pretrained('ProsusAI/finbert'); \
+    AutoModelForSequenceClassification.from_pretrained('ProsusAI/finbert')"
+
+# Run both API + bot via supervisord
+CMD ["supervisord", "-c", "/etc/supervisord.conf"]</code></pre>
+    <p><strong>Key decisions:</strong></p>
+    <ul>
+      <li><code>python:3.11-slim</code> — Slim image (150MB vs 900MB for full) reduces build time and disk usage</li>
+      <li><code>--extra-index-url .../cpu</code> — CPU-only PyTorch saves ~1.5GB of Docker image size</li>
+      <li>FinBERT pre-download during build — So the container starts instantly at runtime instead of downloading 440MB on first request</li>
+      <li>supervisord — Manages 2 processes (API + bot) in 1 container, which is simpler than 2 separate containers for our use case</li>
+    </ul>
+  </div>
+
+  <div class="file-card">
+    <div class="file-path">docker-compose.yml — Multi-Container Orchestration</div>
+    <pre><code>version: '3.8'
+services:
+  # PostgreSQL Database
+  db:
+    image: postgres:15-alpine
+    restart: always
+    environment:
+      POSTGRES_USER: quantbot
+      POSTGRES_PASSWORD: ${DB_PASS:-quantbot_secure_pw}
+      POSTGRES_DB: quant_db
+    volumes:
+      - pgdata:/var/lib/postgresql/data   # Persistent storage
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U quantbot -d quant_db"]
+      interval: 5s
+
+  # Backend: FastAPI + Bot Engine
+  backend:
+    build: .
+    restart: always
+    depends_on:
+      db:
+        condition: service_healthy  # Wait for DB to be ready
+    environment:
+      DATABASE_URL: postgresql://quantbot:${DB_PASS}@db:5432/quant_db
+    ports:
+      - "8000:8000"
+
+  # Frontend: Static files via Nginx
+  frontend:
+    image: nginx:alpine
+    restart: always
+    depends_on:
+      - backend
+    volumes:
+      - ./frontend/dist:/usr/share/nginx/html:ro
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    ports:
+      - "80:80"
+
+volumes:
+  pgdata:    # Named volume for persistent database storage</code></pre>
+    <p><strong>Service dependency chain:</strong> db starts first → backend waits for db's healthcheck → frontend waits for backend. This ensures the database is ready before the backend tries to connect.</p>
+  </div>
+
+  <div class="file-card">
+    <div class="file-path">supervisord.conf — Multi-Process Manager</div>
+    <pre><code>[supervisord]
+nodaemon=true     # Run in foreground (Docker requirement)
+
+[program:api]
+command=uvicorn main:app --host 0.0.0.0 --port 8000
+directory=/app
+autostart=true
+autorestart=true
+
+[program:bot_engine]
+command=python bot_engine.py
+directory=/app
+autostart=true
+autorestart=true   # If bot crashes, restart automatically</code></pre>
+    <p><strong>Why supervisord?</strong> Docker containers run ONE foreground process. We need TWO (API + bot). Supervisord acts as a process manager inside the container, starting both and restarting them if they crash.</p>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<!--  SECTION 13                                                        -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<div class="section" id="s13">
+  <div class="section-header">
+    <div class="section-number">13</div>
+    <h2>Shell Scripts — start.sh, deploy.sh, push_to_github.sh</h2>
+  </div>
+
+  <div class="file-card">
+    <div class="file-path">start.sh — Local Quick Start</div>
+    <pre><code>#!/bin/bash
+# Step 1: Kill old processes on ports 8000 and 5173
+lsof -ti :8000 | xargs kill -9 2>/dev/null
+lsof -ti :5173 | xargs kill -9 2>/dev/null
+
+# Step 2: Start API server
+./venv/bin/python main.py &
+
+# Step 3: Start bot engine
+./venv/bin/python bot_engine.py &
+
+# Step 4: Start frontend dev server
+cd frontend && npm run dev &</code></pre>
+    <p><strong>Why kill first?</strong> If old processes are still using ports 8000/5173, new ones can't bind to those ports. This script ensures a clean start.</p>
+  </div>
+
+  <div class="file-card">
+    <div class="file-path">deploy.sh — Production Cloud Deployment</div>
+    <pre><code>#!/bin/bash
+set -e  # Exit on ANY error
+
+# 1. Install Docker if not present
+if ! command -v docker &> /dev/null; then
+    curl -fsSL https://get.docker.com | sh
+fi
+
+# 2. Build frontend
+cd frontend
+VITE_API_URL="" npm run build
+cd ..
+
+# 3. Check environment file
+if [ ! -f ".env.production" ]; then
+    echo "⚠️  Please create .env.production!"
+    exit 1
+fi
+
+# 4. Build and launch all containers
+docker compose build
+docker compose up -d</code></pre>
+  </div>
+
+  <div class="file-card">
+    <div class="file-path">push_to_github.sh — Git Push Automation</div>
+    <pre><code>#!/bin/bash
+cd ~/QuantTrading
+
+COMMIT_MSG="${1:-Auto-update $(date)}"
+
+git add .
+git commit -m "$COMMIT_MSG"
+git push origin main
+
+echo "✅ Pushed. Next: SSH into server → git pull → bash start.sh"</code></pre>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<!--  SECTION 14                                                        -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<div class="section" id="s14">
+  <div class="section-header">
+    <div class="section-number">14</div>
+    <h2>Backend ↔ Frontend Correlation Map</h2>
+  </div>
+  <div class="card">
+    <h3>Every Endpoint and Which Frontend Component Calls It</h3>
+    <table style="width:100%;border-collapse:collapse;margin:16px 0;">
+      <thead>
+        <tr style="border-bottom:2px solid var(--border);">
+          <th style="padding:12px;text-align:left;color:var(--accent);font-size:0.75rem;text-transform:uppercase;">Backend Endpoint</th>
+          <th style="padding:12px;text-align:left;color:var(--accent);font-size:0.75rem;text-transform:uppercase;">Method</th>
+          <th style="padding:12px;text-align:left;color:var(--accent);font-size:0.75rem;text-transform:uppercase;">Frontend Caller</th>
+          <th style="padding:12px;text-align:left;color:var(--accent);font-size:0.75rem;text-transform:uppercase;">What Data Is Exchanged</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr style="border-bottom:1px solid var(--border);"><td style="padding:10px;font-family:monospace;">/auth/login</td><td style="padding:10px;">POST</td><td style="padding:10px;">useAuthStore.js</td><td style="padding:10px;">Form: username+password → JWT token</td></tr>
+        <tr style="border-bottom:1px solid var(--border);"><td style="padding:10px;font-family:monospace;">/auth/register</td><td style="padding:10px;">POST</td><td style="padding:10px;">useAuthStore.js</td><td style="padding:10px;">JSON: email+password+pin → JWT token</td></tr>
+        <tr style="border-bottom:1px solid var(--border);"><td style="padding:10px;font-family:monospace;">/auth/google</td><td style="padding:10px;">POST</td><td style="padding:10px;">useAuthStore.js</td><td style="padding:10px;">JSON: email → JWT token</td></tr>
+        <tr style="border-bottom:1px solid var(--border);"><td style="padding:10px;font-family:monospace;">/accounts</td><td style="padding:10px;">GET</td><td style="padding:10px;">useStore.js</td><td style="padding:10px;">→ Array of account objects</td></tr>
+        <tr style="border-bottom:1px solid var(--border);"><td style="padding:10px;font-family:monospace;">/accounts</td><td style="padding:10px;">POST</td><td style="padding:10px;">AccountWizardModal</td><td style="padding:10px;">JSON: name, balance, strategy → new account</td></tr>
+        <tr style="border-bottom:1px solid var(--border);"><td style="padding:10px;font-family:monospace;">/accounts/{id}/data</td><td style="padding:10px;">GET</td><td style="padding:10px;">Dashboard, TradingHub, Analysis</td><td style="padding:10px;">→ positions, tradeLedger, accountStats</td></tr>
+        <tr style="border-bottom:1px solid var(--border);"><td style="padding:10px;font-family:monospace;">/news</td><td style="padding:10px;">GET</td><td style="padding:10px;">Dashboard, NewsPage</td><td style="padding:10px;">→ Array of news with geo-coords</td></tr>
+        <tr style="border-bottom:1px solid var(--border);"><td style="padding:10px;font-family:monospace;">/explorer</td><td style="padding:10px;">GET</td><td style="padding:10px;">MarketsExplorer</td><td style="padding:10px;">→ Array of assets with prices/scores</td></tr>
+        <tr style="border-bottom:1px solid var(--border);"><td style="padding:10px;font-family:monospace;">/bot/stats</td><td style="padding:10px;">GET</td><td style="padding:10px;">(internal monitoring)</td><td style="padding:10px;">→ Bot status, cycle counts</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<!--  SECTION 15                                                        -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<div class="section" id="s15">
+  <div class="section-header">
+    <div class="section-number">15</div>
+    <h2>Backend ↔ Database Correlation Map</h2>
+  </div>
+  <div class="card">
+    <h3>Every SQLAlchemy Query and Which Table It Hits</h3>
+    <table style="width:100%;border-collapse:collapse;margin:16px 0;">
+      <thead>
+        <tr style="border-bottom:2px solid var(--border);">
+          <th style="padding:12px;text-align:left;color:var(--accent);font-size:0.75rem;">Backend Module</th>
+          <th style="padding:12px;text-align:left;color:var(--accent);font-size:0.75rem;">Operation</th>
+          <th style="padding:12px;text-align:left;color:var(--gold);font-size:0.75rem;">DB Table</th>
+          <th style="padding:12px;text-align:left;color:var(--muted);font-size:0.75rem;">SQL Equivalent</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr style="border-bottom:1px solid var(--border);"><td style="padding:10px;">main.py (register)</td><td style="padding:10px;">INSERT</td><td style="padding:10px;font-family:monospace;">users</td><td style="padding:10px;font-size:0.8rem;">INSERT INTO users (email, hashed_password)</td></tr>
+        <tr style="border-bottom:1px solid var(--border);"><td style="padding:10px;">main.py (login)</td><td style="padding:10px;">SELECT</td><td style="padding:10px;font-family:monospace;">users</td><td style="padding:10px;font-size:0.8rem;">SELECT * FROM users WHERE email = ?</td></tr>
+        <tr style="border-bottom:1px solid var(--border);"><td style="padding:10px;">main.py (accounts)</td><td style="padding:10px;">SELECT</td><td style="padding:10px;font-family:monospace;">accounts</td><td style="padding:10px;font-size:0.8rem;">SELECT * FROM accounts WHERE user_id = ?</td></tr>
+        <tr style="border-bottom:1px solid var(--border);"><td style="padding:10px;">trade_executor.py</td><td style="padding:10px;">INSERT</td><td style="padding:10px;font-family:monospace;">trades</td><td style="padding:10px;font-size:0.8rem;">INSERT INTO trades (symbol, entry_price, ...)</td></tr>
+        <tr style="border-bottom:1px solid var(--border);"><td style="padding:10px;">trade_executor.py</td><td style="padding:10px;">UPDATE</td><td style="padding:10px;font-family:monospace;">trades</td><td style="padding:10px;font-size:0.8rem;">UPDATE trades SET status='Closed' WHERE ...</td></tr>
+        <tr style="border-bottom:1px solid var(--border);"><td style="padding:10px;">bot_engine.py (fast)</td><td style="padding:10px;">UPDATE</td><td style="padding:10px;font-family:monospace;">portfolio_assets</td><td style="padding:10px;font-size:0.8rem;">UPDATE portfolio_assets SET current_price = ?</td></tr>
+        <tr style="border-bottom:1px solid var(--border);"><td style="padding:10px;">data_ingestion.py</td><td style="padding:10px;">INSERT</td><td style="padding:10px;font-family:monospace;">news_articles</td><td style="padding:10px;font-size:0.8rem;">INSERT INTO news_articles (headline, ...)</td></tr>
+        <tr style="border-bottom:1px solid var(--border);"><td style="padding:10px;">email_reports.py</td><td style="padding:10px;">SELECT</td><td style="padding:10px;font-family:monospace;">users, trades</td><td style="padding:10px;font-size:0.8rem;">SELECT * FROM trades WHERE created_at >= today</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<!--  SECTION 16                                                        -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<div class="section" id="s16">
+  <div class="section-header">
+    <div class="section-number">16</div>
+    <h2>Key Defense Q&A</h2>
+  </div>
+  <div class="card">
+    <h3>Common Questions & Perfect Answers</h3>
+
+    <h4>Q: "Why FastAPI over Django or Flask?"</h4>
+    <p><strong>A:</strong> FastAPI was chosen for 3 reasons: (1) Performance — it's the fastest Python framework, built on ASGI/Starlette, capable of handling thousands of concurrent requests. Our polling-based frontend makes ~720 requests/hour per active user (every 5 seconds), so performance matters. (2) Automatic API documentation — FastAPI generates Swagger UI at <code>/docs</code>, which helped the Frontend developer understand our endpoints without a separate spec document. (3) Built-in data validation via Pydantic — every request is automatically validated, reducing bugs.</p>
+
+    <h4>Q: "Explain the 3-Layer Verification System."</h4>
+    <p><strong>A:</strong> Before executing any trade, the bot runs 3 independent analysis layers: (1) Technical Analysis checks price patterns (RSI for overbought/oversold, MACD for momentum, Bollinger Bands for volatility, SMA crossovers for trend). (2) Sentiment Analysis runs our FinBERT AI model on recent news headlines for the symbol, classifying them as positive/negative/neutral. (3) Quantitative Analysis computes statistical metrics (volatility, Sharpe ratio, risk/reward ratio, mean reversion z-score). Each layer votes independently. For Moderate risk, at least 2 of 3 layers must agree. For Low risk, all 3 must agree. This multi-layer approach prevents the bot from making decisions based on a single biased signal.</p>
+
+    <h4>Q: "How does the bot manage risk?"</h4>
+    <p><strong>A:</strong> Five risk controls: (1) Position sizing — never risk more than 5-12% of account balance per trade. (2) ATR-based stop-losses — automatically calculated for each asset's volatility. (3) Take-profit targets — ATR-based targets ensure we lock in profits. (4) Maximum drawdown protection — if the portfolio drops by the configured percentage in a day, all trading halts. (5) The 3-Layer Verification gate — trades are only executed when multiple independent analyses agree.</p>
+
+    <h4>Q: "Why Docker for deployment?"</h4>
+    <p><strong>A:</strong> Docker ensures our application runs identically in development and production. The Python version, library versions, and system dependencies are frozen in the Dockerfile. Without Docker, deploying to Oracle Cloud would require manually installing Python 3.11, PostgreSQL, gcc, libpq-dev, Node.js, and all pip/npm packages — any version mismatch could cause failures. Docker Compose orchestrates 3 containers (db, backend, frontend) with a single <code>docker compose up -d</code> command.</p>
+
+    <h4>Q: "How does the backend handle concurrent database access?"</h4>
+    <p><strong>A:</strong> SQLAlchemy's connection pool manages this. We configured <code>pool_size=5</code> with <code>max_overflow=10</code>, allowing up to 15 concurrent database connections. The API server and bot engine run as separate processes, each getting their own connection from the pool. PostgreSQL handles concurrent transactions with MVCC (Multi-Version Concurrency Control), so the bot can write new trades while the API reads portfolio data simultaneously.</p>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <p style="color:var(--accent);font-weight:700;font-size:1.1rem;margin-bottom:8px;">QuantTrading — Backend & Engineering Report</p>
+  <p>Generated for project defense preparation • Role 2 of 3</p>
+  <p style="margin-top:16px;font-size:0.8rem;">Total Backend Files: 11 • Total Libraries: 15 • Total Endpoints: 15+ • Total Docker Services: 3</p>
+</div>
+
+</div>
+</body>
+</html>

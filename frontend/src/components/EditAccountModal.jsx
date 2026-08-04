@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { X, ShieldAlert, Shield, TrendingUp, Zap, Trash2 } from 'lucide-react';
 import useAccountStore from '../store/useStore';
 
@@ -60,8 +61,8 @@ export default function EditAccountModal({ isOpen, onClose, account }) {
     );
   };
 
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-md transition-all duration-300">
+  return createPortal(
+    <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/70 backdrop-blur-md transition-all duration-300">
       <div className="bg-obsidian border border-molten/30 rounded-2xl w-full max-w-3xl max-h-[90vh] overflow-hidden shadow-2xl flex flex-col animate-in fade-in zoom-in-95 duration-200">
         
         {/* Header */}
@@ -229,6 +230,7 @@ export default function EditAccountModal({ isOpen, onClose, account }) {
           )}
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }

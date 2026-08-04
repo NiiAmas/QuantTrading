@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuantTrading — Database Architect Report</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #0B0E14;
+            color: #E2E8F0;
+            line-height: 1.7;
+            font-size: 11pt;
+        }
+        
+        .page {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 50px;
+        }
+        
+        /* Cover Page */
+        .cover {
+            page-break-after: always;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 90vh;
+            text-align: center;
+            border: 3px solid #3B82F6; /* Blue */
+            padding: 60px;
+            margin-bottom: 40px;
+            background: linear-gradient(135deg, #1E3A8A, #0B0E14);
+            border-radius: 12px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
+        }
+        .cover h1 {
+            font-size: 36pt;
+            font-weight: 800;
+            color: #F8FAFC;
+            margin-bottom: 8px;
+            border-bottom: none;
+        }
+        .cover .subtitle {
+            font-size: 16pt;
+            color: #94A3B8;
+            margin-bottom: 40px;
+        }
+        .cover .version {
+            font-size: 12pt;
+            color: #64748B;
+            margin-top: 20px;
+        }
+        .cover .gold-line {
+            width: 150px;
+            height: 4px;
+            background: #3B82F6;
+            margin: 20px auto;
+            border-radius: 2px;
+        }
+        
+        h1 { font-size: 22pt; font-weight: 800; color: #F8FAFC; margin: 50px 0 20px 0; border-bottom: 3px solid #3B82F6; padding-bottom: 10px; }
+        h2 { font-size: 16pt; font-weight: 700; color: #3B82F6; margin: 40px 0 16px 0; }
+        h3 { font-size: 13pt; font-weight: 600; color: #60A5FA; margin: 25px 0 10px 0; }
+        h4 { font-size: 11pt; font-weight: 600; color: #94A3B8; margin: 15px 0 6px 0; }
+        
+        p { margin: 12px 0; color: #CBD5E1; }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 16px 0 24px 0;
+            font-size: 10pt;
+            background: #151922;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+        }
+        th {
+            background: #1E3A8A;
+            color: #F8FAFC;
+            padding: 12px 16px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 9.5pt;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: 2px solid #3B82F6;
+        }
+        td {
+            padding: 12px 16px;
+            border-bottom: 1px solid #334155;
+            vertical-align: top;
+            color: #CBD5E1;
+        }
+        tr:nth-child(even) td { background: #0F172A; }
+        
+        code {
+            background: rgba(59, 130, 246, 0.1);
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-family: 'SF Mono', 'Fira Code', monospace;
+            font-size: 9.5pt;
+            color: #60A5FA;
+            border: 1px solid rgba(59, 130, 246, 0.2);
+        }
+        
+        pre {
+            background: #000;
+            color: #A78BFA;
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-size: 9.5pt;
+            line-height: 1.6;
+            margin: 16px 0;
+            border: 1px solid #334155;
+            box-shadow: inset 0 2px 4px 0 rgba(0, 0, 0, 0.5);
+        }
+        pre code { background: none; color: inherit; padding: 0; border: none; }
+        
+        .note {
+            background: rgba(59, 130, 246, 0.1);
+            border-left: 4px solid #3B82F6;
+            padding: 16px 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+            font-size: 10.5pt;
+            color: #F8FAFC;
+        }
+        
+        .folder-tree {
+            background: #0F172A;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #334155;
+            font-family: 'SF Mono', monospace;
+            font-size: 9.5pt;
+            line-height: 1.6;
+            white-space: pre;
+            color: #94A3B8;
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 8.5pt;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+        .badge-pass { background: rgba(16, 185, 129, 0.2); color: #34D399; border: 1px solid #10B981; }
+        .badge-warn { background: rgba(245, 158, 11, 0.2); color: #FBBF24; border: 1px solid #F59E0B; }
+        
+        .flow-diagram {
+            background: #151922;
+            border: 1px solid #334155;
+            border-radius: 8px;
+            padding: 30px;
+            margin: 20px 0;
+            text-align: center;
+            font-size: 10pt;
+            color: #CBD5E1;
+        }
+        .flow-arrow { color: #3B82F6; font-weight: bold; font-size: 16pt; margin: 10px 0; display: block; }
+        
+        ul, ol { margin: 12px 0 12px 30px; color: #CBD5E1; }
+        li { margin: 6px 0; }
+    </style>
+</head>
+<body>
+<div class="page">
+
+<!-- COVER PAGE -->
+<div class="cover">
+    <h1>🗄️ QuantTrading</h1>
+    <div class="subtitle">Database Architecture & Data Integrity</div>
+    <div class="gold-line"></div>
+    <p style="font-size: 14pt; color: #CBD5E1; max-width: 600px; margin: 20px auto;">
+        Comprehensive Project Defense Document<br>
+        <strong>Role: Database Architect</strong>
+    </p>
+    <div class="gold-line"></div>
+    <div class="version">
+        <p><strong>System:</strong> PostgreSQL / SQLAlchemy ORM / Docker Volumes</p>
+        <p><strong>Prepared for:</strong> Final Presentation Defense</p>
+    </div>
+</div>
+
+<!-- TABLE OF CONTENTS -->
+<h1>Table of Contents</h1>
+<ol style="font-size: 12pt; line-height: 2.2;">
+    <li><a href="#s1" style="color: #60A5FA; text-decoration: none;">Role Overview & Responsibilities</a></li>
+    <li><a href="#s2" style="color: #60A5FA; text-decoration: none;">Technology Stack & Libraries</a></li>
+    <li><a href="#s3" style="color: #60A5FA; text-decoration: none;">Schema Design & Relational Modeling</a></li>
+    <li><a href="#s4" style="color: #60A5FA; text-decoration: none;">Connection Pooling & Performance</a></li>
+    <li><a href="#s5" style="color: #60A5FA; text-decoration: none;">Cross-Role Collaboration</a></li>
+    <li><a href="#s6" style="color: #60A5FA; text-decoration: none;">Data Migrations & Integrity Recovery</a></li>
+    <li><a href="#s7" style="color: #60A5FA; text-decoration: none;">Critical Challenges & Solutions</a></li>
+</ol>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<h1 id="s1">1. Role Overview & Responsibilities</h1>
+
+<p>As the Database Architect, my mandate was to design the foundational data structures that house the entire application. Financial trading platforms require absolute precision. If a database transaction fails halfway through, a user could be charged for a trade but never receive the asset. I was responsible for ensuring strict ACID compliance (Atomicity, Consistency, Isolation, Durability) across all 7 schemas.</p>
+
+<p>My core responsibilities included:</p>
+<ul>
+    <li>Designing the Entity-Relationship (ER) models for Users, Accounts, Trades, Assets, and AI Signals.</li>
+    <li>Configuring SQLAlchemy Object-Relational Mapper (ORM) to prevent SQL Injection attacks.</li>
+    <li>Optimizing database performance via Connection Pooling so the AI bot can query prices thousands of times a day without crashing the server.</li>
+    <li>Writing Python migration scripts to cleanly wipe corrupted tables and rebuild ledgers dynamically.</li>
+    <li>Configuring Docker Volumes to ensure data persistence across server reboots and deployments.</li>
+</ul>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<h1 id="s2" class="section-break">2. Technology Stack & Libraries</h1>
+
+<p>I selected highly reliable relational database technologies over NoSQL variants specifically for their strict schema enforcement.</p>
+
+<table>
+    <tr><th>Library / Tech</th><th>Version</th><th>Specific Purpose & Justification</th></tr>
+    <tr><td><strong>PostgreSQL</strong></td><td>14 (Alpine)</td><td>The industry standard for financial databases. Chosen over MongoDB (NoSQL) because we require strict Foreign Key relationships (e.g., A Trade cannot exist without an Account).</td></tr>
+    <tr><td><strong>SQLAlchemy</strong></td><td>2.0.41</td><td>Python's most powerful ORM. It allows the Backend Engineer to write queries using Python classes (like <code>session.query(Trade).all()</code>) instead of writing raw SQL strings, which drastically reduces security vulnerabilities.</td></tr>
+    <tr><td><strong>Psycopg2</strong></td><td>2.9.10</td><td>The actual database driver/adapter. SQLAlchemy is the steering wheel, but Psycopg2 is the engine that executes the C-level instructions against the Postgres server.</td></tr>
+    <tr><td><strong>Docker Volumes</strong></td><td>-</td><td>Used to map the <code>/var/lib/postgresql/data</code> folder inside the container to the physical hard drive of the DigitalOcean server, ensuring our database is never erased when the container reboots.</td></tr>
+</table>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<h1 id="s3" class="section-break">3. Schema Design & Relational Modeling</h1>
+
+<p>I designed 7 specific tables in <code>init_db.py</code> to separate concerns and normalize the data.</p>
+
+<div class="flow-diagram" style="text-align: left; font-family: monospace; font-size: 9pt;">
+<pre style="background: #000; color: #A78BFA; border: 1px solid #334155; padding: 20px; overflow-x: auto;">
+┌──────────────┐       ┌──────────────────┐       ┌──────────────────────┐
+│    USERS     │       │    ACCOUNTS      │       │       TRADES         │
+├──────────────┤       ├──────────────────┤       ├──────────────────────┤
+│ id (PK)      │──1:N─▶│ id (PK)          │──1:N─▶│ id (PK)              │
+│ email        │       │ user_id (FK)     │       │ account_id (FK)      │
+│ hashed_pass  │       │ balance (Cash)   │       │ symbol               │
+└──────────────┘       └──────────────────┘       │ pnl_dollars (Equity) │
+                              │                   │ status (Open/Closed) │
+                              │1:N                └──────────────────────┘
+                              ▼
+                       ┌──────────────────┐
+                       │ PORTFOLIO_ASSETS │
+                       ├──────────────────┤
+                       │ id (PK)          │
+                       │ account_id (FK)  │
+                       │ symbol           │
+                       │ shares           │
+                       └──────────────────┘
+</pre>
+</div>
+
+<h3>Deep Dive: The Trade Schema</h3>
+<p>The Trade table is the most heavily modified table in the database. The AI Bot engine updates the <code>current_price</code> and <code>pnl_dollars</code> of every open trade every 60 seconds.</p>
+
+<pre><code># Inside init_db.py
+class Trade(Base):
+    __tablename__ = "trades"
+    id = Column(Integer, primary_key=True, index=True)
+    account_id = Column(Integer, ForeignKey("accounts.id"))
+    symbol = Column(String, index=True)
+    trade_type = Column(String)                      # "Long" or "Short"
+    status = Column(String, default="Open")          # "Open" or "Closed"
+    entry_price = Column(Float)
+    take_profit_price = Column(Float, nullable=True) # Limits
+    pnl_dollars = Column(Float, default=0.0)         # Real-time equity tracking
+    signal_id = Column(Integer, nullable=True)       # Link to AI reasoning
+</code></pre>
+<p><strong>Code Defense:</strong> The <code>ForeignKey("accounts.id")</code> is critical. It creates a strict relational constraint. If an account is deleted, PostgreSQL will automatically cascade-delete all trades associated with it. The <code>index=True</code> on the <code>symbol</code> column creates a B-Tree index, which speeds up search queries for specific ticker symbols by over 100x compared to a sequential table scan.</p>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<h1 id="s4" class="section-break">4. Connection Pooling & Performance</h1>
+
+<p>Because the AI Bot engine runs a 60-second infinite loop, it hits the database thousands of times a day. If I simply opened a new database connection for every request, the PostgreSQL server would run out of memory and crash (a classic TCP exhaustion attack).</p>
+
+<pre><code># Inside database.py
+engine = create_engine(
+    DATABASE_URL,
+    pool_size=10,         # Keep 10 connections ready at all times
+    max_overflow=20,      # Allow up to 20 extra connections during peak load
+    pool_pre_ping=True,   # Verify connections are alive before using them
+    pool_recycle=300,     # Recycle connections every 5 min to avoid stale connections
+)</code></pre>
+<p><strong>Code Defense:</strong> <strong>Connection Pooling</strong> is the most important optimization in this file. <code>pool_size=10</code> creates 10 permanent, reusable "tunnels" to the database. When the Backend Engineer runs a query, they simply "borrow" an existing tunnel, drastically reducing latency. <code>pool_recycle=300</code> ensures that dead or timed-out connections are silently replaced every 5 minutes, ensuring 24/7 stability.</p>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<h1 id="s5" class="section-break">5. Cross-Role Collaboration</h1>
+
+<h2>🤝 Correlating with the Backend Engineer</h2>
+<p>The Backend Engineer built the FinBERT AI, but AI is useless without memory. I designed the <code>TradeSignal</code> table specifically for them.</p>
+<ul>
+    <li><strong>The AI Handshake:</strong> When FinBERT finishes analyzing an article, the Backend Engineer inserts a row into my <code>TradeSignal</code> table containing the "BUY" or "SELL" recommendation, with the boolean flag <code>executed = False</code>.</li>
+    <li><strong>The Executor Pickup:</strong> Five minutes later, the Backend's Trade Executor loop queries my table looking for <code>executed == False</code>. This database flag is the literal bridge that allows the AI module and the execution module to talk to each other asynchronously.</li>
+</ul>
+
+<h2>🤝 Correlating with the Frontend Developer</h2>
+<p>The Frontend Developer was struggling to build the stacked "Realized vs Unrealized" layout on the Dashboard because they were trying to calculate math in React. I solved this at the Database level.</p>
+<ul>
+    <li><strong>Data Separation:</strong> I explained my schema design to them. The <code>Account.balance</code> is strictly "Available Cash". The <code>Trade.pnl_dollars</code> is strictly "Unrealized Equity" (if the trade status is 'Open'). By separating these fields structurally, the Backend could easily sum them up and serve distinct integers to the Frontend, allowing them to perfectly render their UI components without complex client-side math.</li>
+</ul>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<h1 id="s6" class="section-break">6. Data Migrations & Integrity Recovery</h1>
+
+<p>During the project, we discovered a logical bug: The bot was buying "Short" positions, but the system was trying to add them to the <code>PortfolioAssets</code> holding table. You cannot physically "hold" a shorted stock. The table became corrupted with negative shares.</p>
+
+<h3>The Migration Script (reset_portfolio.py)</h3>
+<p>I couldn't just delete the database—we had live user accounts. I had to write a Python surgical script to wipe only the corrupted table and recalculate the ledgers dynamically.</p>
+
+<pre><code># Inside reset_portfolio.py
+# 1. Safely wipe the corrupted table
+session.query(PortfolioAsset).delete()
+
+# 2. Find ONLY Long, Physical trades
+open_longs = session.query(Trade).filter(
+    Trade.status == "Open",
+    Trade.trade_type == "Long"
+).all()
+
+# 3. Rebuild the ledger mathematically
+for trade in open_longs:
+    asset_class = _classify_asset(trade.symbol)
+    if asset_class in ("Crypto", "Stock"):
+        # Create fresh, accurate asset entries
+        new_asset = PortfolioAsset(
+            account_id=trade.account_id,
+            symbol=trade.symbol,
+            shares=trade.quantity
+        )
+        session.add(new_asset)</code></pre>
+<p><strong>Command Defense:</strong> To run this on the live production server without taking it offline, I correlated with the Systems Engineer to execute: <code>docker exec -it quanttrading-backend-1 python3 reset_portfolio.py</code>. This opened an interactive terminal inside the running Docker container and surgically repaired the database in milliseconds.</p>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<h1 id="s7" class="section-break">7. Critical Challenges & Solutions</h1>
+
+<table>
+    <tr><th>The Challenge</th><th>The Engineering Solution</th></tr>
+    <tr>
+        <td><strong>Zombie Connections crashing PostgreSQL</strong><br>During early development, the backend would crash after 2 days with the error <code>FATAL: sorry, too many clients already</code>. The bot was opening connections to check prices but forgetting to close them.</td>
+        <td><span class="badge badge-pass">Resolved</span><br>I enforced a strict <code>try...finally</code> block standard across the entire codebase. Every single database transaction must end with <code>finally: session.close()</code>. I also added <code>pool_recycle=300</code> to the SQLAlchemy engine to forcefully slaughter any connections that remained idle for over 5 minutes.</td>
+    </tr>
+    <tr>
+        <td><strong>Data Loss on Server Restart</strong><br>Every time we pushed a new update and rebuilt the Docker containers, all user accounts and trade history were completely erased.</td>
+        <td><span class="badge badge-pass">Resolved</span><br>Docker containers are ephemeral (temporary) by design. I configured a Docker Volume in the <code>docker-compose.yml</code> file: <code>- pgdata:/var/lib/postgresql/data</code>. This maps the database's internal memory directly to the physical hard drive of our DigitalOcean droplet. Now, even if the container is destroyed, the data remains safely on the hard drive and reconnects upon reboot.</td>
+    </tr>
+</table>
+
+</div>
+</body>
+</html>

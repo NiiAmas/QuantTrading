@@ -12,7 +12,7 @@ export default function TradeAnalysis() {
   const [positions, setPositions] = useState([]);
   const [accountStats, setAccountStats] = useState(null);
   const [expandedTrade, setExpandedTrade] = useState(null);
-  const [filterStatus, setFilterStatus] = useState('All'); // All, Open, Closed
+  const [filterCategory, setFilterCategory] = useState('All'); // All, Holding, Long, Short
   const [filterAsset, setFilterAsset] = useState('All');
   const [sortBy, setSortBy] = useState('date'); // date, pnl, asset
   const [sortDir, setSortDir] = useState('desc');
@@ -41,9 +41,27 @@ export default function TradeAnalysis() {
   // Get unique assets for filter
   const uniqueAssets = [...new Set(trades.map(t => t.pair))];
 
+  // Helper to categorize trades for the UI
+  const getTradeCategory = (t) => {
+    const isCrypto = t.pair.endsWith('-USD');
+    const isForex = t.pair.includes('=X');
+    const isCommodity = t.pair.includes('=F');
+    const isStock = !isCrypto && !isForex && !isCommodity;
+    
+    // Shorts are always Shorts
+    if (!t.type?.includes('Long')) return 'Short';
+    
+    // Longs on Crypto/Stocks are physical spot Holdings
+    if (isCrypto || isStock) return 'Holding';
+    
+    // Longs on Forex/Commodities are leveraged Longs
+    return 'Long';
+  };
+
   // Filter & Sort
   let filtered = trades.filter(t => {
-    if (filterStatus !== 'All' && t.status !== filterStatus) return false;
+    const category = getTradeCategory(t);
+    if (filterCategory !== 'All' && category !== filterCategory) return false;
     if (filterAsset !== 'All' && t.pair !== filterAsset) return false;
     if (searchQuery && !t.pair.toLowerCase().includes(searchQuery.toLowerCase()) && !t.reasoning?.toLowerCase().includes(searchQuery.toLowerCase())) return false;
     return true;
@@ -99,9 +117,13 @@ export default function TradeAnalysis() {
           <p className="text-[10px] text-gray-500 font-bold uppercase tracking-widest">Total P&L</p>
           <p className={`text-2xl font-bold ${totalPnl >= 0 ? 'text-success' : 'text-danger'}`}>{totalPnl >= 0 ? '+' : ''}${totalPnl.toLocaleString()}</p>
         </div>
-        <div className="bg-card border border-molten/20 rounded-xl p-4 shadow-lg">
-          <p className="text-[10px] text-gray-500 font-bold uppercase tracking-widest">Portfolio Return</p>
-          <p className={`text-2xl font-bold ${(accountStats?.portfolioReturn || 0) >= 0 ? 'text-success' : 'text-danger'}`}>{accountStats?.portfolioReturn || 0}%</p>
+        <div className="bg-card border border-molten/20 rounded-xl p-4 shadow-lg flex flex-col justify-between">
+          <p className="text-[10px] text-gray-500 font-bold uppercase tracking-widest">Return (Real / Unreal)</p>
+          <p className="text-xl font-bold">
+            <span className={(accountStats?.realizedReturn || 0) >= 0 ? 'text-success' : 'text-danger'}>{accountStats?.realizedReturn || 0}%</span>
+            <span className="text-gray-500 mx-1">/</span>
+            <span className={(accountStats?.unrealizedReturn || 0) >= 0 ? 'text-success' : 'text-danger'}>{accountStats?.unrealizedReturn || 0}%</span>
+          </p>
         </div>
       </div>
 
@@ -119,13 +141,13 @@ export default function TradeAnalysis() {
           />
         </div>
 
-        {/* Status Filter */}
+        {/* Category Filter */}
         <div className="flex gap-1 bg-obsidian border border-white/10 rounded-lg p-1">
-          {['All', 'Open', 'Closed'].map(s => (
+          {['All', 'Holding', 'Long', 'Short'].map(s => (
             <button
               key={s}
-              onClick={() => setFilterStatus(s)}
-              className={`px-3 py-1.5 text-xs font-bold uppercase tracking-wider rounded-md transition-colors ${filterStatus === s ? 'bg-molten/20 text-molten' : 'text-gray-500 hover:text-white'}`}
+              onClick={() => setFilterCategory(s)}
+              className={`px-3 py-1.5 text-xs font-bold uppercase tracking-wider rounded-md transition-colors ${filterCategory === s ? 'bg-molten/20 text-molten' : 'text-gray-500 hover:text-white'}`}
             >
               {s}
             </button>
@@ -174,11 +196,8 @@ export default function TradeAnalysis() {
                     <div>
                       <div className="flex items-center gap-2">
                         <span className="font-bold text-white text-sm">{trade.pair}</span>
-                        <span className={`text-[10px] px-2 py-0.5 rounded font-bold uppercase tracking-wider border ${trade.type?.includes('Long') ? 'bg-success/10 text-success border-success/30' : 'bg-danger/10 text-danger border-danger/30'}`}>
-                          {trade.type}
-                        </span>
-                        <span className={`text-[10px] px-2 py-0.5 rounded font-bold uppercase tracking-wider ${trade.status === 'Open' ? 'bg-molten/20 text-molten border border-molten/30' : 'bg-gray-800 text-gray-400 border border-gray-600'}`}>
-                          {trade.status}
+                        <span className={`text-[10px] px-2 py-0.5 rounded font-bold uppercase tracking-wider border ${getTradeCategory(trade) === 'Holding' ? (trade.status === 'Open' ? 'bg-success/10 text-success border-success/30' : 'bg-gray-800 text-gray-400 border-gray-600') : getTradeCategory(trade) === 'Long' ? 'bg-blue-500/10 text-blue-500 border-blue-500/30' : 'bg-danger/10 text-danger border-danger/30'}`}>
+                          {getTradeCategory(trade) === 'Holding' ? (trade.status === 'Open' ? 'BOUGHT (HOLDING)' : 'SOLD (HOLDING)') : getTradeCategory(trade) === 'Long' ? (trade.status === 'Open' ? 'OPEN LONG' : 'CLOSED LONG') : trade.status === 'Open' ? 'OPEN SHORT' : 'CLOSED SHORT'}
                         </span>
                       </div>
                       <div className="text-[10px] text-gray-500 font-mono mt-0.5">
@@ -255,15 +274,22 @@ export default function TradeAnalysis() {
                         )}
                       </div>
 
-                      {/* AI Reasoning */}
+                      {/* AI Reasoning Breakdown */}
                       {trade.reasoning && (
                         <div className="border-t border-white/5 pt-4">
-                          <div className="text-[10px] text-molten font-bold uppercase tracking-widest mb-2 flex items-center gap-1">
-                            <BarChart3 size={12} /> AI Trade Reasoning
+                          <div className="text-[10px] text-molten font-bold uppercase tracking-widest mb-3 flex items-center gap-1">
+                            <BarChart3 size={12} /> AI Trade Analysis Breakdown
                           </div>
-                          <p className="text-sm text-gray-300 leading-relaxed bg-black/30 p-3 rounded-lg border border-white/5">
-                            {trade.reasoning}
-                          </p>
+                          <div className="space-y-3 bg-black/30 p-4 rounded-xl border border-white/5">
+                            <div>
+                              <span className="text-xs font-bold text-gray-400 uppercase tracking-widest block mb-1">
+                                {getTradeCategory(trade) === 'Holding' ? 'Why we bought this asset:' : getTradeCategory(trade) === 'Long' ? 'Why we took this long:' : 'Why we took this short:'}
+                              </span>
+                              <p className="text-sm text-gray-200 leading-relaxed">
+                                {trade.reasoning}
+                              </p>
+                            </div>
+                          </div>
                         </div>
                       )}
                     </div>

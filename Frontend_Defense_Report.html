@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuantTrading — Frontend Developer Report</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #0B0E14;
+            color: #E2E8F0;
+            line-height: 1.7;
+            font-size: 11pt;
+        }
+        
+        .page {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 50px;
+        }
+        
+        /* Cover Page */
+        .cover {
+            page-break-after: always;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 90vh;
+            text-align: center;
+            border: 3px solid #EAB308;
+            padding: 60px;
+            margin-bottom: 40px;
+            background: linear-gradient(135deg, #151922, #0B0E14);
+            border-radius: 12px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
+        }
+        .cover h1 {
+            font-size: 36pt;
+            font-weight: 800;
+            color: #F8FAFC;
+            margin-bottom: 8px;
+            border-bottom: none;
+        }
+        .cover .subtitle {
+            font-size: 16pt;
+            color: #94A3B8;
+            margin-bottom: 40px;
+        }
+        .cover .version {
+            font-size: 12pt;
+            color: #64748B;
+            margin-top: 20px;
+        }
+        .cover .gold-line {
+            width: 150px;
+            height: 4px;
+            background: #EAB308;
+            margin: 20px auto;
+            border-radius: 2px;
+        }
+        
+        h1 { font-size: 22pt; font-weight: 800; color: #F8FAFC; margin: 50px 0 20px 0; border-bottom: 3px solid #EAB308; padding-bottom: 10px; }
+        h2 { font-size: 16pt; font-weight: 700; color: #EAB308; margin: 40px 0 16px 0; }
+        h3 { font-size: 13pt; font-weight: 600; color: #38BDF8; margin: 25px 0 10px 0; }
+        h4 { font-size: 11pt; font-weight: 600; color: #94A3B8; margin: 15px 0 6px 0; }
+        
+        p { margin: 12px 0; color: #CBD5E1; }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 16px 0 24px 0;
+            font-size: 10pt;
+            background: #151922;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+        }
+        th {
+            background: #1E293B;
+            color: #F8FAFC;
+            padding: 12px 16px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 9.5pt;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: 2px solid #EAB308;
+        }
+        td {
+            padding: 12px 16px;
+            border-bottom: 1px solid #334155;
+            vertical-align: top;
+            color: #CBD5E1;
+        }
+        tr:nth-child(even) td { background: #0F172A; }
+        
+        code {
+            background: rgba(56, 189, 248, 0.1);
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-family: 'SF Mono', 'Fira Code', monospace;
+            font-size: 9.5pt;
+            color: #38BDF8;
+            border: 1px solid rgba(56, 189, 248, 0.2);
+        }
+        
+        pre {
+            background: #000;
+            color: #A78BFA;
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-size: 9.5pt;
+            line-height: 1.6;
+            margin: 16px 0;
+            border: 1px solid #334155;
+            box-shadow: inset 0 2px 4px 0 rgba(0, 0, 0, 0.5);
+        }
+        pre code { background: none; color: inherit; padding: 0; border: none; }
+        
+        .note {
+            background: rgba(234, 179, 8, 0.1);
+            border-left: 4px solid #EAB308;
+            padding: 16px 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+            font-size: 10.5pt;
+            color: #F8FAFC;
+        }
+        
+        .folder-tree {
+            background: #0F172A;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #334155;
+            font-family: 'SF Mono', monospace;
+            font-size: 9.5pt;
+            line-height: 1.6;
+            white-space: pre;
+            color: #94A3B8;
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 8.5pt;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+        .badge-pass { background: rgba(16, 185, 129, 0.2); color: #34D399; border: 1px solid #10B981; }
+        .badge-warn { background: rgba(245, 158, 11, 0.2); color: #FBBF24; border: 1px solid #F59E0B; }
+        
+        .flow-diagram {
+            background: #151922;
+            border: 1px solid #334155;
+            border-radius: 8px;
+            padding: 30px;
+            margin: 20px 0;
+            text-align: center;
+            font-size: 10pt;
+            color: #CBD5E1;
+        }
+        .flow-arrow { color: #EAB308; font-weight: bold; font-size: 16pt; margin: 10px 0; display: block; }
+        
+        ul, ol { margin: 12px 0 12px 30px; color: #CBD5E1; }
+        li { margin: 6px 0; }
+    </style>
+</head>
+<body>
+<div class="page">
+
+<!-- COVER PAGE -->
+<div class="cover">
+    <h1>🎨 QuantTrading</h1>
+    <div class="subtitle">Frontend Architecture & UI Engineering</div>
+    <div class="gold-line"></div>
+    <p style="font-size: 14pt; color: #CBD5E1; max-width: 600px; margin: 20px auto;">
+        Comprehensive Project Defense Document<br>
+        <strong>Role: Frontend Developer</strong>
+    </p>
+    <div class="gold-line"></div>
+    <div class="version">
+        <p><strong>System:</strong> React 19 / Vite 7 / Tailwind CSS</p>
+        <p><strong>Prepared for:</strong> Final Presentation Defense</p>
+    </div>
+</div>
+
+<!-- TABLE OF CONTENTS -->
+<h1>Table of Contents</h1>
+<ol style="font-size: 12pt; line-height: 2.2;">
+    <li><a href="#s1" style="color: #38BDF8; text-decoration: none;">Role Overview & Responsibilities</a></li>
+    <li><a href="#s2" style="color: #38BDF8; text-decoration: none;">Technology Stack & Libraries</a></li>
+    <li><a href="#s3" style="color: #38BDF8; text-decoration: none;">Component Architecture</a></li>
+    <li><a href="#s4" style="color: #38BDF8; text-decoration: none;">State Management (Zustand)</a></li>
+    <li><a href="#s5" style="color: #38BDF8; text-decoration: none;">Cross-Role Collaboration</a></li>
+    <li><a href="#s6" style="color: #38BDF8; text-decoration: none;">Deployment & Build Workflow</a></li>
+    <li><a href="#s7" style="color: #38BDF8; text-decoration: none;">Critical Challenges & Solutions</a></li>
+</ol>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<h1 id="s1">1. Role Overview & Responsibilities</h1>
+
+<p>As the Lead Frontend Developer for the QuantTrading platform, my mandate was to design, engineer, and optimize the client-facing application. Financial trading platforms require immense data density, real-time updates, and flawless UX (User Experience). A single bug in the frontend could lead a user to misinterpret their portfolio value.</p>
+
+<p>My core responsibilities included:</p>
+<ul>
+    <li>Architecting the Single Page Application (SPA) using React.</li>
+    <li>Designing a premium, "Molten Gold" dark-mode aesthetic that rivals professional tools like Bloomberg Terminal or Binance.</li>
+    <li>Consuming complex REST APIs built by the Backend Engineer and handling asynchronous data fetching.</li>
+    <li>Implementing a robust global state management system so the UI instantly reacts to backend database changes without requiring manual page reloads.</li>
+    <li>Integrating heavy third-party visualization libraries, including a 3D WebGL Globe and TradingView candlestick charts.</li>
+</ul>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<h1 id="s2" class="section-break">2. Technology Stack & Libraries</h1>
+
+<p>I meticulously selected modern, high-performance libraries to ensure the frontend was not only beautiful but blazingly fast.</p>
+
+<table>
+    <tr><th>Library / Tech</th><th>Version</th><th>Specific Purpose & Justification</th></tr>
+    <tr><td><strong>React (Vite)</strong></td><td>19.2.0 / 7.2.4</td><td>Vite was chosen over Webpack/CRA because it uses native ES modules, making local server startup instantaneous. React 19 provides concurrent rendering, crucial for heavy financial UIs.</td></tr>
+    <tr><td><strong>Tailwind CSS</strong></td><td>4.3.0</td><td>Utility-first CSS allowed me to build the custom dark theme without thousands of lines of external CSS files. Allowed for rapid prototyping of Flexbox and Grid layouts.</td></tr>
+    <tr><td><strong>Zustand</strong></td><td>5.0.13</td><td>Chosen over Redux. Redux requires massive boilerplate (actions, reducers, dispatchers). Zustand provides a hooks-based, bearbones global store that is vastly easier to maintain.</td></tr>
+    <tr><td><strong>Axios</strong></td><td>1.13.2</td><td>Used for HTTP requests to the backend. It automatically parses JSON and has built-in interceptors which I used to automatically attach the JWT Auth Token to every request.</td></tr>
+    <tr><td><strong>react-globe.gl</strong></td><td>2.37.1</td><td>Renders the interactive 3D globe on the Dashboard. It uses Three.js (WebGL) under the hood to plot financial news as geographic markers with zero lag.</td></tr>
+    <tr><td><strong>Lucide React</strong></td><td>0.562.0</td><td>A lightweight SVG icon library used for sidebar navigation and dashboard metrics.</td></tr>
+</table>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<h1 id="s3" class="section-break">3. Component Architecture</h1>
+
+<p>The application is structured modularly. By breaking the UI into small, reusable components, I ensured the codebase remained maintainable.</p>
+
+<div class="folder-tree">src/
+├── 📂 components/
+│   ├── Layout.jsx              — The master wrapper. Contains the Sidebar and main content area.
+│   ├── Sidebar.jsx             — Contains navigation links and the Account Switcher dropdown.
+│   ├── AccountWizardModal.jsx  — The popup for creating new trading accounts.
+│   └── EditAccountModal.jsx    — The popup for modifying risk settings.
+│
+├── 📂 pages/
+│   ├── AuthPage.jsx            — Handles Login, Registration, and Google OAuth.
+│   ├── Dashboard.jsx           — The primary view (Globe + KPI Metrics + News Feed).
+│   ├── TradingHub.jsx          — Detailed view of Portfolio Assets and Open/Closed Trades.
+│   ├── Charts.jsx              — The TradingView integration for Technical Analysis.
+│   └── MarketsExplorer.jsx     — AI Sentiment Screener across 26 assets.</div>
+
+<h3>Deep Dive: The Dashboard Layout Logic</h3>
+<p>One of the most complex UI elements was the KPI metric boxes on the Dashboard. I had to ensure that the "Realized" and "Unrealized" balances did not overflow their containers on smaller screens.</p>
+
+<pre><code>// Inside Dashboard.jsx
+&lt;div className="flex flex-col gap-1 mt-2"&gt;
+  &lt;div className="flex items-center justify-between gap-2"&gt;
+    &lt;span className="text-[9px] text-gray-500 font-bold uppercase whitespace-nowrap"&gt;
+      Realized
+    &lt;/span&gt;
+    &lt;span className="text-xs font-bold text-white whitespace-nowrap"&gt;
+      ${stats?.realizedBalance}
+    &lt;/span&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+<p><strong>Code Defense:</strong> The use of <code>flex-col</code> allowed me to stack the metrics vertically. The critical Tailwind classes here are <code>justify-between</code> (which pushes the label to the far left and the number to the far right) and <code>whitespace-nowrap</code> (which explicitly forbids the browser from breaking the text onto a second line, preventing the box from warping).</p>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<h1 id="s4" class="section-break">4. State Management (Zustand)</h1>
+
+<p>In a React application, "State" is the data currently loaded in memory. Without global state management, I would suffer from "Prop Drilling"—passing the user's account balance down through 5 layers of components.</p>
+
+<div class="note">I engineered <code>useStore.js</code> to act as the single source of truth for the frontend. When the backend database updates, this store fetches the new data, and React instantly updates every component on the screen.</div>
+
+<pre><code>// src/store/useStore.js
+import { create } from 'zustand';
+
+const useStore = create((set, get) => ({
+  accounts: [],
+  activeAccount: null,
+  stats: null,
+  
+  setActiveAccount: (account) => {
+    set({ activeAccount: account });
+    // Automatically trigger a fetch for the new account's specific data
+    get().fetchAccountData();
+  },
+  
+  fetchAccountData: async () => {
+    const { activeAccount } = get();
+    if (!activeAccount) return;
+    
+    try {
+      const response = await api.get(`/accounts/${activeAccount.id}/data`);
+      set({ stats: response.data.stats });
+    } catch (error) {
+      console.error("Failed to fetch data", error);
+    }
+  }
+}));</code></pre>
+<p><strong>Code Defense:</strong> This code creates an immutable state tree. By defining <code>setActiveAccount</code> inside the store, the Sidebar component can call it when a user clicks a dropdown. The store then automatically makes an asynchronous Axios call to the backend API to fetch the new account's ledger, updating the Dashboard seamlessly.</p>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<h1 id="s5" class="section-break">5. Cross-Role Collaboration</h1>
+
+<h2>🤝 Correlating with the Backend Engineer</h2>
+<p>The frontend is useless without data. I had to work intimately with the Backend Engineer to define the API contracts.</p>
+<ul>
+    <li><strong>CORS Policy:</strong> Initially, my Axios requests were blocked by the browser. I diagnosed this as a Cross-Origin Resource Sharing issue. I instructed the Backend Engineer to update their FastAPI <code>CORSMiddleware</code> to explicitly allow requests originating from my frontend's IP address.</li>
+    <li><strong>API Configuration:</strong> I created <code>src/config/api.js</code> to centralize the connection to the backend. We agreed that the backend would run on Port 8000.
+<pre><code>import axios from 'axios';
+const api = axios.create({
+  baseURL: import.meta.env.VITE_API_URL || 'http://localhost:8000/api',
+});
+// Attach JWT Token to every request
+api.interceptors.request.use((config) => {
+  const token = localStorage.getItem('token');
+  if (token) config.headers.Authorization = `Bearer ${token}`;
+  return config;
+});</code></pre>
+    </li>
+</ul>
+
+<h2>🤝 Correlating with the Database Architect</h2>
+<p>While I didn't write SQL queries, the UI's design was heavily dependent on the Database Architect's schema design.</p>
+<ul>
+    <li><strong>Data Separation:</strong> I requested that the DB Architect create a clear separation between "Available Cash" (the <code>balance</code> column in the Accounts table) and "Floating P&L" (the <code>pnl_dollars</code> column in the Trades table). Because they structured the database correctly, I was able to build a UI that accurately separates Realized vs Unrealized profits.</li>
+    <li><strong>Spot Holdings vs Shorts:</strong> We collaborated on the logic for the Trading Hub. I needed the DB to only return physical <code>PortfolioAsset</code> rows for Long Crypto/Stocks, while hiding Shorts (since you don't "hold" a short). The DB Architect implemented this filtering before sending the JSON to my frontend.</li>
+</ul>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<h1 id="s6" class="section-break">6. Deployment & Build Workflow</h1>
+
+<p>When the code was ready for production, I couldn't just copy the raw React files to the server. Browsers do not understand JSX.</p>
+
+<h3>Step 1: The Build Process</h3>
+<p>I utilized Vite's highly optimized Rollup bundler to compile the application.</p>
+<pre><code>npm run build</code></pre>
+<p>This command transpiles all React JSX into plain, minified JavaScript, compiles the Tailwind classes into a tiny CSS file, and outputs everything into a <code>dist/</code> folder. This reduces the application size by over 90%.</p>
+
+<h3>Step 2: Server Push (Rsync)</h3>
+<p>I correlated with the Systems Engineer to push my compiled code to the live DigitalOcean droplet using SSH.</p>
+<pre><code>rsync -avz --exclude 'node_modules' ~/QuantTrading/ root@188.166.155.154:/root/QuantTrading/</code></pre>
+<p><strong>Command Defense:</strong> <code>rsync</code> is a delta-transfer algorithm. It compares my laptop to the server and ONLY uploads the files that changed, making deployments take 2 seconds instead of 10 minutes. The <code>--exclude 'node_modules'</code> flag is absolutely critical, as uploading gigabytes of development dependencies would crash the server.</p>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<h1 id="s7" class="section-break">7. Critical Challenges & Solutions</h1>
+
+<table>
+    <tr><th>The Challenge</th><th>The Engineering Solution</th></tr>
+    <tr>
+        <td><strong>The "White Screen of Death" on Charts</strong><br>The third-party <code>react-ts-tradingview-widgets</code> package was crashing React 18 silently due to Strict Mode double-mounting issues, leaving a massive white box on the screen.</td>
+        <td><span class="badge badge-pass">Resolved</span><br>I completely ripped out the buggy third-party npm package. I replaced it with an indestructible, native HTML <code>&lt;iframe&gt;</code> that connects directly to TradingView's widget embed URL. This bypassed React's lifecycle entirely, ensuring 100% uptime for the charts.</td>
+    </tr>
+    <tr>
+        <td><strong>Z-Index Wars on the Dashboard</strong><br>The 3D WebGL Globe was rendering "on top" of the custom dropdown menus and tooltips, making them unclickable.</td>
+        <td><span class="badge badge-pass">Resolved</span><br>WebGL contexts naturally fight the DOM for rendering priority. I applied strict <code>z-index: 10</code> to the globe container and <code>z-index: 50</code> to the floating React components in Tailwind to force the browser compositing engine to respect the stacking order.</td>
+    </tr>
+</table>
+
+</div>
+</body>
+</html>

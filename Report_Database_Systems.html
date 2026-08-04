@@ -1,0 +1,1298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QuantTrading — Database & Systems Report</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg: #0a0a0f;
+  --card: #12121a;
+  --border: #1e1e2e;
+  --accent: #a78bfa;
+  --accent-glow: rgba(167, 139, 250, 0.12);
+  --gold: #D4AF37;
+  --green: #10B981;
+  --blue: #60a5fa;
+  --red: #EF4444;
+  --text: #e2e8f0;
+  --muted: #64748b;
+  --code-bg: #1a1a2e;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Inter', sans-serif;
+  line-height: 1.8;
+}
+
+.hero {
+  background: linear-gradient(135deg, #0f172a 0%, #2e1065 50%, #0f172a 100%);
+  border-bottom: 2px solid var(--accent);
+  padding: 80px 40px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  top: 50%; left: 50%;
+  width: 600px; height: 600px;
+  background: radial-gradient(circle, rgba(167,139,250,0.08) 0%, transparent 70%);
+  transform: translate(-50%, -50%);
+}
+.hero-badge {
+  display: inline-block;
+  background: var(--accent-glow);
+  border: 1px solid rgba(167,139,250,0.3);
+  color: var(--accent);
+  padding: 6px 20px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  margin-bottom: 20px;
+}
+.hero h1 {
+  font-size: 3.5rem;
+  font-weight: 900;
+  background: linear-gradient(135deg, #a78bfa, #c4b5fd, #a78bfa);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 16px;
+  position: relative;
+}
+.hero p { color: var(--muted); font-size: 1.1rem; max-width: 700px; margin: 0 auto; }
+
+.container { max-width: 1100px; margin: 0 auto; padding: 40px 30px; }
+
+.toc {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 40px;
+  margin: 40px 0;
+}
+.toc h2 {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--accent);
+  margin-bottom: 24px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+.toc ol { list-style: none; counter-reset: toc-counter; }
+.toc ol li { counter-increment: toc-counter; margin-bottom: 10px; }
+.toc ol li a {
+  color: var(--text);
+  text-decoration: none;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  transition: all 0.2s;
+}
+.toc ol li a:hover { background: var(--accent-glow); color: var(--accent); }
+.toc ol li a::before {
+  content: counter(toc-counter, decimal-leading-zero);
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 700;
+  color: var(--accent);
+  min-width: 30px;
+}
+
+.section { margin: 60px 0; scroll-margin-top: 20px; }
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 30px;
+  padding-bottom: 16px;
+  border-bottom: 2px solid var(--border);
+}
+.section-number {
+  background: var(--accent);
+  color: #000;
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 800;
+  font-size: 1.1rem;
+  width: 48px; height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.section-header h2 { font-size: 1.8rem; font-weight: 800; }
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 30px;
+  margin: 20px 0;
+}
+.card h3 { font-size: 1.2rem; font-weight: 700; color: var(--gold); margin-bottom: 12px; }
+.card h4 { font-size: 1rem; font-weight: 700; color: var(--accent); margin: 20px 0 8px; }
+
+.file-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--accent);
+  border-radius: 0 12px 12px 0;
+  padding: 24px 30px;
+  margin: 20px 0;
+}
+.file-card .file-path {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.85rem;
+  color: var(--accent);
+  background: var(--accent-glow);
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 6px;
+  margin-bottom: 12px;
+}
+
+pre {
+  background: var(--code-bg);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 20px;
+  overflow-x: auto;
+  margin: 16px 0;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.82rem;
+  line-height: 1.7;
+  color: #c9d1d9;
+}
+code {
+  font-family: 'JetBrains Mono', monospace;
+  background: rgba(167,139,250,0.1);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 0.85em;
+  color: var(--accent);
+}
+pre code { background: none; padding: 0; color: inherit; }
+
+.tag {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 6px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+.tag-lib { background: rgba(139,92,246,0.15); color: #a78bfa; border: 1px solid rgba(139,92,246,0.3); }
+.tag-table { background: rgba(96,165,250,0.15); color: #60a5fa; border: 1px solid rgba(96,165,250,0.3); }
+.tag-col { background: rgba(212,175,55,0.15); color: #D4AF37; border: 1px solid rgba(212,175,55,0.3); }
+.tag-fk { background: rgba(239,68,68,0.15); color: #EF4444; border: 1px solid rgba(239,68,68,0.3); }
+.tag-idx { background: rgba(16,185,129,0.15); color: #10B981; border: 1px solid rgba(16,185,129,0.3); }
+
+.coord-box {
+  background: linear-gradient(135deg, rgba(212,175,55,0.05), rgba(212,175,55,0.02));
+  border: 1px solid rgba(212,175,55,0.2);
+  border-radius: 12px;
+  padding: 24px;
+  margin: 20px 0;
+}
+.coord-box h4 {
+  color: var(--gold);
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 12px;
+}
+
+.terminal {
+  background: #000;
+  border: 1px solid #333;
+  border-radius: 10px;
+  padding: 20px;
+  margin: 16px 0;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.82rem;
+  color: #a78bfa;
+  position: relative;
+}
+.terminal::before {
+  content: 'TERMINAL';
+  position: absolute;
+  top: -10px; left: 16px;
+  background: #000;
+  padding: 0 8px;
+  font-size: 0.65rem;
+  color: #555;
+  letter-spacing: 2px;
+}
+
+ul, ol { padding-left: 24px; }
+li { margin-bottom: 8px; }
+
+.highlight {
+  background: var(--accent-glow);
+  border-left: 3px solid var(--accent);
+  padding: 16px 20px;
+  border-radius: 0 8px 8px 0;
+  margin: 16px 0;
+}
+
+.flow-diagram {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 24px;
+  background: var(--code-bg);
+  border-radius: 12px;
+  margin: 16px 0;
+  flex-wrap: wrap;
+}
+.flow-box {
+  background: var(--card);
+  border: 1px solid var(--border);
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 0.85rem;
+  text-align: center;
+}
+.flow-arrow { color: var(--accent); font-size: 1.5rem; font-weight: 900; }
+
+.schema-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 16px 0;
+}
+.schema-table th {
+  padding: 12px;
+  text-align: left;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border-bottom: 2px solid var(--border);
+}
+.schema-table td {
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.9rem;
+}
+.schema-table tr:hover { background: rgba(167,139,250,0.03); }
+
+.footer {
+  text-align: center;
+  padding: 60px 20px;
+  border-top: 1px solid var(--border);
+  color: var(--muted);
+}
+
+@media print {
+  body { background: #fff; color: #000; }
+  .hero { background: #f0f0f5; }
+  pre { background: #f5f5f5; color: #333; }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<!--  HERO                                                              -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<div class="hero">
+  <div class="hero-badge">Role 3 of 3 — Database & Systems Architect</div>
+  <h1>Database & Systems Report</h1>
+  <p>Complete step-by-step guide to every database table, every column, every relationship, every ORM model, data flow, migrations, PostgreSQL configuration, and how the data structures connect to Backend and Frontend.</p>
+  <p style="margin-top:12px;font-size:0.85rem;color:#555;">QuantTrading — AI-Powered Quantitative Trading Platform</p>
+</div>
+
+<div class="container">
+
+<!-- TABLE OF CONTENTS -->
+<div class="toc">
+  <h2>📑 Table of Contents</h2>
+  <ol>
+    <li><a href="#s1">Project Overview & Your Role as Database Architect</a></li>
+    <li><a href="#s2">Technology Stack — PostgreSQL, SQLAlchemy, ORM Concepts</a></li>
+    <li><a href="#s3">PostgreSQL Setup — Creating the Database from Scratch</a></li>
+    <li><a href="#s4">database.py — The Connection Engine (How Code Talks to PostgreSQL)</a></li>
+    <li><a href="#s5">init_db.py — Every Table Model Defined Line by Line</a></li>
+    <li><a href="#s6">Table 1: users — User Authentication & Identity</a></li>
+    <li><a href="#s7">Table 2: accounts — Trading Account Configuration</a></li>
+    <li><a href="#s8">Table 3: trades — Every Trade the Bot Makes</a></li>
+    <li><a href="#s9">Table 4: portfolio_assets — Current Holdings (Live Portfolio)</a></li>
+    <li><a href="#s10">Table 5: trade_signals — AI Signal History Log</a></li>
+    <li><a href="#s11">Table 6: news_articles — Financial News Storage</a></li>
+    <li><a href="#s12">Table 7: bitcoin_prices — Historical Price Cache</a></li>
+    <li><a href="#s13">Entity Relationship Diagram — How All Tables Connect</a></li>
+    <li><a href="#s14">Data Flow — How Data Moves Through the Entire System</a></li>
+    <li><a href="#s15">Database Migrations — fix_db.py & migrate_db.py</a></li>
+    <li><a href="#s16">Docker PostgreSQL — Production Database Container</a></li>
+    <li><a href="#s17">Database ↔ Backend Correlation Map</a></li>
+    <li><a href="#s18">Database ↔ Frontend Correlation Map</a></li>
+    <li><a href="#s19">Key Defense Q&A</a></li>
+  </ol>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<!--  SECTION 1                                                         -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<div class="section" id="s1">
+  <div class="section-header">
+    <div class="section-number">01</div>
+    <h2>Project Overview & Your Role as Database Architect</h2>
+  </div>
+  <div class="card">
+    <h3>What the Database Does in QuantTrading</h3>
+    <p>The database is the <strong>foundation</strong> of the entire system. Every piece of data — user accounts, trading portfolios, individual trades, AI signals, news articles, price history — lives in a PostgreSQL database. Without the database, the bot engine has nothing to trade with, the API has nothing to serve, and the frontend has nothing to display.</p>
+
+    <h4>Your Role: Database & Systems Architect</h4>
+    <p>As the Database Architect, you were responsible for:</p>
+    <ul>
+      <li><strong>Designing the database schema</strong> — defining all 7 tables, their columns, data types, relationships, and constraints</li>
+      <li><strong>ORM model definitions</strong> — writing SQLAlchemy Python classes that map to database tables</li>
+      <li><strong>Relationship design</strong> — foreign keys connecting users → accounts → trades → portfolio assets</li>
+      <li><strong>Data type decisions</strong> — choosing Integer vs Float vs Text vs DateTime for each column and why</li>
+      <li><strong>PostgreSQL setup</strong> — installing and configuring the database server</li>
+      <li><strong>Connection pooling</strong> — configuring <code>database.py</code> for optimal performance</li>
+      <li><strong>Migration scripts</strong> — writing <code>fix_db.py</code> and <code>migrate_db.py</code> for schema changes</li>
+      <li><strong>Docker database</strong> — configuring PostgreSQL as a Docker container with persistent storage</li>
+    </ul>
+
+    <h4>How Your Work Connects to Other Roles</h4>
+    <p><strong>With the Backend Person:</strong> You define the table models in <code>init_db.py</code>. The Backend person imports your models (<code>from init_db import User, Account, Trade, PortfolioAsset</code>) and uses SQLAlchemy to query them. Every column name you define becomes a field they access in Python (e.g., <code>trade.entry_price</code>, <code>account.balance</code>). If you change a column name, their code breaks.</p>
+    <p><strong>With the Frontend Person:</strong> You don't interact directly with the frontend. But every data field the user sees on screen originated from one of your database columns. When the Dashboard shows "Account Equity: $12,450.00", that value was stored in your <code>accounts.balance</code> column. The data flow is: Your Table → Backend Query → API JSON Response → Frontend Display.</p>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<!--  SECTION 2                                                         -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<div class="section" id="s2">
+  <div class="section-header">
+    <div class="section-number">02</div>
+    <h2>Technology Stack — PostgreSQL, SQLAlchemy, ORM Concepts</h2>
+  </div>
+  <div class="card">
+    <h3>PostgreSQL — The Database Engine</h3>
+    <p><strong>Why PostgreSQL over MySQL, SQLite, or MongoDB?</strong></p>
+    <ul>
+      <li><strong>ACID compliance</strong> — PostgreSQL guarantees Atomicity, Consistency, Isolation, Durability. When the bot writes a trade while the API reads portfolio data simultaneously, neither operation corrupts the other.</li>
+      <li><strong>MVCC (Multi-Version Concurrency Control)</strong> — PostgreSQL can handle concurrent reads and writes without locking entire tables. The bot engine and API server access the same tables simultaneously without deadlocks.</li>
+      <li><strong>Rich data types</strong> — PostgreSQL supports Float, Text, DateTime, and JSON natively. We use Float for prices (precision matters in trading) and Text for flexible string storage.</li>
+      <li><strong>Production-grade</strong> — Used by companies like Instagram, Spotify, and Uber. SQLite is for development only; MySQL lacks some advanced features; MongoDB is document-based which doesn't suit our relational data (users HAVE accounts WHICH HAVE trades).</li>
+      <li><strong>Docker support</strong> — Official <code>postgres:15-alpine</code> Docker image makes deployment trivial.</li>
+    </ul>
+
+    <h3>SQLAlchemy 2.0 — The ORM (Object-Relational Mapper)</h3>
+    <p><strong>What is an ORM?</strong> An ORM maps database tables to Python classes and SQL queries to Python methods. Instead of writing raw SQL:</p>
+    <pre><code>-- Raw SQL
+SELECT * FROM trades WHERE account_id = 5 AND status = 'Open';</code></pre>
+    <p>We write Python:</p>
+    <pre><code># SQLAlchemy ORM
+session.query(Trade).filter(Trade.account_id == 5, Trade.status == "Open").all()</code></pre>
+    <p><strong>Benefits of ORM:</strong></p>
+    <ul>
+      <li><strong>SQL injection protection</strong> — parameterized queries are automatic</li>
+      <li><strong>Database portability</strong> — switch from PostgreSQL to MySQL by changing one URL string</li>
+      <li><strong>Python-native</strong> — work with Python objects instead of raw dictionaries</li>
+      <li><strong>Relationship handling</strong> — <code>user.accounts</code> automatically fetches related records</li>
+    </ul>
+
+    <h3>Key SQLAlchemy Concepts Used in Our Project</h3>
+    <pre><code># Base — the parent class all models inherit from
+from sqlalchemy.orm import declarative_base
+Base = declarative_base()
+
+# Column — defines a table column with type and constraints
+Column(Integer, primary_key=True)      # Auto-incrementing ID
+Column(String, nullable=False)          # Required text field
+Column(Float, default=0.0)             # Decimal with default
+Column(DateTime, default=datetime.utcnow)  # Auto-timestamp
+
+# ForeignKey — creates a relationship between tables
+Column(Integer, ForeignKey("users.id"))  # Points to users table
+
+# relationship() — enables Python-level navigation
+accounts = relationship("Account", back_populates="user")
+# Now: user.accounts returns all Account objects for this user</code></pre>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<!--  SECTION 3                                                         -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<div class="section" id="s3">
+  <div class="section-header">
+    <div class="section-number">03</div>
+    <h2>PostgreSQL Setup — Creating the Database from Scratch</h2>
+  </div>
+  <div class="card">
+    <h3>Step-by-Step from Zero</h3>
+
+    <h4>Step 1: Install PostgreSQL</h4>
+    <div class="terminal">
+      # macOS (using Homebrew)<br>
+      $ brew install postgresql@15<br>
+      $ brew services start postgresql@15<br>
+      <br>
+      # Ubuntu/Oracle Cloud<br>
+      $ sudo apt-get update<br>
+      $ sudo apt-get install postgresql postgresql-contrib<br>
+      $ sudo systemctl start postgresql
+    </div>
+
+    <h4>Step 2: Create the Database and User</h4>
+    <div class="terminal">
+      # Enter PostgreSQL interactive shell<br>
+      $ psql postgres<br>
+      <br>
+      postgres=# CREATE DATABASE quant_db;<br>
+      CREATE DATABASE<br>
+      <br>
+      postgres=# CREATE USER niiamas WITH PASSWORD '';<br>
+      CREATE ROLE<br>
+      <br>
+      postgres=# GRANT ALL PRIVILEGES ON DATABASE quant_db TO niiamas;<br>
+      GRANT<br>
+      <br>
+      postgres=# \q
+    </div>
+    <p><strong>Why a dedicated database?</strong> Isolates our project's data from any other PostgreSQL databases on the system. Each project gets its own database with its own tables.</p>
+
+    <h4>Step 3: Verify the Connection</h4>
+    <div class="terminal">
+      $ psql -U niiamas -d quant_db<br>
+      quant_db=# \dt   ← List all tables (empty at this point)<br>
+      quant_db=# \q
+    </div>
+
+    <h4>Step 4: Create Tables via Python (init_db.py)</h4>
+    <div class="terminal">
+      (venv) $ python init_db.py<br>
+      <br>
+      🏗️  Creating database tables...<br>
+      ✅ All tables created successfully!
+    </div>
+    <p>This runs <code>Base.metadata.create_all(bind=engine)</code> which reads all the SQLAlchemy model classes and generates the corresponding SQL <code>CREATE TABLE</code> statements.</p>
+
+    <h4>Step 5: Verify Tables Were Created</h4>
+    <div class="terminal">
+      $ psql -U niiamas -d quant_db<br>
+      quant_db=# \dt<br>
+      <br>
+                     List of relations<br>
+       Schema |      Name       | Type  | Owner<br>
+      --------+-----------------+-------+---------<br>
+       public | users           | table | niiamas<br>
+       public | accounts        | table | niiamas<br>
+       public | trades          | table | niiamas<br>
+       public | portfolio_assets| table | niiamas<br>
+       public | trade_signals   | table | niiamas<br>
+       public | news_articles   | table | niiamas<br>
+       public | bitcoin_prices  | table | niiamas<br>
+      (7 rows)
+    </div>
+
+    <div class="coord-box">
+      <h4>🤝 Coordination — Database Must Exist Before Backend Starts</h4>
+      <p>The Backend person's <code>main.py</code> and <code>bot_engine.py</code> both connect to <code>quant_db</code> on startup. If this database doesn't exist, both crash with <code>OperationalError: could not connect to server</code>. The Database person must complete Steps 1-4 BEFORE the Backend person can run any code.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<!--  SECTION 4                                                         -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<div class="section" id="s4">
+  <div class="section-header">
+    <div class="section-number">04</div>
+    <h2>database.py — The Connection Engine</h2>
+  </div>
+  <div class="file-card">
+    <div class="file-path">database.py — How Python Connects to PostgreSQL</div>
+    <pre><code>from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
+from dotenv import load_dotenv
+import os
+
+load_dotenv()  # Load .env file variables
+
+# Build connection URL from individual environment variables
+DB_USER = os.getenv("DB_USER", "niiamas")
+DB_PASS = os.getenv("DB_PASS", "")
+DB_HOST = os.getenv("DB_HOST", "localhost")
+DB_NAME = os.getenv("DB_NAME", "quant_db")
+
+# Support full DATABASE_URL override (used by Docker)
+DATABASE_URL = os.getenv("DATABASE_URL",
+    f"postgresql://{DB_USER}:{DB_PASS}@{DB_HOST}/{DB_NAME}")
+
+# Create the engine with connection pooling
+engine = create_engine(
+    DATABASE_URL,
+    pool_size=5,          # Maintain 5 persistent connections
+    max_overflow=10,      # Allow 10 extra during traffic spikes
+    pool_pre_ping=True    # Verify connections are alive before using
+)
+
+# Session factory — creates database sessions for each request
+SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)</code></pre>
+
+    <h4>Connection URL Anatomy</h4>
+    <pre><code>postgresql://niiamas:@localhost/quant_db
+│            │       │ │         │
+│            │       │ │         └─ Database name
+│            │       │ └─────────── Host (localhost for dev, "db" for Docker)
+│            │       └───────────── Password (empty in dev)
+│            └───────────────────── Username
+└────────────────────────────────── Driver (PostgreSQL)</code></pre>
+
+    <h4>Connection Pooling Explained</h4>
+    <p><strong>Without pooling:</strong> Every API request opens a new TCP connection to PostgreSQL (3-way handshake + authentication + query + close). With 100 requests/second, that's 100 connections opening and closing per second — massive overhead.</p>
+    <p><strong>With pooling (<code>pool_size=5</code>):</strong> SQLAlchemy maintains 5 persistent connections. When the API needs a connection, it borrows one from the pool. When done, it returns it to the pool (not closed). The next request reuses the same connection instantly.</p>
+    <p><strong><code>pool_pre_ping=True</code>:</strong> Sometimes PostgreSQL restarts (server reboot, Docker container restart). Pooled connections to the old server are now "dead." Without pre-ping, the next request using a dead connection would get <code>OperationalError</code>. With pre-ping, SQLAlchemy sends <code>SELECT 1</code> first — if the connection is dead, it silently creates a new one.</p>
+
+    <h4>SessionLocal — The Session Factory</h4>
+    <pre><code># autocommit=False → We control when changes are saved (explicit commit)
+# autoflush=False  → Don't auto-push Python changes to SQL until we say so
+# bind=engine      → Use our pooled engine for connections</code></pre>
+    <p>Every database interaction in the backend starts with <code>session = SessionLocal()</code> and ends with <code>session.close()</code>. The session tracks all changes (INSERT, UPDATE, DELETE) and only writes them to PostgreSQL when <code>session.commit()</code> is called.</p>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<!--  SECTION 5                                                         -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<div class="section" id="s5">
+  <div class="section-header">
+    <div class="section-number">05</div>
+    <h2>init_db.py — Every Table Model Defined</h2>
+  </div>
+  <div class="file-card">
+    <div class="file-path">init_db.py — The Schema Blueprint (7 Tables)</div>
+    <p>This file defines ALL database tables as Python classes using SQLAlchemy's declarative ORM. Each class maps to one PostgreSQL table. Each class attribute maps to one column.</p>
+
+    <h4>The Base Class</h4>
+    <pre><code>from sqlalchemy.orm import declarative_base, relationship
+from sqlalchemy import Column, Integer, String, Float, DateTime, ForeignKey, Text
+from datetime import datetime
+
+Base = declarative_base()</code></pre>
+    <p><strong><code>Base</code></strong> is the parent class for all models. When we call <code>Base.metadata.create_all(bind=engine)</code>, SQLAlchemy finds every class that inherits from <code>Base</code> and creates the corresponding table. This is why ALL models must inherit from <code>Base</code>.</p>
+
+    <p><strong>The <code>create_all()</code> function at the bottom:</strong></p>
+    <pre><code>if __name__ == "__main__":
+    from database import engine
+    print("🏗️  Creating database tables...")
+    Base.metadata.create_all(bind=engine)
+    print("✅ All tables created successfully!")</code></pre>
+    <p>This is the script the Database person runs to physically create all tables in PostgreSQL. <code>create_all()</code> is idempotent — running it multiple times is safe; it only creates tables that don't already exist.</p>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<!--  SECTION 6: USERS TABLE                                            -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<div class="section" id="s6">
+  <div class="section-header">
+    <div class="section-number">06</div>
+    <h2>Table 1: users — User Authentication & Identity</h2>
+  </div>
+  <div class="file-card">
+    <div class="file-path">users table — Who can log in</div>
+    <pre><code>class User(Base):
+    __tablename__ = "users"
+
+    id              = Column(Integer, primary_key=True, index=True)
+    email           = Column(String, unique=True, index=True, nullable=False)
+    hashed_password = Column(String, nullable=False)
+    pin             = Column(String, nullable=True)
+    created_at      = Column(DateTime, default=datetime.utcnow)
+
+    # Relationship: one user has many accounts
+    accounts = relationship("Account", back_populates="user")</code></pre>
+
+    <table class="schema-table">
+      <thead>
+        <tr>
+          <th style="color:var(--accent);">Column</th>
+          <th style="color:var(--accent);">Type</th>
+          <th style="color:var(--accent);">Constraints</th>
+          <th style="color:var(--accent);">Why This Type?</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td><code>id</code></td><td>Integer</td><td>PRIMARY KEY, AUTO-INCREMENT, INDEXED</td><td>Every table needs a unique identifier. Integer is fast for joins and lookups.</td></tr>
+        <tr><td><code>email</code></td><td>String</td><td>UNIQUE, NOT NULL, INDEXED</td><td>UNIQUE prevents duplicate accounts. INDEXED because we search by email during every login (fast lookup). NOT NULL because a user must have an email.</td></tr>
+        <tr><td><code>hashed_password</code></td><td>String</td><td>NOT NULL</td><td>Stores bcrypt hash (e.g., "$2b$12$eXaMpLe..."). We NEVER store plain-text passwords. String because bcrypt hashes are 60 characters.</td></tr>
+        <tr><td><code>pin</code></td><td>String</td><td>NULLABLE</td><td>Optional 4-digit security PIN. Nullable because it's optional during registration.</td></tr>
+        <tr><td><code>created_at</code></td><td>DateTime</td><td>DEFAULT: now()</td><td>Automatically records when the user registered. Useful for analytics and email reports.</td></tr>
+      </tbody>
+    </table>
+
+    <h4>Why <code>index=True</code> on <code>email</code>?</h4>
+    <p>An index creates a B-tree data structure on the <code>email</code> column. Without it, finding a user by email requires scanning EVERY row in the table (O(n) — slow for 10,000+ users). With an index, PostgreSQL can find the user in O(log n) — essentially instant.</p>
+
+    <h4>The <code>relationship()</code> Connection</h4>
+    <pre><code>accounts = relationship("Account", back_populates="user")</code></pre>
+    <p>This creates a virtual Python attribute. After querying <code>user = session.query(User).get(1)</code>, you can access <code>user.accounts</code> which automatically runs <code>SELECT * FROM accounts WHERE user_id = 1</code> behind the scenes. <code>back_populates="user"</code> creates the reverse link — from any Account object, <code>account.user</code> gives you the parent User.</p>
+
+    <div class="coord-box">
+      <h4>🤝 Coordination — Who Uses This Table?</h4>
+      <p><strong>Backend:</strong> <code>main.py</code> queries <code>users</code> during login (<code>session.query(User).filter(User.email == email)</code>), registration (INSERT), and Google auth. <code>email_reports.py</code> queries ALL users to send daily reports.</p>
+      <p><strong>Frontend:</strong> AuthPage.jsx sends email + password to the backend, which queries this table. The frontend never sees the <code>hashed_password</code> column — it's filtered out by the backend.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<!--  SECTION 7: ACCOUNTS TABLE                                         -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<div class="section" id="s7">
+  <div class="section-header">
+    <div class="section-number">07</div>
+    <h2>Table 2: accounts — Trading Account Configuration</h2>
+  </div>
+  <div class="file-card">
+    <div class="file-path">accounts table — Each user's trading portfolios</div>
+    <pre><code>class Account(Base):
+    __tablename__ = "accounts"
+
+    id              = Column(Integer, primary_key=True, index=True)
+    user_id         = Column(Integer, ForeignKey("users.id"), nullable=False)
+    name            = Column(String, nullable=False)
+    balance         = Column(Float, default=10000.0)
+    initial_balance = Column(Float, default=10000.0)
+    strategy        = Column(String, default="Moderate")
+    asset_types     = Column(Text, nullable=True)
+    sectors         = Column(Text, nullable=True)
+    created_at      = Column(DateTime, default=datetime.utcnow)
+
+    # Relationships
+    user   = relationship("User", back_populates="accounts")
+    trades = relationship("Trade", back_populates="account")</code></pre>
+
+    <table class="schema-table">
+      <thead>
+        <tr>
+          <th style="color:var(--accent);">Column</th>
+          <th style="color:var(--accent);">Type</th>
+          <th style="color:var(--accent);">Constraints</th>
+          <th style="color:var(--accent);">Purpose & Why This Type</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td><code>id</code></td><td>Integer</td><td>PK, AUTO-INC</td><td>Unique account identifier</td></tr>
+        <tr><td><code>user_id</code> <span class="tag tag-fk">FK</span></td><td>Integer</td><td>FOREIGN KEY → users.id, NOT NULL</td><td>Links account to its owner. ForeignKey ensures referential integrity — you can't create an account for a non-existent user.</td></tr>
+        <tr><td><code>name</code></td><td>String</td><td>NOT NULL</td><td>Human-readable name like "High Risk Crypto Fund"</td></tr>
+        <tr><td><code>balance</code></td><td>Float</td><td>DEFAULT: 10000.0</td><td>Current cash balance. Float for decimal precision. Updated when trades close (realized P&L adjusts balance).</td></tr>
+        <tr><td><code>initial_balance</code></td><td>Float</td><td>DEFAULT: 10000.0</td><td>The starting balance. NEVER changes after creation. Used to calculate overall return percentage: <code>(balance - initial_balance) / initial_balance × 100</code></td></tr>
+        <tr><td><code>strategy</code></td><td>String</td><td>DEFAULT: "Moderate"</td><td>Risk profile: "Low", "Moderate", or "Aggressive". Determines position sizing and the min_layers requirement for the 3-Layer Verification.</td></tr>
+        <tr><td><code>asset_types</code></td><td>Text</td><td>NULLABLE</td><td>JSON string of selected markets: <code>'["Stocks", "Crypto"]'</code>. Text instead of JSON column for simpler compatibility. Nullable because existing accounts (before this feature) don't have it.</td></tr>
+        <tr><td><code>sectors</code></td><td>Text</td><td>NULLABLE</td><td>JSON string of selected stock sectors: <code>'["Technology", "Finance"]'</code>. Same rationale as asset_types.</td></tr>
+      </tbody>
+    </table>
+
+    <h4>Why Two Balance Columns?</h4>
+    <p><code>balance</code> changes over time as trades produce gains or losses. <code>initial_balance</code> is frozen at creation. This dual-column design allows us to calculate returns:</p>
+    <pre><code>return_percentage = ((account.balance - account.initial_balance) / account.initial_balance) * 100
+# Example: ($12,500 - $10,000) / $10,000 × 100 = +25.0%</code></pre>
+    <p>Without <code>initial_balance</code>, we'd have no way to know the starting point.</p>
+
+    <h4>Why <code>asset_types</code> and <code>sectors</code> Are Text, Not a Separate Table</h4>
+    <p>We store them as JSON strings (e.g., <code>'["Stocks","Crypto"]'</code>) in a single Text column rather than creating a separate <code>account_asset_types</code> junction table. This is a deliberate denormalization — it's simpler, avoids extra JOINs, and the data is always read/written as a complete list (never queried individually).</p>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<!--  SECTION 8: TRADES TABLE                                           -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<div class="section" id="s8">
+  <div class="section-header">
+    <div class="section-number">08</div>
+    <h2>Table 3: trades — Every Trade the Bot Makes</h2>
+  </div>
+  <div class="file-card">
+    <div class="file-path">trades table — The complete trade ledger</div>
+    <pre><code>class Trade(Base):
+    __tablename__ = "trades"
+
+    id            = Column(Integer, primary_key=True, index=True)
+    account_id    = Column(Integer, ForeignKey("accounts.id"), nullable=False)
+    symbol        = Column(String, nullable=False)
+    trade_type    = Column(String, nullable=False)        # "Long" or "Short"
+    entry_price   = Column(Float, nullable=False)
+    current_price = Column(Float, default=0.0)
+    exit_price    = Column(Float, nullable=True)
+    quantity      = Column(Float, default=0.0)
+    pnl           = Column(Float, default=0.0)            # Percentage P&L
+    pnl_dollars   = Column(Float, default=0.0)            # Dollar P&L
+    stop_loss     = Column(Float, nullable=True)
+    take_profit   = Column(Float, nullable=True)
+    status        = Column(String, default="Open")        # "Open" or "Closed"
+    reasoning     = Column(Text, nullable=True)           # AI reasoning text
+    created_at    = Column(DateTime, default=datetime.utcnow)
+    closed_at     = Column(DateTime, nullable=True)
+
+    account = relationship("Account", back_populates="trades")</code></pre>
+
+    <table class="schema-table">
+      <thead>
+        <tr>
+          <th style="color:var(--accent);">Column</th>
+          <th style="color:var(--accent);">Type</th>
+          <th style="color:var(--accent);">Purpose & Design Decision</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td><code>account_id</code> <span class="tag tag-fk">FK</span></td><td>Integer</td><td>Links trade to its account. One account has many trades.</td></tr>
+        <tr><td><code>symbol</code></td><td>String</td><td>The ticker symbol (e.g., "AAPL", "BTC-USD", "EURUSD=X"). Matches yfinance ticker format.</td></tr>
+        <tr><td><code>trade_type</code></td><td>String</td><td>"Long" (buy expecting price to rise) or "Short" (sell expecting price to fall). String instead of Boolean for clarity and future extensibility.</td></tr>
+        <tr><td><code>entry_price</code></td><td>Float</td><td>Price when the trade was opened. Never changes after creation.</td></tr>
+        <tr><td><code>current_price</code></td><td>Float</td><td>Live market price. Updated every 60 seconds by the bot engine's fast cycle. Used for unrealized P&L calculations.</td></tr>
+        <tr><td><code>exit_price</code></td><td>Float (nullable)</td><td>Price when the trade was closed. NULL while trade is open. Set when stop-loss or take-profit is hit.</td></tr>
+        <tr><td><code>quantity</code></td><td>Float</td><td>Number of shares/coins. Float because crypto allows fractional amounts (e.g., 0.0123 BTC).</td></tr>
+        <tr><td><code>pnl</code></td><td>Float</td><td>Percentage gain/loss. <code>((current_price - entry_price) / entry_price) × 100</code>. Updated every price cycle.</td></tr>
+        <tr><td><code>pnl_dollars</code></td><td>Float</td><td>Dollar gain/loss. <code>(current_price - entry_price) × quantity</code>. More intuitive than percentage for users.</td></tr>
+        <tr><td><code>stop_loss</code></td><td>Float (nullable)</td><td>Price at which the bot automatically closes the trade to limit losses. Calculated using ATR × sl_mult.</td></tr>
+        <tr><td><code>take_profit</code></td><td>Float (nullable)</td><td>Price at which the bot automatically closes the trade to lock in profits. Calculated using ATR × tp_mult.</td></tr>
+        <tr><td><code>status</code></td><td>String</td><td>"Open" (active trade) or "Closed" (trade completed). The frontend uses this to separate the Trade Ledger into Open/Closed tabs.</td></tr>
+        <tr><td><code>reasoning</code></td><td>Text</td><td>Full AI analysis text explaining WHY this trade was made. Example: "3-LAYER VERIFIED (3/3) | ✅ TA: BULLISH | ✅ SA: BUY | ✅ QA: FAVORABLE". Text type because it can be very long. Displayed in TradeAnalysis page.</td></tr>
+        <tr><td><code>closed_at</code></td><td>DateTime (nullable)</td><td>NULL while open. Set to UTC timestamp when trade closes. Used for trade duration calculations.</td></tr>
+      </tbody>
+    </table>
+
+    <h4>Why Both <code>pnl</code> (%) and <code>pnl_dollars</code> ($)?</h4>
+    <p>The frontend displays both: "+5.23% (+$523.00)". We pre-compute both on the backend during each price update rather than making the frontend calculate them. This follows the "compute once, read many" principle — the bot engine updates these once every 60 seconds, but potentially 100 frontend users read them every 5 seconds.</p>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<!--  SECTION 9: PORTFOLIO_ASSETS                                       -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<div class="section" id="s9">
+  <div class="section-header">
+    <div class="section-number">09</div>
+    <h2>Table 4: portfolio_assets — Current Holdings</h2>
+  </div>
+  <div class="file-card">
+    <div class="file-path">portfolio_assets table — What each account currently owns</div>
+    <pre><code>class PortfolioAsset(Base):
+    __tablename__ = "portfolio_assets"
+
+    id            = Column(Integer, primary_key=True, index=True)
+    account_id    = Column(Integer, ForeignKey("accounts.id"), nullable=False)
+    symbol        = Column(String, nullable=False)
+    shares        = Column(Float, default=0.0)
+    avg_price     = Column(Float, default=0.0)
+    current_price = Column(Float, default=0.0)
+    asset_class   = Column(String, default="Stock")</code></pre>
+
+    <table class="schema-table">
+      <thead>
+        <tr>
+          <th style="color:var(--accent);">Column</th>
+          <th style="color:var(--accent);">Type</th>
+          <th style="color:var(--accent);">Purpose</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td><code>account_id</code> <span class="tag tag-fk">FK</span></td><td>Integer</td><td>Which account owns this asset</td></tr>
+        <tr><td><code>symbol</code></td><td>String</td><td>Ticker symbol (e.g., "AAPL", "BTC-USD")</td></tr>
+        <tr><td><code>shares</code></td><td>Float</td><td>Total quantity held. Increases when buying, decreases when selling. When it hits 0, the asset is no longer "held."</td></tr>
+        <tr><td><code>avg_price</code></td><td>Float</td><td>Weighted average purchase price across all buys. If you buy 10 shares at $100 and 10 more at $110, avg_price = $105.</td></tr>
+        <tr><td><code>current_price</code></td><td>Float</td><td>Latest market price. Updated every 60 seconds by the fast cycle.</td></tr>
+        <tr><td><code>asset_class</code></td><td>String</td><td>"Stock", "Crypto", "Forex", or "Commodity". Used for display categorization in the frontend.</td></tr>
+      </tbody>
+    </table>
+
+    <h4>Difference Between <code>portfolio_assets</code> and <code>trades</code></h4>
+    <p><strong><code>trades</code></strong> records every individual transaction (buy this on Jan 5, sell half on Jan 10, buy more on Jan 15). It's a <strong>ledger</strong> — historical, immutable entries.</p>
+    <p><strong><code>portfolio_assets</code></strong> is the <strong>current state</strong> — an aggregate view. If you made 5 separate purchases of AAPL at different prices, <code>portfolio_assets</code> has ONE row with total shares and weighted average price. It's like a summary card.</p>
+    <p>The bot engine maintains both: when a trade opens, it creates a Trade record AND updates the PortfolioAsset record (or creates one if it's the first purchase of that symbol).</p>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<!--  SECTION 10: TRADE_SIGNALS                                         -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<div class="section" id="s10">
+  <div class="section-header">
+    <div class="section-number">10</div>
+    <h2>Table 5: trade_signals — AI Signal History</h2>
+  </div>
+  <div class="file-card">
+    <div class="file-path">trade_signals table — Log of every AI signal generated</div>
+    <pre><code>class TradeSignal(Base):
+    __tablename__ = "trade_signals"
+
+    id         = Column(Integer, primary_key=True, index=True)
+    symbol     = Column(String, nullable=False)
+    signal     = Column(String, nullable=False)      # "BUY", "SELL", "HOLD"
+    confidence = Column(Float, default=0.0)
+    reasoning  = Column(Text, nullable=True)
+    created_at = Column(DateTime, default=datetime.utcnow)</code></pre>
+    <p><strong>Purpose:</strong> Every time the 3-Layer Verification generates a signal (BUY, SELL, or HOLD), we log it here — even if the signal didn't result in an actual trade (e.g., signal was HOLD, or the account didn't have enough balance). This creates an audit trail for analysis.</p>
+    <p><strong>Use case:</strong> The Backend person can query this table to analyze signal accuracy: "How many BUY signals with confidence > 0.7 actually resulted in profitable trades?" This is valuable for tuning the AI model's thresholds.</p>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<!--  SECTION 11: NEWS_ARTICLES                                         -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<div class="section" id="s11">
+  <div class="section-header">
+    <div class="section-number">11</div>
+    <h2>Table 6: news_articles — Financial News Storage</h2>
+  </div>
+  <div class="file-card">
+    <div class="file-path">news_articles table — Processed news with AI sentiment</div>
+    <pre><code>class NewsArticle(Base):
+    __tablename__ = "news_articles"
+
+    id          = Column(Integer, primary_key=True, index=True)
+    headline    = Column(String, nullable=False)
+    summary     = Column(Text, nullable=True)
+    source      = Column(String, nullable=True)
+    url         = Column(String, nullable=True)
+    ticker      = Column(String, nullable=True)
+    sentiment   = Column(String, nullable=True)     # "positive", "negative", "neutral"
+    impact      = Column(String, nullable=True)     # "Bullish", "Bearish", "Neutral"
+    confidence  = Column(Float, default=0.0)
+    lat         = Column(Float, nullable=True)
+    lng         = Column(Float, nullable=True)
+    published_at = Column(DateTime, nullable=True)
+    created_at   = Column(DateTime, default=datetime.utcnow)</code></pre>
+
+    <table class="schema-table">
+      <thead>
+        <tr>
+          <th style="color:var(--accent);">Column</th>
+          <th style="color:var(--accent);">Type</th>
+          <th style="color:var(--accent);">Purpose</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td><code>headline</code></td><td>String</td><td>The article title — this is what FinBERT analyzes for sentiment</td></tr>
+        <tr><td><code>summary</code></td><td>Text</td><td>Article excerpt. Text type because summaries can be 500+ characters</td></tr>
+        <tr><td><code>ticker</code></td><td>String</td><td>The stock/crypto symbol this article relates to (e.g., "AAPL", "BTC")</td></tr>
+        <tr><td><code>sentiment</code></td><td>String</td><td>Raw FinBERT output: "positive", "negative", "neutral"</td></tr>
+        <tr><td><code>impact</code></td><td>String</td><td>Human-readable version: "Bullish", "Bearish", "Neutral" (used in frontend UI)</td></tr>
+        <tr><td><code>confidence</code></td><td>Float</td><td>FinBERT's confidence score (0.0 to 1.0). Higher = more certain</td></tr>
+        <tr><td><code>lat</code>, <code>lng</code></td><td>Float</td><td>Geographic coordinates for the 3D Globe visualization on the Dashboard. Assigned based on the financial center most relevant to the article's ticker.</td></tr>
+      </tbody>
+    </table>
+
+    <div class="coord-box">
+      <h4>🤝 Coordination — News Data Pipeline</h4>
+      <p><strong>Data flow:</strong> NewsAPI/RSS feeds → <code>data_ingestion.py</code> fetches articles → <code>ai_analysis.py</code> runs FinBERT on headlines → <code>data_ingestion.py</code> assigns lat/lng based on ticker → INSERT into <code>news_articles</code> table → Backend's <code>/news</code> endpoint SELECTs recent articles → Frontend's Dashboard.jsx and NewsPage.jsx display them.</p>
+      <p>The <code>lat</code>/<code>lng</code> columns exist SOLELY for the Frontend's 3D Globe. The Database person added them because the Frontend developer needed geographic coordinates to position news markers on the globe.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<!--  SECTION 12: BITCOIN_PRICES                                        -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<div class="section" id="s12">
+  <div class="section-header">
+    <div class="section-number">12</div>
+    <h2>Table 7: bitcoin_prices — Historical Price Cache</h2>
+  </div>
+  <div class="file-card">
+    <div class="file-path">bitcoin_prices table — Price history cache</div>
+    <pre><code>class BitcoinPrice(Base):
+    __tablename__ = "bitcoin_prices"
+
+    id         = Column(Integer, primary_key=True, index=True)
+    price      = Column(Float, nullable=False)
+    volume     = Column(Float, nullable=True)
+    timestamp  = Column(DateTime, default=datetime.utcnow)</code></pre>
+    <p><strong>Purpose:</strong> Caches historical price data locally so we don't need to re-fetch from yfinance every time. While named "bitcoin_prices" (originally created for BTC tracking), it serves as a general price logging table.</p>
+    <p><strong>Why cache prices?</strong> yfinance has rate limits. If the bot engine queries "3 months of AAPL history" every 5 minutes, we'd hit rate limits quickly. Instead, we cache prices locally and only fetch incremental updates.</p>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<!--  SECTION 13: ERD                                                    -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<div class="section" id="s13">
+  <div class="section-header">
+    <div class="section-number">13</div>
+    <h2>Entity Relationship Diagram</h2>
+  </div>
+  <div class="card">
+    <h3>How All 7 Tables Connect</h3>
+    <pre><code>
+  ┌─────────────────┐
+  │     users        │
+  │─────────────────│
+  │ id (PK)         │
+  │ email           │
+  │ hashed_password │
+  │ pin             │
+  │ created_at      │
+  └────────┬────────┘
+           │ 1:N (one user has many accounts)
+           │
+  ┌────────▼────────┐
+  │    accounts      │
+  │─────────────────│
+  │ id (PK)         │
+  │ user_id (FK)  ──┼──→ users.id
+  │ name            │
+  │ balance         │
+  │ initial_balance │
+  │ strategy        │
+  │ asset_types     │
+  │ sectors         │
+  └────────┬────────┘
+           │ 1:N (one account has many trades)
+           │
+     ┌─────┴──────┐
+     │             │
+┌────▼───────┐ ┌───▼──────────────┐
+│   trades    │ │ portfolio_assets  │
+│────────────│ │──────────────────│
+│ id (PK)    │ │ id (PK)          │
+│ account_id │ │ account_id (FK)──┼──→ accounts.id
+│ symbol     │ │ symbol           │
+│ trade_type │ │ shares           │
+│ entry_price│ │ avg_price        │
+│ pnl        │ │ current_price    │
+│ stop_loss  │ │ asset_class      │
+│ reasoning  │ └──────────────────┘
+│ status     │
+└────────────┘
+
+  ┌───────────────┐  ┌───────────────┐  ┌───────────────┐
+  │ trade_signals  │  │ news_articles  │  │ bitcoin_prices│
+  │───────────────│  │───────────────│  │───────────────│
+  │ id (PK)       │  │ id (PK)       │  │ id (PK)       │
+  │ symbol        │  │ headline      │  │ price         │
+  │ signal        │  │ ticker        │  │ volume        │
+  │ confidence    │  │ sentiment     │  │ timestamp     │
+  │ reasoning     │  │ lat, lng      │  └───────────────┘
+  └───────────────┘  │ impact        │
+                     └───────────────┘
+
+  ══════════════════════════════════════════════════
+  RELATIONSHIP TYPES:
+    users  ──1:N──►  accounts    (One user, many accounts)
+    accounts──1:N──► trades      (One account, many trades)
+    accounts──1:N──► portfolio_assets (One account, many holdings)
+    
+  STANDALONE TABLES (no foreign keys):
+    trade_signals  — logs AI signals globally
+    news_articles  — stores processed news globally
+    bitcoin_prices — caches price history globally
+  ══════════════════════════════════════════════════</code></pre>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<!--  SECTION 14: DATA FLOW                                             -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<div class="section" id="s14">
+  <div class="section-header">
+    <div class="section-number">14</div>
+    <h2>Data Flow — How Data Moves Through the System</h2>
+  </div>
+  <div class="card">
+    <h3>Complete Data Lifecycle</h3>
+
+    <h4>Flow 1: User Registration</h4>
+    <div class="flow-diagram">
+      <div class="flow-box" style="border-color:#60a5fa;">Frontend<br><small>AuthPage form</small></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-box" style="border-color:#10B981;">Backend<br><small>POST /auth/register</small></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-box" style="border-color:var(--accent);">Database<br><small>INSERT INTO users</small></div>
+    </div>
+
+    <h4>Flow 2: Trade Execution</h4>
+    <div class="flow-diagram">
+      <div class="flow-box" style="border-color:#10B981;">Bot Engine<br><small>3-Layer Verify</small></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-box" style="border-color:var(--accent);">Database<br><small>INSERT INTO trades</small></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-box" style="border-color:var(--accent);">Database<br><small>UPDATE portfolio_assets</small></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-box" style="border-color:var(--accent);">Database<br><small>UPDATE accounts.balance</small></div>
+    </div>
+
+    <h4>Flow 3: Dashboard Display</h4>
+    <div class="flow-diagram">
+      <div class="flow-box" style="border-color:#60a5fa;">Frontend<br><small>axios.get()</small></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-box" style="border-color:#10B981;">Backend<br><small>GET /accounts/{id}/data</small></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-box" style="border-color:var(--accent);">Database<br><small>SELECT trades, portfolio_assets</small></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-box" style="border-color:#10B981;">Backend<br><small>Format JSON</small></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-box" style="border-color:#60a5fa;">Frontend<br><small>Render UI</small></div>
+    </div>
+
+    <h4>Flow 4: News Pipeline</h4>
+    <div class="flow-diagram">
+      <div class="flow-box" style="border-color:#EF4444;">NewsAPI<br><small>External API</small></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-box" style="border-color:#10B981;">data_ingestion.py<br><small>Fetch + Parse</small></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-box" style="border-color:#10B981;">ai_analysis.py<br><small>FinBERT Sentiment</small></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-box" style="border-color:var(--accent);">Database<br><small>INSERT news_articles</small></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-box" style="border-color:#60a5fa;">Frontend<br><small>Globe + News Cards</small></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<!--  SECTION 15: MIGRATIONS                                            -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<div class="section" id="s15">
+  <div class="section-header">
+    <div class="section-number">15</div>
+    <h2>Database Migrations — fix_db.py & migrate_db.py</h2>
+  </div>
+
+  <div class="file-card">
+    <div class="file-path">fix_db.py — Nuclear Reset (DESTRUCTIVE)</div>
+    <pre><code>def reset_tables():
+    """DROP all tables and recreate from scratch. DESTROYS ALL DATA."""
+    with engine.connect() as conn:
+        conn.execute(text("DROP TABLE IF EXISTS trades CASCADE;"))
+        conn.execute(text("DROP TABLE IF EXISTS portfolio_assets CASCADE;"))
+        conn.execute(text("DROP TABLE IF EXISTS trade_signals CASCADE;"))
+        conn.execute(text("DROP TABLE IF EXISTS news_articles CASCADE;"))
+        conn.execute(text("DROP TABLE IF EXISTS bitcoin_prices CASCADE;"))
+        conn.execute(text("DROP TABLE IF EXISTS accounts CASCADE;"))
+        conn.execute(text("DROP TABLE IF EXISTS users CASCADE;"))
+        conn.commit()
+    
+    # Re-create with current schema
+    Base.metadata.create_all(bind=engine)</code></pre>
+    <p><strong>When to use:</strong> When schema changes are so dramatic that migration is impractical (e.g., changing a column's data type, removing columns, or restructuring relationships). This drops ALL tables and recreates them — ALL DATA IS LOST.</p>
+    <p><strong>Why <code>CASCADE</code>?</strong> PostgreSQL prevents dropping a table that other tables reference via foreign keys. <code>CASCADE</code> says "also drop dependent tables." Without it, <code>DROP TABLE users</code> would fail because <code>accounts</code> has a <code>ForeignKey("users.id")</code>.</p>
+    <p><strong>Order matters:</strong> We drop child tables first (trades, portfolio_assets) before parent tables (accounts, users). This is more predictable than relying on CASCADE for everything.</p>
+  </div>
+
+  <div class="file-card">
+    <div class="file-path">migrate_db.py — Non-Destructive Migration</div>
+    <pre><code>def migrate():
+    """Add new columns without losing existing data."""
+    with engine.connect() as conn:
+        try:
+            conn.execute(text("ALTER TABLE accounts ADD COLUMN asset_types TEXT;"))
+            conn.commit()
+            print("✅ Added 'asset_types' column")
+        except Exception:
+            conn.rollback()
+            print("✅ 'asset_types' column already exists")
+        
+        try:
+            conn.execute(text("ALTER TABLE accounts ADD COLUMN sectors TEXT;"))
+            conn.commit()
+            print("✅ Added 'sectors' column")
+        except Exception:
+            conn.rollback()
+            print("✅ 'sectors' column already exists")</code></pre>
+    <p><strong>When to use:</strong> When adding NEW columns to existing tables. This preserves all existing data. The try/except pattern makes it idempotent — running it twice is safe because the second run catches the "column already exists" error and continues.</p>
+    <p><strong>Why not just use <code>fix_db.py</code>?</strong> In production with real user data, dropping tables would delete everything. Migrations add features without data loss. This is critical for deployed systems.</p>
+
+    <div class="coord-box">
+      <h4>🤝 Coordination — When Migrations Were Needed</h4>
+      <p>The <code>asset_types</code> and <code>sectors</code> columns were added AFTER the initial deployment. The Frontend developer needed the Account Wizard to store market preferences. The Database person wrote <code>migrate_db.py</code>, ran it on the production server (<code>python migrate_db.py</code>), which added the columns without affecting existing accounts. Then the Backend person updated the <code>POST /accounts</code> endpoint to accept and store these new fields. Finally, the Frontend person built the wizard UI.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<!--  SECTION 16: DOCKER DB                                             -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<div class="section" id="s16">
+  <div class="section-header">
+    <div class="section-number">16</div>
+    <h2>Docker PostgreSQL — Production Database Container</h2>
+  </div>
+  <div class="file-card">
+    <div class="file-path">docker-compose.yml — Database Service Configuration</div>
+    <pre><code>services:
+  db:
+    image: postgres:15-alpine        # Official PostgreSQL 15 on Alpine Linux
+    restart: always                  # Auto-restart if it crashes
+    environment:
+      POSTGRES_USER: quantbot       # Database username
+      POSTGRES_PASSWORD: ${DB_PASS:-quantbot_secure_pw}  # From .env or default
+      POSTGRES_DB: quant_db         # Auto-create this database on first start
+    volumes:
+      - pgdata:/var/lib/postgresql/data   # Persistent storage!
+    ports:
+      - "5432:5432"                 # Expose PostgreSQL port
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U quantbot -d quant_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  pgdata:    # Named Docker volume — survives container restarts</code></pre>
+
+    <h4>Key Concepts Explained</h4>
+    <ul>
+      <li><strong><code>postgres:15-alpine</code></strong> — Alpine Linux variant is ~70MB (vs ~370MB for full). PostgreSQL 15 is a stable, well-tested version.</li>
+      <li><strong><code>restart: always</code></strong> — If the container crashes or the server reboots, Docker automatically restarts it. Critical for a 24/7 trading system.</li>
+      <li><strong><code>POSTGRES_USER/PASSWORD/DB</code></strong> — These environment variables are recognized by the official PostgreSQL image. On first start, it automatically creates the database and user.</li>
+      <li><strong><code>volumes: pgdata</code></strong> — <strong>THIS IS THE MOST CRITICAL LINE.</strong> Without a volume, all database data lives inside the container. If the container is deleted (<code>docker compose down -v</code>), ALL DATA IS LOST. The named volume <code>pgdata</code> stores data on the host's filesystem, surviving container lifecycle.</li>
+      <li><strong><code>healthcheck</code></strong> — <code>pg_isready</code> is PostgreSQL's built-in connectivity checker. The Backend service uses <code>depends_on: db: condition: service_healthy</code> to wait until PostgreSQL is accepting connections before starting. Without this, the Backend would crash on startup because the database isn't ready yet.</li>
+    </ul>
+
+    <h4>Local Development vs Docker Production</h4>
+    <table class="schema-table">
+      <thead>
+        <tr>
+          <th style="color:var(--accent);">Aspect</th>
+          <th style="color:var(--accent);">Local Development</th>
+          <th style="color:var(--accent);">Docker Production</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>PostgreSQL</td><td>Installed via Homebrew/apt</td><td>Runs in <code>postgres:15-alpine</code> container</td></tr>
+        <tr><td>Connection URL</td><td><code>postgresql://niiamas:@localhost/quant_db</code></td><td><code>postgresql://quantbot:pw@db:5432/quant_db</code></td></tr>
+        <tr><td>Data storage</td><td>System PostgreSQL data directory</td><td>Docker named volume <code>pgdata</code></td></tr>
+        <tr><td>Configuration</td><td><code>.env</code> file</td><td><code>.env.production</code> file</td></tr>
+        <tr><td>Hostname</td><td><code>localhost</code></td><td><code>db</code> (Docker service name)</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<!--  SECTION 17: DB ↔ BACKEND                                          -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<div class="section" id="s17">
+  <div class="section-header">
+    <div class="section-number">17</div>
+    <h2>Database ↔ Backend Correlation Map</h2>
+  </div>
+  <div class="card">
+    <h3>Which Backend Module Uses Which Table</h3>
+    <table class="schema-table">
+      <thead>
+        <tr>
+          <th style="color:var(--accent);">Backend Module</th>
+          <th style="color:var(--accent);">Tables Used</th>
+          <th style="color:var(--accent);">Operations</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td><code>main.py</code> (auth)</td><td>users</td><td>SELECT (login), INSERT (register)</td></tr>
+        <tr><td><code>main.py</code> (accounts)</td><td>accounts, portfolio_assets</td><td>SELECT, INSERT, UPDATE, DELETE</td></tr>
+        <tr><td><code>main.py</code> (data)</td><td>trades, portfolio_assets, accounts</td><td>SELECT (with computed stats)</td></tr>
+        <tr><td><code>main.py</code> (news)</td><td>news_articles</td><td>SELECT (recent articles)</td></tr>
+        <tr><td><code>bot_engine.py</code></td><td>accounts, portfolio_assets</td><td>SELECT all, UPDATE prices</td></tr>
+        <tr><td><code>trade_executor.py</code></td><td>trades, portfolio_assets, accounts, trade_signals</td><td>INSERT trades, UPDATE portfolio, UPDATE balance</td></tr>
+        <tr><td><code>data_ingestion.py</code></td><td>news_articles, bitcoin_prices</td><td>INSERT news, INSERT prices</td></tr>
+        <tr><td><code>email_reports.py</code></td><td>users, accounts, trades, portfolio_assets</td><td>SELECT (read all for report generation)</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<!--  SECTION 18: DB ↔ FRONTEND                                         -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<div class="section" id="s18">
+  <div class="section-header">
+    <div class="section-number">18</div>
+    <h2>Database ↔ Frontend Correlation Map</h2>
+  </div>
+  <div class="card">
+    <h3>Which Database Column Appears Where in the UI</h3>
+    <table class="schema-table">
+      <thead>
+        <tr>
+          <th style="color:var(--accent);">DB Column</th>
+          <th style="color:var(--accent);">JSON Field Name</th>
+          <th style="color:var(--accent);">Frontend Page</th>
+          <th style="color:var(--accent);">UI Element</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td><code>accounts.name</code></td><td>name</td><td>Sidebar</td><td>Account switcher dropdown label</td></tr>
+        <tr><td><code>accounts.balance</code></td><td>balance</td><td>Dashboard, Sidebar</td><td>"Account Equity" KPI card, sidebar balance</td></tr>
+        <tr><td><code>accounts.strategy</code></td><td>type</td><td>Sidebar, TradingHub</td><td>Account type badge</td></tr>
+        <tr><td><code>portfolio_assets.symbol</code></td><td>asset (in positions)</td><td>Dashboard, TradingHub</td><td>Asset name in holdings list</td></tr>
+        <tr><td><code>portfolio_assets.shares</code></td><td>shares</td><td>TradingHub</td><td>"Total Coins/Shares" field</td></tr>
+        <tr><td><code>portfolio_assets.avg_price</code></td><td>avgPrice</td><td>TradingHub</td><td>"Avg Entry" field</td></tr>
+        <tr><td><code>portfolio_assets.current_price</code></td><td>value (computed)</td><td>TradingHub</td><td>"Total Value" = shares × current_price</td></tr>
+        <tr><td><code>trades.symbol</code></td><td>pair</td><td>TradingHub, Analysis</td><td>Trade symbol label</td></tr>
+        <tr><td><code>trades.trade_type</code></td><td>type</td><td>TradingHub, Analysis</td><td>"Long"/"Short" badge</td></tr>
+        <tr><td><code>trades.entry_price</code></td><td>entry</td><td>TradingHub, Analysis</td><td>"Entry" price display</td></tr>
+        <tr><td><code>trades.pnl</code></td><td>pnl</td><td>TradingHub, Analysis</td><td>"+5.23%" green/red text</td></tr>
+        <tr><td><code>trades.pnl_dollars</code></td><td>pnlDollars</td><td>TradingHub, Analysis</td><td>"(+$523)" dollar amount</td></tr>
+        <tr><td><code>trades.reasoning</code></td><td>reasoning</td><td>TradeAnalysis</td><td>Expandable AI analysis breakdown</td></tr>
+        <tr><td><code>trades.status</code></td><td>status</td><td>TradingHub</td><td>Open/Closed tab filter</td></tr>
+        <tr><td><code>news_articles.headline</code></td><td>headline</td><td>Dashboard, NewsPage</td><td>News card title text</td></tr>
+        <tr><td><code>news_articles.impact</code></td><td>impact</td><td>Dashboard, NewsPage</td><td>"Bullish"/"Bearish" badge color</td></tr>
+        <tr><td><code>news_articles.lat/lng</code></td><td>lat, lng</td><td>Dashboard</td><td>3D Globe marker position</td></tr>
+      </tbody>
+    </table>
+    <p><strong>Key insight:</strong> Notice how DB column names (snake_case like <code>entry_price</code>) are transformed to camelCase (<code>entryPrice</code> or just <code>entry</code>) in the JSON response. This transformation happens in the Backend's endpoint code. The Database person uses Python/SQL conventions; the Frontend person uses JavaScript conventions; the Backend person bridges them.</p>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<!--  SECTION 19: Q&A                                                    -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<div class="section" id="s19">
+  <div class="section-header">
+    <div class="section-number">19</div>
+    <h2>Key Defense Q&A</h2>
+  </div>
+  <div class="card">
+    <h3>Common Questions & Perfect Answers</h3>
+
+    <h4>Q: "Why PostgreSQL over MongoDB?"</h4>
+    <p><strong>A:</strong> Our data is inherently relational — users HAVE accounts, accounts HAVE trades, accounts HAVE portfolio_assets. These are one-to-many relationships that PostgreSQL handles natively with foreign keys and JOINs. MongoDB is document-based, which would mean either: (a) embedding all trades inside the account document (which grows unboundedly and makes querying slow), or (b) storing them separately without referential integrity (no guarantee a trade references a real account). PostgreSQL's ACID transactions also ensure that when we simultaneously update a trade's P&L and the account's balance, either BOTH succeed or NEITHER does — critical for financial data consistency.</p>
+
+    <h4>Q: "Why Float for prices instead of Decimal?"</h4>
+    <p><strong>A:</strong> Float was chosen for simplicity and performance. In a production trading system handling real money, we would use <code>Numeric(precision=10, scale=2)</code> to avoid floating-point rounding errors (e.g., $0.1 + $0.2 = $0.30000000000000004 in IEEE 754 floats). However, since this is a simulated trading platform, the minor rounding differences (fractions of a cent) don't affect our results, and Float arithmetic is 2-3x faster than Decimal operations.</p>
+
+    <h4>Q: "Explain the relationship between trades and portfolio_assets."</h4>
+    <p><strong>A:</strong> They serve different purposes. <code>trades</code> is a complete, immutable ledger of every transaction — every buy, every sell, with timestamps, entry/exit prices, and P&L. <code>portfolio_assets</code> is a live summary showing what the account currently owns. When the bot buys 10 shares of AAPL at $150, it creates a Trade record (ledger entry) AND either creates or updates a PortfolioAsset record (summary). If the account already held 5 shares of AAPL at $140, the PortfolioAsset updates to: shares=15, avg_price=($140×5 + $150×10)/15 = $146.67. When the bot sells all 15 shares, the Trade records the sale, PortfolioAsset sets shares=0, and the account balance increases by the realized profit.</p>
+
+    <h4>Q: "How do you handle database migrations in production?"</h4>
+    <p><strong>A:</strong> We have two migration tools. For non-destructive changes (adding new columns), we use <code>migrate_db.py</code> which runs <code>ALTER TABLE ADD COLUMN</code> with try/except for idempotency. For destructive changes (modifying column types, removing columns), we use <code>fix_db.py</code> which DROP+CREATEs all tables — but this is only used in development, never in production. In a production environment, we would implement proper versioned migrations using a tool like Alembic (SQLAlchemy's official migration framework), which tracks migration history and supports rollbacks.</p>
+
+    <h4>Q: "What would you improve about the database design?"</h4>
+    <p><strong>A:</strong> Five improvements: (1) Add database indexes on <code>trades.account_id</code> and <code>trades.status</code> for faster queries (currently only <code>id</code> columns are indexed). (2) Use <code>Numeric</code> type instead of Float for all price columns to eliminate floating-point precision issues. (3) Add an <code>updated_at</code> column to accounts and trades for better audit trails. (4) Implement Alembic for proper versioned migrations with rollback capability. (5) Add a separate <code>price_history</code> table per symbol instead of the generic <code>bitcoin_prices</code> table, enabling efficient historical analysis for any asset.</p>
+
+    <h4>Q: "How does the database handle concurrent access from the bot and API?"</h4>
+    <p><strong>A:</strong> PostgreSQL uses MVCC (Multi-Version Concurrency Control). When the bot engine updates a trade's current_price (UPDATE), it doesn't lock the row. Instead, PostgreSQL creates a new version of that row. The API server reading the same row sees the old version until the bot's transaction commits. This means reads never block writes and writes never block reads — both the bot and API can operate simultaneously without deadlocks or data corruption. SQLAlchemy's connection pool manages the underlying TCP connections, and each process gets its own session with its own transaction isolation.</p>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <p style="color:var(--accent);font-weight:700;font-size:1.1rem;margin-bottom:8px;">QuantTrading — Database & Systems Report</p>
+  <p>Generated for project defense preparation • Role 3 of 3</p>
+  <p style="margin-top:16px;font-size:0.8rem;">Total Tables: 7 • Total Columns: 45+ • Foreign Keys: 3 • Migration Scripts: 2</p>
+</div>
+
+</div>
+</body>
+</html>

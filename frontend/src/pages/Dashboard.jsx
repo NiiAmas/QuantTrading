@@ -50,8 +50,7 @@ export default function Dashboard() {
   const [dimensions, setDimensions] = useState({ width: 500, height: 400 });
 
   // ─── LIVE PORTFOLIO DATA ───
-  const [portfolioReturn, setPortfolioReturn] = useState(0);
-  const [accountBalance, setAccountBalance] = useState(0);
+  const [stats, setStats] = useState(null);
 
   useEffect(() => {
     const updateDimensions = () => {
@@ -102,10 +101,9 @@ export default function Dashboard() {
         const res = await axios.get(`${API_URL}/accounts/${activeAccountId}/data`, {
           headers: { Authorization: `Bearer ${token}` }
         });
-        const stats = res.data.accountStats;
-        if (stats) {
-          setPortfolioReturn(stats.portfolioReturn || 0);
-          setAccountBalance(stats.balance || 0);
+        const statsData = res.data.accountStats;
+        if (statsData) {
+          setStats(statsData);
         }
       } catch (err) {
         console.error("Failed to fetch portfolio data", err);
@@ -136,9 +134,6 @@ export default function Dashboard() {
 
   const globeHtmlElements = settings.reduceAnimations ? [] : newsFeed;
 
-  // Use live balance if available, otherwise fall back to account's stored balance
-  const displayBalance = accountBalance > 0 ? accountBalance : (activeAccount?.balance || 0);
-
   return (
     <div className="flex gap-6 h-full">
       {/* LEFT PANE - KPIs and Globe */}
@@ -148,9 +143,23 @@ export default function Dashboard() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 lg:gap-6">
           <div className="bg-card backdrop-blur-xl border border-molten/20 rounded-2xl p-4 lg:p-6 shadow-xl flex items-center gap-4">
             <div className="p-3 bg-molten/10 rounded-xl text-molten shrink-0"><Wallet size={24} /></div>
-            <div className="min-w-0">
-              <p className="text-xs text-gray-400 font-semibold uppercase tracking-wider">Simulated Balance</p>
-              <h3 className="text-xl lg:text-2xl font-bold text-white truncate">${displayBalance.toLocaleString()}</h3>
+            <div className="min-w-0 flex-1">
+              <p className="text-xs text-gray-400 font-semibold uppercase tracking-wider mb-1">Account Equity</p>
+              <div className="flex flex-col gap-1 mt-2">
+                <div className="flex items-center justify-between gap-2">
+                  <span className="text-[9px] text-gray-500 font-bold uppercase tracking-wider whitespace-nowrap">Realized</span>
+                  <span className="text-xs font-bold text-white whitespace-nowrap">${(stats?.realizedBalance || activeAccount?.balance || 0).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}</span>
+                </div>
+                <div className="flex items-center justify-between gap-2">
+                  <span className="text-[9px] text-gray-500 font-bold uppercase tracking-wider whitespace-nowrap">Unrealized</span>
+                  <span className="text-xs font-bold text-white whitespace-nowrap">${(stats?.unrealizedBalance || activeAccount?.balance || 0).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}</span>
+                </div>
+                <div className="h-px bg-white/10 my-0.5"></div>
+                <div className="flex items-center justify-between gap-2">
+                  <span className="text-[9px] text-molten font-bold uppercase tracking-wider whitespace-nowrap">Cash (Avail)</span>
+                  <span className="text-xs font-bold text-molten whitespace-nowrap">${(stats?.availableMargin || activeAccount?.balance || 0).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}</span>
+                </div>
+              </div>
             </div>
           </div>
           
@@ -167,12 +176,23 @@ export default function Dashboard() {
           </div>
 
           <div className="bg-card backdrop-blur-xl border border-molten/20 rounded-2xl p-4 lg:p-6 shadow-xl flex items-center gap-4">
-            <div className={`p-3 rounded-xl shrink-0 ${portfolioReturn >= 0 ? 'bg-success/10 text-success' : 'bg-danger/10 text-danger'}`}><PieChart size={24} /></div>
-            <div className="min-w-0">
-              <p className="text-xs text-gray-400 font-semibold uppercase tracking-wider">Portfolio Return</p>
-              <h3 className={`text-xl lg:text-2xl font-bold ${portfolioReturn >= 0 ? 'text-success' : 'text-danger'}`}>
-                {portfolioReturn >= 0 ? '+' : ''}{portfolioReturn.toFixed(2)}%
-              </h3>
+            <div className={`p-3 rounded-xl shrink-0 ${(stats?.unrealizedReturn || 0) >= 0 ? 'bg-success/10 text-success' : 'bg-danger/10 text-danger'}`}><PieChart size={24} /></div>
+            <div className="min-w-0 flex-1">
+              <p className="text-xs text-gray-400 font-semibold uppercase tracking-wider mb-1">Portfolio Return</p>
+              <div className="flex flex-col gap-1 mt-2">
+                <div className="flex items-center justify-between gap-2">
+                  <span className="text-[9px] text-gray-500 font-bold uppercase tracking-wider whitespace-nowrap">Realized</span>
+                  <span className={`text-xs font-bold whitespace-nowrap ${(stats?.realizedReturn || 0) >= 0 ? 'text-success' : 'text-danger'}`}>
+                    {(stats?.realizedReturn || 0) >= 0 ? '+' : ''}{(stats?.realizedReturn || 0).toFixed(2)}%
+                  </span>
+                </div>
+                <div className="flex items-center justify-between gap-2">
+                  <span className="text-[9px] text-gray-500 font-bold uppercase tracking-wider whitespace-nowrap">Unrealized</span>
+                  <span className={`text-xs font-bold whitespace-nowrap ${(stats?.unrealizedReturn || 0) >= 0 ? 'text-success' : 'text-danger'}`}>
+                    {(stats?.unrealizedReturn || 0) >= 0 ? '+' : ''}{(stats?.unrealizedReturn || 0).toFixed(2)}%
+                  </span>
+                </div>
+              </div>
             </div>
           </div>
         </div>

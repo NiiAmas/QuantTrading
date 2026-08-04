@@ -29,7 +29,7 @@ def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):
     if expires_delta:
         expire = datetime.utcnow() + expires_delta
     else:
-        expire = datetime.utcnow() + timedelta(minutes=15)
+        expire = datetime.utcnow() + timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
     to_encode.update({"exp": expire})
     return jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
 
@@ -223,7 +223,10 @@ def get_account_data(account_id: int, current_user: User = Depends(get_current_u
         db.close()
         return {"error": "Account not found"}
     
-    assets = db.query(PortfolioAsset).filter(PortfolioAsset.account_id == account_id).all()
+    assets = db.query(PortfolioAsset).filter(
+        PortfolioAsset.account_id == account_id,
+        PortfolioAsset.asset_class.in_(["Crypto", "Stock"])
+    ).all()
     trades = db.query(Trade).filter(Trade.account_id == account_id).all()
     
     positions = []
@@ -265,20 +268,31 @@ def get_account_data(account_id: int, current_user: User = Depends(get_current_u
     # Calculate account-level stats
     open_trades = [t for t in trades if t.status == "Open"]
     closed_trades = [t for t in trades if t.status == "Closed"]
-    total_pnl = sum(t.pnl_dollars or 0 for t in closed_trades)
-    portfolio_return = ((acc.balance - acc.initial_balance) / acc.initial_balance * 100) if acc.initial_balance > 0 else 0.0
+    
+    realized_pnl = sum(t.pnl_dollars or 0 for t in closed_trades)
+    unrealized_pnl = sum(t.pnl_dollars or 0 for t in open_trades)
+    
+    realized_balance = acc.initial_balance + realized_pnl
+    unrealized_balance = realized_balance + unrealized_pnl
+    
+    realized_return = (realized_pnl / acc.initial_balance * 100) if acc.initial_balance > 0 else 0.0
+    unrealized_return = ((realized_pnl + unrealized_pnl) / acc.initial_balance * 100) if acc.initial_balance > 0 else 0.0
 
     db.close()
     return {
         "positions": positions,
         "tradeLedger": ledger,
         "accountStats": {
-            "balance": round(acc.balance, 2),
+            "availableMargin": round(acc.balance, 2), # This is the available cash for new trades
+            "realizedBalance": round(realized_balance, 2),
+            "unrealizedBalance": round(unrealized_balance, 2),
+            "realizedReturn": round(realized_return, 2),
+            "unrealizedReturn": round(unrealized_return, 2),
             "initialBalance": round(acc.initial_balance, 2),
-            "portfolioReturn": round(portfolio_return, 2),
             "openTradesCount": len(open_trades),
             "closedTradesCount": len(closed_trades),
-            "totalRealizedPnl": round(total_pnl, 2),
+            "totalRealizedPnl": round(realized_pnl, 2),
+            "totalUnrealizedPnl": round(unrealized_pnl, 2),
             "strategy": acc.strategy,
         }
     }
@@ -369,9 +383,10 @@ def get_explorer(assetClass: str = Query("All")):
     else:
         fetch_list = symbols.get(assetClass, [])
 
-    results = []
-    try:
-        for sym in fetch_list:
+    import concurrent.futures
+
+    def fetch_sym(sym):
+        try:
             t = yf.Ticker(sym)
             hist = t.history(period="7d")
             if not hist.empty:
@@ -384,7 +399,7 @@ def get_explorer(assetClass: str = Query("All")):
                 for k, v in symbols.items():
                     if sym in v: cls = k
                 
-                results.append({
+                return {
                     "ticker": sym,
                     "class": cls,
                     "price": float(current_price),
@@ -392,7 +407,26 @@ def get_explorer(assetClass: str = Query("All")):
                     "qScore": round(abs(change)/10, 2), 
                     "sScore": round(change/5, 2),
                     "trend": trend
-                })
+                }
+        except Exception:
+            pass
+        return None
+
+    results = []
+    try:
+        with concurrent.futures.ThreadPoolExecutor(max_workers=10) as executor:
+            futures = [executor.submit(fetch_sym, sym) for sym in fetch_list]
+            
+            # Wait at most 3 seconds for all fetches to complete
+            done, not_done = concurrent.futures.wait(futures, timeout=3)
+            
+            for future in done:
+                try:
+                    res = future.result()
+                    if res:
+                        results.append(res)
+                except Exception:
+                    pass
         return results
     except Exception as e:
         print(f"Error in explorer: {e}")

@@ -86,15 +86,9 @@ export default function TradingHub() {
           </div>
           <div className="flex-1 overflow-y-auto pr-2 custom-scrollbar">
             <div className="grid grid-cols-1 gap-4">
-              {assetTab === 'Holding' && positions.map(pos => {
-                const assetTrades = tradeLedger.filter(t => t.pair === pos.asset && t.status === 'Open');
-                const isExpanded = expandedAsset === pos.asset;
-                return (
+              {assetTab === 'Holding' && positions.map(pos => (
                 <div key={pos.asset} className="bg-obsidian border border-white/5 rounded-xl p-4 transition-colors shadow-lg">
-                  <div 
-                    className="cursor-pointer hover:opacity-80"
-                    onClick={() => setExpandedAsset(isExpanded ? null : pos.asset)}
-                  >
+                  <div>
                     <div className="flex justify-between items-start mb-2">
                       <div className="flex items-center gap-2">
                         <h4 className="text-xl font-bold text-white">{pos.asset}</h4>
@@ -106,7 +100,7 @@ export default function TradingHub() {
                     </div>
                     <div className="grid grid-cols-3 gap-2 mt-3 text-sm border-t border-white/5 pt-3">
                       <div>
-                        <div className="text-gray-500 text-[10px] uppercase font-bold tracking-widest">Total Size</div>
+                        <div className="text-gray-500 text-[10px] uppercase font-bold tracking-widest">Total Coins/Shares</div>
                         <div className="text-white font-mono font-semibold">{pos.shares}</div>
                       </div>
                       <div>
@@ -118,44 +112,12 @@ export default function TradingHub() {
                         <div className="text-molten font-mono font-bold text-lg">${pos.value.toLocaleString()}</div>
                       </div>
                     </div>
-                    <div className="text-center mt-3 text-xs text-gray-500 font-bold uppercase tracking-widest">
-                      {isExpanded ? "▲ Hide Trades" : `▼ View ${assetTrades.length} Active Trades`}
-                    </div>
                   </div>
-                  
-                  {isExpanded && (
-                    <div className="mt-4 border-t border-white/10 pt-4 space-y-3">
-                      {assetTrades.map(trade => (
-                         <div key={trade.id} className="bg-black/40 rounded-lg p-3 text-xs border border-white/5">
-                           <div className="flex justify-between text-gray-400 mb-2 border-b border-white/5 pb-2">
-                             <span className="font-mono">Bought: {new Date(trade.openedAt).toLocaleString()}</span>
-                             <span className={`font-bold uppercase tracking-wider ${trade.type.includes('Long') ? 'text-success' : 'text-danger'}`}>{trade.type}</span>
-                           </div>
-                           <div className="flex justify-between items-end mt-2">
-                             <div>
-                               <div className="text-gray-500 text-[9px] uppercase tracking-widest mb-0.5">Quantity</div>
-                               <div className="text-white font-mono">{trade.quantity}</div>
-                             </div>
-                             <div>
-                               <div className="text-gray-500 text-[9px] uppercase tracking-widest mb-0.5">Entry Price</div>
-                               <div className="text-white font-mono">${trade.entry.toLocaleString()}</div>
-                             </div>
-                             <div className="text-right">
-                               <div className="text-gray-500 text-[9px] uppercase tracking-widest mb-0.5">P&L</div>
-                               <div className={`font-mono font-bold text-sm ${trade.pnl.includes('-') ? 'text-danger' : 'text-success'}`}>
-                                 {trade.pnl} <span className="text-xs">({trade.pnlDollars >= 0 ? '+' : ''}${trade.pnlDollars.toLocaleString()})</span>
-                               </div>
-                             </div>
-                           </div>
-                         </div>
-                      ))}
-                    </div>
-                  )}
                 </div>
-              )})}
+              ))}
 
               {assetTab === 'Sold' && (() => {
-                const closedTradesGrouped = tradeLedger.filter(t => t.status === 'Closed').reduce((acc, t) => {
+                const closedTradesGrouped = tradeLedger.filter(t => t.status === 'Closed' && t.type === 'Long' && !t.pair.includes('=X') && !t.pair.includes('=F')).reduce((acc, t) => {
                   if (!acc[t.pair]) {
                     acc[t.pair] = { asset: t.pair, trades: [], totalPnl: 0, totalShares: 0 };
                   }
@@ -168,14 +130,9 @@ export default function TradingHub() {
 
                 if (soldAssets.length === 0) return <div className="text-center text-gray-500 font-bold mt-10">No sold assets yet.</div>;
 
-                return soldAssets.map(pos => {
-                  const isExpanded = expandedAsset === pos.asset;
-                  return (
+                return soldAssets.map(pos => (
                   <div key={pos.asset} className="bg-obsidian border border-white/5 rounded-xl p-4 transition-colors shadow-lg">
-                    <div 
-                      className="cursor-pointer hover:opacity-80"
-                      onClick={() => setExpandedAsset(isExpanded ? null : pos.asset)}
-                    >
+                    <div>
                       <div className="flex justify-between items-start mb-2">
                         <div className="flex items-center gap-2">
                           <h4 className="text-xl font-bold text-gray-400">{pos.asset} <span className="text-[10px] uppercase ml-2 bg-gray-800 text-gray-300 border border-gray-600 px-2 py-0.5 rounded">Sold Out</span></h4>
@@ -196,41 +153,9 @@ export default function TradingHub() {
                           </div>
                         </div>
                       </div>
-                      <div className="text-center mt-3 text-xs text-gray-500 font-bold uppercase tracking-widest">
-                        {isExpanded ? "▲ Hide Trades" : `▼ View ${pos.trades.length} Closed Trades`}
-                      </div>
                     </div>
-                    
-                    {isExpanded && (
-                      <div className="mt-4 border-t border-white/10 pt-4 space-y-3">
-                        {pos.trades.map(trade => (
-                           <div key={trade.id} className="bg-black/40 rounded-lg p-3 text-xs border border-white/5">
-                             <div className="flex justify-between text-gray-400 mb-2 border-b border-white/5 pb-2 font-mono">
-                               <span>Bought: {new Date(trade.openedAt).toLocaleString()}</span>
-                               <span>Sold: {new Date(trade.closedAt).toLocaleString()}</span>
-                             </div>
-                             <div className="flex justify-between items-end mt-2">
-                               <div>
-                                 <div className="text-gray-500 text-[9px] uppercase tracking-widest mb-0.5">Quantity</div>
-                                 <div className="text-white font-mono">{trade.quantity}</div>
-                               </div>
-                               <div>
-                                 <div className="text-gray-500 text-[9px] uppercase tracking-widest mb-0.5">Exit Price</div>
-                                 <div className="text-white font-mono">${trade.current.toLocaleString()}</div>
-                               </div>
-                               <div className="text-right">
-                                 <div className="text-gray-500 text-[9px] uppercase tracking-widest mb-0.5">P&L</div>
-                                 <div className={`font-mono font-bold text-sm ${trade.pnl.includes('-') ? 'text-danger' : 'text-success'}`}>
-                                   {trade.pnl} <span className="text-xs">({trade.pnlDollars >= 0 ? '+' : ''}${trade.pnlDollars.toLocaleString()})</span>
-                                 </div>
-                               </div>
-                             </div>
-                           </div>
-                        ))}
-                      </div>
-                    )}
                   </div>
-                )})
+                ))
               })()}
 
               {assetTab === 'Holding' && positions.length === 0 && (

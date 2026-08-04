@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { createPortal } from 'react-dom';
 import { X, ChevronRight, ChevronLeft, Shield, TrendingUp, Zap } from 'lucide-react';
 import useAccountStore from '../store/useStore';
 
@@ -71,8 +72,8 @@ export default function AccountWizardModal({ isOpen, onClose }) {
     });
   };
 
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-md">
+  return createPortal(
+    <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-md">
       <div className="bg-obsidian border border-molten/30 rounded-2xl w-full max-w-2xl overflow-hidden shadow-2xl flex flex-col">
         {/* Header */}
         <div className="flex items-center justify-between p-6 border-b border-white/10">
@@ -219,6 +220,7 @@ export default function AccountWizardModal({ isOpen, onClose }) {
           )}
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }

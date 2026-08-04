@@ -1,0 +1,41 @@
+# ═══════════════════════════════════════════════════
+#  QuantTrading .gitignore
+# ═══════════════════════════════════════════════════
+
+# ─── Environment & Secrets ───
+.env
+.env.*
+!.env.example
+
+# ─── Python ───
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+venv/
+.venv/
+*.egg-info/
+dist/
+build/
+
+# ─── Logs ───
+*.log
+logs/
+
+# ─── Data files ───
+*.csv
+
+# ─── macOS ───
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# ─── Node / Frontend ───
+frontend/node_modules/
+frontend/dist/
+
+# ─── IDE ───
+.vscode/
+.idea/
+*.swp
+*.swo
