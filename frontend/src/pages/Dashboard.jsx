@@ -159,9 +159,9 @@ export default function Dashboard() {
           <div className="bg-card backdrop-blur-xl border border-molten/20 rounded-2xl p-4 xl:p-5 shadow-xl flex flex-col justify-between">
             <div className="flex items-center gap-3 mb-2">
               <div className="p-2.5 bg-molten/10 rounded-xl text-molten shrink-0"><Wallet size={20} /></div>
-              <div>
+              <div className="min-w-0">
                 <p className="text-[10px] text-gray-400 font-bold uppercase tracking-wider">Total Account Value</p>
-                <h4 className="text-sm xl:text-base font-bold text-white font-mono">
+                <h4 className="text-base xl:text-lg font-bold text-white font-mono truncate">
                   ${fmt((stats?.initialBalance || 100000) + (stats?.totalRealizedPnl || 0) + (stats?.totalUnrealizedPnl || 0))}
                 </h4>
               </div>
@@ -172,14 +172,20 @@ export default function Dashboard() {
                 <span className="font-semibold text-white">${fmt(stats?.initialBalance || 100000)}</span>
               </div>
               <div className="flex justify-between items-center text-gray-400">
-                <span className="text-[10px] uppercase font-bold tracking-wider">Closed Trades Profit</span>
-                <span className={`font-bold ${(stats?.totalRealizedPnl || 0) >= 0 ? 'text-success' : 'text-danger'}`}>
+                <span className="text-[10px] uppercase font-bold tracking-wider">Total Net Gain (All)</span>
+                <span className={`font-bold ${(stats?.totalRealizedPnl || 0) + (stats?.totalUnrealizedPnl || 0) >= 0 ? 'text-success' : 'text-danger'}`}>
+                  {(stats?.totalRealizedPnl || 0) + (stats?.totalUnrealizedPnl || 0) >= 0 ? '+' : ''}${fmt((stats?.totalRealizedPnl || 0) + (stats?.totalUnrealizedPnl || 0))}
+                </span>
+              </div>
+              <div className="flex justify-between items-center text-gray-400">
+                <span className="text-[10px] uppercase font-bold tracking-wider">Closed Trades Banked</span>
+                <span className={`font-semibold ${(stats?.totalRealizedPnl || 0) >= 0 ? 'text-success' : 'text-danger'}`}>
                   {(stats?.totalRealizedPnl || 0) >= 0 ? '+' : ''}${fmt(stats?.totalRealizedPnl || 0)}
                 </span>
               </div>
               <div className="flex justify-between items-center text-gray-400">
-                <span className="text-[10px] uppercase font-bold tracking-wider">Open Trades (Floating)</span>
-                <span className={`font-bold ${(stats?.totalUnrealizedPnl || 0) >= 0 ? 'text-success' : 'text-danger'}`}>
+                <span className="text-[10px] uppercase font-bold tracking-wider">Open Positions (Live)</span>
+                <span className={`font-semibold ${(stats?.totalUnrealizedPnl || 0) >= 0 ? 'text-success' : 'text-danger'}`}>
                   {(stats?.totalUnrealizedPnl || 0) >= 0 ? '+' : ''}${fmt(stats?.totalUnrealizedPnl || 0)}
                 </span>
               </div>

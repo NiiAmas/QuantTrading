@@ -167,20 +167,37 @@ def get_accounts(current_user: User = Depends(get_current_user)):
         holdings = db.query(PortfolioAsset.symbol).filter(PortfolioAsset.account_id == a.id).all()
         holdings_list = [h[0] for h in holdings]
         
-        # Calculate true verified balance
+        # Calculate true verified equity and profits
         acc_closed = db.query(Trade).filter(Trade.account_id == a.id, Trade.status == "Closed").all()
         acc_open = db.query(Trade).filter(Trade.account_id == a.id, Trade.status == "Open").all()
-        acc_realized_pnl = sum(t.pnl_dollars or 0 for t in acc_closed)
-        acc_open_invested = sum(t.position_value or 0 for t in acc_open)
-        true_cash = max(0.0, (a.initial_balance or 100000.0) + acc_realized_pnl - acc_open_invested)
         
-        # Sync DB if drifted
+        acc_realized_pnl = sum(t.pnl_dollars or 0 for t in acc_closed)
+        acc_unrealized_pnl = sum(t.pnl_dollars or 0 for t in acc_open)
+        
+        init_bal = a.initial_balance or 100000.0
+        total_account_equity = init_bal + acc_realized_pnl + acc_unrealized_pnl
+        net_profit = acc_realized_pnl + acc_unrealized_pnl
+        total_return_pct = (net_profit / init_bal * 100) if init_bal > 0 else 0.0
+        
+        acc_open_invested = sum(
+            (t.position_value if t.position_value and t.position_value > 0 else ((t.quantity or 0) * (t.entry_price or 0)))
+            for t in acc_open
+        )
+        true_cash = max(0.0, init_bal + acc_realized_pnl - acc_open_invested)
+        
+        # Sync DB balance
         if abs((a.balance or 0) - true_cash) > 0.01:
             a.balance = round(true_cash, 2)
             db.commit()
             
         res.append({
-            "id": str(a.id), "name": a.name, "balance": round(true_cash, 2), "type": a.strategy,
+            "id": str(a.id),
+            "name": a.name,
+            "balance": round(total_account_equity, 2),
+            "availableCash": round(true_cash, 2),
+            "netProfit": round(net_profit, 2),
+            "returnPct": round(total_return_pct, 2),
+            "type": a.strategy,
             "holdings": holdings_list,
             "assetTypes": json.loads(a.asset_types) if a.asset_types else [],
             "sectors": json.loads(a.sectors) if a.sectors else []

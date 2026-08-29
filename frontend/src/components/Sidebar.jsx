@@ -75,8 +75,15 @@ export default function Sidebar({ onClose, isMobile }) {
                 >
                   {acc.name}
                 </button>
-                <div className="flex items-center gap-2 shrink-0">
-                  <span className="text-xs opacity-60 font-mono">${acc.balance.toLocaleString()}</span>
+                <div className="flex items-center gap-1.5 shrink-0">
+                  <span className="text-xs text-white font-bold font-mono">
+                    ${(acc.balance || 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                  </span>
+                  {acc.returnPct !== undefined && (
+                    <span className={`text-[10px] font-bold px-1.5 py-0.2 rounded font-mono ${acc.returnPct >= 0 ? 'bg-success/15 text-success' : 'bg-danger/15 text-danger'}`}>
+                      {acc.returnPct >= 0 ? '+' : ''}{acc.returnPct.toFixed(1)}%
+                    </span>
+                  )}
                   <button 
                     onClick={(e) => { 
                       e.stopPropagation(); 
