@@ -292,17 +292,20 @@ def get_account_data(account_id: int, current_user: User = Depends(get_current_u
     realized_return = (realized_pnl / init_bal * 100) if init_bal > 0 else 0.0
     unrealized_return = ((realized_pnl + unrealized_pnl) / init_bal * 100) if init_bal > 0 else 0.0
 
-    # True available cash = initial + realized profit - capital tied in open positions
-    total_invested_in_open = sum(t.position_value or 0 for t in open_trades)
-    true_available_cash = max(0.0, init_bal + realized_pnl - total_invested_in_open)
+    # Total capital locked in open trades
+    total_invested_in_open = sum(t.position_value or (t.quantity * (t.entry_price or 0)) for t in open_trades)
+    open_market_val = sum(t.quantity * (t.current_price or t.entry_price or 0) for t in open_trades) if open_trades else 0.0
     
-    # Sync DB balance so it never drifts
+    # Available Cash = Realized Balance - Margin in Open Trades
+    true_available_cash = max(0.0, realized_balance - total_invested_in_open)
+    
+    # Sync DB balance so it is always mathematically consistent
     if abs((acc.balance or 0) - true_available_cash) > 0.01:
         acc.balance = round(true_available_cash, 2)
         db.commit()
 
     holdings_value = sum(a.shares * (a.current_price if a.current_price and a.current_price > 0 else a.avg_price) for a in assets)
-    estimated_total_value = true_available_cash + holdings_value
+    estimated_total_value = unrealized_balance
     
     db.close()
     return {
@@ -320,8 +323,9 @@ def get_account_data(account_id: int, current_user: User = Depends(get_current_u
             "totalRealizedPnl": round(realized_pnl, 2),
             "totalUnrealizedPnl": round(unrealized_pnl, 2),
             "strategy": acc.strategy,
-            "holdingsValue": round(holdings_value, 2),
             "totalInvestedInOpen": round(total_invested_in_open, 2),
+            "openMarketValue": round(open_market_val, 2),
+            "holdingsValue": round(holdings_value, 2),
             "netProfit": round(realized_pnl, 2),
             "estimatedTotalValue": round(estimated_total_value, 2),
         }

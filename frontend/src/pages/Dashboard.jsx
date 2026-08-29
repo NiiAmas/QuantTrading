@@ -156,81 +156,75 @@ export default function Dashboard() {
         <div className="grid grid-cols-1 xl:grid-cols-3 gap-4 shrink-0">
           
           {/* Card 1: Account Equity */}
-          <div className="bg-card backdrop-blur-xl border border-molten/20 rounded-2xl p-4 lg:p-5 shadow-xl flex items-center gap-4">
+          <div className="bg-card backdrop-blur-xl border border-molten/20 rounded-2xl p-5 shadow-xl flex items-center gap-4">
             <div className="p-3 bg-molten/10 rounded-xl text-molten shrink-0"><Wallet size={24} /></div>
             <div className="min-w-0 flex-1">
               <p className="text-xs text-gray-400 font-semibold uppercase tracking-wider mb-1">Account Equity</p>
               <div className="flex flex-col gap-1 mt-1.5">
                 <div className="flex items-center justify-between gap-2">
-                  <span className="text-[10px] text-gray-500 font-bold uppercase tracking-wider whitespace-nowrap">Realized</span>
+                  <span className="text-[10px] text-gray-400 font-bold uppercase tracking-wider whitespace-nowrap">Realized Capital</span>
                   <span className="text-xs font-bold text-white font-mono whitespace-nowrap">${fmt(realizedBal)}</span>
                 </div>
                 <div className="flex items-center justify-between gap-2">
-                  <span className="text-[10px] text-gray-500 font-bold uppercase tracking-wider whitespace-nowrap">Unrealized</span>
-                  <span className="text-xs font-bold text-white font-mono whitespace-nowrap">${fmt(unrealizedBal)}</span>
+                  <span className="text-[10px] text-gray-400 font-bold uppercase tracking-wider whitespace-nowrap">Open P&L (Floating)</span>
+                  <span className={`text-xs font-bold font-mono whitespace-nowrap ${(stats?.totalUnrealizedPnl || 0) >= 0 ? 'text-success' : 'text-danger'}`}>
+                    {(stats?.totalUnrealizedPnl || 0) >= 0 ? '+' : ''}${fmt(stats?.totalUnrealizedPnl || 0)}
+                  </span>
                 </div>
                 <div className="h-px bg-white/10 my-0.5"></div>
                 <div className="flex items-center justify-between gap-2">
-                  <span className="text-[10px] text-molten font-bold uppercase tracking-wider whitespace-nowrap">Cash Avail</span>
+                  <span className="text-[10px] text-molten font-bold uppercase tracking-wider whitespace-nowrap">Cash (Free to Trade)</span>
                   <span className="text-xs font-bold text-molten font-mono whitespace-nowrap">${fmt(availCash)}</span>
                 </div>
               </div>
             </div>
           </div>
           
-          {/* Card 2: Active Investments & Capital Allocation */}
-          <div className="bg-card backdrop-blur-xl border border-molten/20 rounded-2xl p-4 lg:p-5 shadow-xl flex items-center gap-4">
+          {/* Card 2: Active Investments */}
+          <div className="bg-card backdrop-blur-xl border border-molten/20 rounded-2xl p-5 shadow-xl flex items-center gap-4">
             <div className="p-3 bg-molten/10 rounded-xl text-molten shrink-0"><Briefcase size={24} /></div>
             <div className="min-w-0 flex-1">
-              <div className="flex items-center justify-between">
-                <p className="text-xs text-gray-400 font-semibold uppercase tracking-wider">Investments</p>
-                <span className="text-xs font-bold text-white font-mono">{activeAccount?.holdings?.length || 0} Assets</span>
-              </div>
-              
-              {/* Mini Allocation Progress Bar */}
-              <div className="mt-1.5 space-y-1">
-                <div className="flex justify-between text-[10px] font-mono">
-                  <span className="text-blue-400 font-semibold">${fmt(stats?.holdingsValue || 0)}</span>
-                  <span className="text-molten font-semibold">{Math.round((availCash / Math.max(availCash + (stats?.holdingsValue || 0), 1)) * 100)}% Cash</span>
+              <p className="text-xs text-gray-400 font-semibold uppercase tracking-wider mb-1">Active Investments</p>
+              <div className="flex flex-col gap-1 mt-1.5">
+                <div className="flex items-center justify-between gap-2">
+                  <span className="text-[10px] text-gray-400 font-bold uppercase tracking-wider whitespace-nowrap">Open Positions</span>
+                  <span className="text-xs font-bold text-white font-mono whitespace-nowrap">{stats?.openTradesCount || activeAccount?.holdings?.length || 0} Trades</span>
                 </div>
-                <div className="h-1.5 bg-white/10 rounded-full overflow-hidden flex">
-                  <div 
-                    className="h-full bg-blue-500 transition-all duration-500 rounded-l-full" 
-                    style={{ width: `${Math.round(((stats?.holdingsValue || 0) / Math.max(availCash + (stats?.holdingsValue || 0), 1)) * 100)}%` }}
-                    title="In Holdings"
-                  ></div>
-                  <div 
-                    className="h-full bg-molten transition-all duration-500 rounded-r-full" 
-                    style={{ width: `${Math.round((availCash / Math.max(availCash + (stats?.holdingsValue || 0), 1)) * 100)}%` }}
-                    title="Available Cash"
-                  ></div>
+                <div className="flex items-center justify-between gap-2">
+                  <span className="text-[10px] text-gray-400 font-bold uppercase tracking-wider whitespace-nowrap">Capital Invested</span>
+                  <span className="text-xs font-bold text-blue-400 font-mono whitespace-nowrap">${fmt(stats?.totalInvestedInOpen || 0)}</span>
                 </div>
-              </div>
-
-              <div className="flex gap-1 mt-1.5 flex-wrap">
-                 {(activeAccount?.holdings || []).slice(0, 3).map(h => <span key={h} className="text-[9px] bg-white/10 px-1.5 py-0.5 rounded text-gray-300 font-mono">{h}</span>)}
-                 {(activeAccount?.holdings?.length || 0) > 3 && <span className="text-[9px] text-gray-500">+{activeAccount.holdings.length - 3}</span>}
+                <div className="h-px bg-white/10 my-0.5"></div>
+                <div className="flex items-center justify-between gap-2">
+                  <span className="text-[10px] text-gray-400 font-bold uppercase tracking-wider whitespace-nowrap">Live Market Value</span>
+                  <span className="text-xs font-bold text-white font-mono whitespace-nowrap">${fmt(stats?.openMarketValue || stats?.holdingsValue || 0)}</span>
+                </div>
               </div>
             </div>
           </div>
 
           {/* Card 3: Portfolio Return */}
-          <div className="bg-card backdrop-blur-xl border border-molten/20 rounded-2xl p-4 lg:p-5 shadow-xl flex items-center gap-4">
+          <div className="bg-card backdrop-blur-xl border border-molten/20 rounded-2xl p-5 shadow-xl flex items-center gap-4">
             <div className={`p-3 rounded-xl shrink-0 ${unrealizedRet >= 0 ? 'bg-success/10 text-success' : 'bg-danger/10 text-danger'}`}><Activity size={24} /></div>
             <div className="min-w-0 flex-1">
-              <p className="text-xs text-gray-400 font-semibold uppercase tracking-wider mb-1">Portfolio Return</p>
+              <p className="text-xs text-gray-400 font-semibold uppercase tracking-wider mb-1">Portfolio Performance</p>
               <div className="flex flex-col gap-1 mt-1.5">
                 <div className="flex items-center justify-between gap-2">
-                  <span className="text-[10px] text-gray-500 font-bold uppercase tracking-wider whitespace-nowrap">Realized</span>
+                  <span className="text-[10px] text-gray-400 font-bold uppercase tracking-wider whitespace-nowrap">Confirmed Return</span>
                   <span className={`text-xs font-bold font-mono whitespace-nowrap ${realizedRet >= 0 ? 'text-success' : 'text-danger'}`}>
                     {realizedRet >= 0 ? '+' : ''}{realizedRet.toFixed(2)}%
                   </span>
                 </div>
                 <div className="flex items-center justify-between gap-2">
-                  <span className="text-[10px] text-gray-500 font-bold uppercase tracking-wider whitespace-nowrap">Unrealized</span>
+                  <span className="text-[10px] text-gray-400 font-bold uppercase tracking-wider whitespace-nowrap">Total Est. Return</span>
                   <span className={`text-xs font-bold font-mono whitespace-nowrap ${unrealizedRet >= 0 ? 'text-success' : 'text-danger'}`}>
                     {unrealizedRet >= 0 ? '+' : ''}{unrealizedRet.toFixed(2)}%
                   </span>
+                </div>
+                <div className="h-px bg-white/10 my-0.5"></div>
+                <div className="flex items-center justify-between gap-2">
+                  <span className="text-[10px] text-gray-400 font-bold uppercase tracking-wider whitespace-nowrap">Total Trades Executed</span>
+                  <span className="text-xs font-bold text-white font-mono whitespace-nowrap">{(stats?.openTradesCount || 0) + (stats?.closedTradesCount || 0)} Total</span>
                 </div>
               </div>
             </div>
@@ -238,7 +232,7 @@ export default function Dashboard() {
         </div>
 
         {/* Big Geopolitical Data Matrix Globe */}
-        <div className="bg-card backdrop-blur-xl border border-molten/20 rounded-2xl p-6 shadow-xl flex-1 flex flex-col relative overflow-hidden min-h-[380px]">
+        <div className="bg-card backdrop-blur-xl border border-molten/20 rounded-2xl p-5 shadow-xl flex-1 flex flex-col relative overflow-hidden min-h-[300px] max-h-[460px]">
           <h2 className="text-lg font-bold text-white mb-2 uppercase tracking-wider flex items-center gap-2 relative z-10">
             <GlobeIcon className="text-molten" size={20}/> Geopolitical Data Matrix
           </h2>
