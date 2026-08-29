@@ -310,7 +310,15 @@ def get_account_data(account_id: int, current_user: User = Depends(get_current_u
         acc.balance = round(true_available_cash, 2)
         db.commit()
 
-    holdings_value = sum(a.shares * (a.current_price if a.current_price and a.current_price > 0 else a.avg_price) for a in assets)
+    holdings_value = sum(
+        (a.shares * (a.current_price if a.current_price and a.current_price > 0 else a.avg_price))
+        for a in assets
+    )
+    if not holdings_value and open_trades:
+        holdings_value = sum(
+            ((t.quantity or 0) * (t.current_price if t.current_price and t.current_price > 0 else (t.entry_price or 0)))
+            for t in open_trades
+        )
     estimated_total_value = unrealized_balance
     
     db.close()

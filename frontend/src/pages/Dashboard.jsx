@@ -197,12 +197,12 @@ export default function Dashboard() {
             </div>
             <div className="space-y-1.5 pt-2 border-t border-white/5 text-xs font-mono">
               <div className="flex justify-between items-center text-gray-400">
-                <span className="text-[10px] uppercase font-bold tracking-wider">Capital in Open Trades</span>
-                <span className="font-semibold text-blue-400">${fmt(stats?.totalInvestedInOpen || 0)}</span>
+                <span className="text-[10px] uppercase font-bold tracking-wider">Holdings Value</span>
+                <span className="font-semibold text-blue-400">${fmt(stats?.holdingsValue || stats?.openMarketValue || 0)}</span>
               </div>
               <div className="flex justify-between items-center text-gray-400">
-                <span className="text-[10px] uppercase font-bold tracking-wider">Live Market Value</span>
-                <span className="font-semibold text-white">${fmt(stats?.openMarketValue || stats?.holdingsValue || 0)}</span>
+                <span className="text-[10px] uppercase font-bold tracking-wider">Open Margin</span>
+                <span className="font-semibold text-white">${fmt(stats?.totalInvestedInOpen || 0)}</span>
               </div>
               <div className="flex justify-between items-center text-gray-400">
                 <span className="text-[10px] uppercase font-bold tracking-wider">Holdings Tracked</span>

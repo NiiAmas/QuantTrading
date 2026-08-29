@@ -86,35 +86,78 @@ export default function TradingHub() {
           </div>
           <div className="flex-1 overflow-y-auto pr-1 sm:pr-2 custom-scrollbar">
             <div className="grid grid-cols-1 gap-4">
-              {assetTab === 'Holding' && positions.map(pos => (
-                <div key={pos.asset} className="bg-obsidian border border-white/5 rounded-xl p-3 sm:p-4 transition-colors shadow-lg">
-                  <div>
-                    <div className="flex justify-between items-start mb-2 gap-2">
-                      <div className="flex items-center gap-2 min-w-0">
-                        <h4 className="text-lg sm:text-xl font-bold text-white truncate">{pos.asset}</h4>
-                        <span className="text-[10px] bg-white/10 px-2 py-0.5 rounded text-gray-300 uppercase tracking-wider font-bold shrink-0">{pos.class}</span>
+              {assetTab === 'Holding' && positions.map(pos => {
+                const isExpanded = expandedAsset === pos.asset;
+                const assetTrades = tradeLedger.filter(t => t.pair === pos.asset && t.status === 'Open');
+                
+                return (
+                  <div 
+                    key={pos.asset} 
+                    className={`bg-obsidian border rounded-xl p-3 sm:p-4 transition-all shadow-lg cursor-pointer ${isExpanded ? 'border-molten/50 bg-obsidian/90' : 'border-white/5 hover:border-white/20'}`}
+                    onClick={() => setExpandedAsset(isExpanded ? null : pos.asset)}
+                  >
+                    <div>
+                      <div className="flex justify-between items-start mb-2 gap-2">
+                        <div className="flex items-center gap-2 min-w-0">
+                          <h4 className="text-lg sm:text-xl font-bold text-white truncate">{pos.asset}</h4>
+                          <span className="text-[10px] bg-white/10 px-2 py-0.5 rounded text-gray-300 uppercase tracking-wider font-bold shrink-0">{pos.class}</span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <div className={`text-xs sm:text-sm font-bold flex items-center gap-1 bg-white/5 px-2 py-1 rounded-lg shrink-0 ${pos.pnl >= 0 ? 'text-success' : 'text-danger'}`}>
+                            {pos.pnl >= 0 ? '+' : '-'}${Math.abs(pos.pnl).toLocaleString()} {pos.pnl >= 0 ? <TrendingUp size={14}/> : <TrendingDown size={14}/>}
+                          </div>
+                          <ChevronRight size={16} className={`text-gray-400 transition-transform duration-300 ${isExpanded ? 'rotate-90 text-molten' : ''}`} />
+                        </div>
                       </div>
-                      <div className={`text-xs sm:text-sm font-bold flex items-center gap-1 bg-white/5 px-2 py-1 rounded-lg shrink-0 ${pos.pnl >= 0 ? 'text-success' : 'text-danger'}`}>
-                        {pos.pnl >= 0 ? '+' : '-'}${Math.abs(pos.pnl).toLocaleString()} {pos.pnl >= 0 ? <TrendingUp size={14}/> : <TrendingDown size={14}/>}
+                      <div className="grid grid-cols-3 gap-2 mt-3 text-sm border-t border-white/5 pt-3">
+                        <div className="min-w-0">
+                          <div className="text-gray-500 text-[9px] sm:text-[10px] uppercase font-bold tracking-widest">Total Coins/Shares</div>
+                          <div className="text-white font-mono font-semibold text-xs sm:text-sm truncate">{pos.shares}</div>
+                        </div>
+                        <div className="min-w-0">
+                          <div className="text-gray-500 text-[9px] sm:text-[10px] uppercase font-bold tracking-widest">Avg Entry</div>
+                          <div className="text-white font-mono font-semibold text-xs sm:text-sm truncate">${pos.avgPrice.toLocaleString()}</div>
+                        </div>
+                        <div className="min-w-0">
+                          <div className="text-gray-500 text-[9px] sm:text-[10px] uppercase font-bold tracking-widest">Total Value</div>
+                          <div className="text-molten font-mono font-bold text-sm sm:text-lg truncate">${pos.value.toLocaleString()}</div>
+                        </div>
                       </div>
-                    </div>
-                    <div className="grid grid-cols-3 gap-2 mt-3 text-sm border-t border-white/5 pt-3">
-                      <div className="min-w-0">
-                        <div className="text-gray-500 text-[9px] sm:text-[10px] uppercase font-bold tracking-widest">Total Coins/Shares</div>
-                        <div className="text-white font-mono font-semibold text-xs sm:text-sm truncate">{pos.shares}</div>
-                      </div>
-                      <div className="min-w-0">
-                        <div className="text-gray-500 text-[9px] sm:text-[10px] uppercase font-bold tracking-widest">Avg Entry</div>
-                        <div className="text-white font-mono font-semibold text-xs sm:text-sm truncate">${pos.avgPrice.toLocaleString()}</div>
-                      </div>
-                      <div className="min-w-0">
-                        <div className="text-gray-500 text-[9px] sm:text-[10px] uppercase font-bold tracking-widest">Total Value</div>
-                        <div className="text-molten font-mono font-bold text-sm sm:text-lg truncate">${pos.value.toLocaleString()}</div>
-                      </div>
+
+                      {/* Expandable Dropdown: Individual Buy Orders & Timestamps */}
+                      {isExpanded && (
+                        <div className="mt-4 pt-3 border-t border-white/10 space-y-2 animate-in fade-in slide-in-from-top-1 duration-200" onClick={(e) => e.stopPropagation()}>
+                          <div className="flex justify-between items-center text-[10px] font-bold text-gray-400 uppercase tracking-wider pb-1">
+                            <span>Execution History ({assetTrades.length} buy lots)</span>
+                            <span className="text-molten">Live Active Slices</span>
+                          </div>
+                          {assetTrades.map((t, idx) => (
+                            <div key={t.id || idx} className="bg-card/70 border border-white/5 rounded-lg p-2.5 flex flex-wrap justify-between items-center gap-2 text-xs font-mono">
+                              <div>
+                                <div className="text-white font-semibold flex items-center gap-2">
+                                  <span className="text-success font-bold">BUY</span> {t.quantity} shares @ ${t.entry.toLocaleString()}
+                                </div>
+                                <div className="text-[10px] text-gray-400 mt-0.5">
+                                  Bought: {new Date(t.openedAt).toLocaleString()}
+                                </div>
+                              </div>
+                              <div className="text-right">
+                                <div className={`font-bold ${t.pnlDollars >= 0 ? 'text-success' : 'text-danger'}`}>
+                                  {t.pnlDollars >= 0 ? '+' : ''}${t.pnlDollars.toLocaleString()} ({t.pnl})
+                                </div>
+                                <div className="text-[10px] text-gray-400">Current: ${t.current.toLocaleString()}</div>
+                              </div>
+                            </div>
+                          ))}
+                          {assetTrades.length === 0 && (
+                            <div className="text-center text-gray-500 text-xs py-2">Consolidated holding from position management.</div>
+                          )}
+                        </div>
+                      )}
                     </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
 
               {assetTab === 'Sold' && (() => {
                 const closedTradesGrouped = tradeLedger.filter(t => t.status === 'Closed' && t.type === 'Long' && !t.pair.includes('=X') && !t.pair.includes('=F')).reduce((acc, t) => {
@@ -130,33 +173,72 @@ export default function TradingHub() {
 
                 if (soldAssets.length === 0) return <div className="text-center text-gray-500 font-bold mt-10">No sold assets yet.</div>;
 
-                return soldAssets.map(pos => (
-                  <div key={pos.asset} className="bg-obsidian border border-white/5 rounded-xl p-3 sm:p-4 transition-colors shadow-lg">
-                    <div>
-                      <div className="flex justify-between items-start mb-2 gap-2">
-                        <div className="flex items-center gap-2 flex-wrap min-w-0">
-                          <h4 className="text-lg sm:text-xl font-bold text-gray-400">{pos.asset}</h4>
-                          <span className="text-[10px] uppercase bg-gray-800 text-gray-300 border border-gray-600 px-2 py-0.5 rounded shrink-0">Sold Out</span>
-                        </div>
-                        <div className={`text-xs sm:text-sm font-bold flex items-center gap-1 bg-white/5 px-2 py-1 rounded-lg shrink-0 ${pos.totalPnl >= 0 ? 'text-success' : 'text-danger'}`}>
-                          {pos.totalPnl >= 0 ? '+' : '-'}${Math.abs(pos.totalPnl).toLocaleString()} {pos.totalPnl >= 0 ? <TrendingUp size={14}/> : <TrendingDown size={14}/>}
-                        </div>
-                      </div>
-                      <div className="grid grid-cols-2 gap-2 mt-3 text-sm border-t border-white/5 pt-3">
-                        <div>
-                          <div className="text-gray-500 text-[9px] sm:text-[10px] uppercase font-bold tracking-widest">Total Slices Sold</div>
-                          <div className="text-white font-mono font-semibold">{pos.trades.length}</div>
-                        </div>
-                        <div>
-                          <div className="text-gray-500 text-[9px] sm:text-[10px] uppercase font-bold tracking-widest">Total Realized P&L</div>
-                          <div className={`font-mono font-bold text-base sm:text-lg ${pos.totalPnl >= 0 ? 'text-success' : 'text-danger'}`}>
-                            {pos.totalPnl >= 0 ? '+' : ''}${pos.totalPnl.toLocaleString()}
+                return soldAssets.map(pos => {
+                  const isExpanded = expandedAsset === pos.asset;
+                  return (
+                    <div 
+                      key={pos.asset} 
+                      className={`bg-obsidian border rounded-xl p-3 sm:p-4 transition-all shadow-lg cursor-pointer ${isExpanded ? 'border-molten/50 bg-obsidian/90' : 'border-white/5 hover:border-white/20'}`}
+                      onClick={() => setExpandedAsset(isExpanded ? null : pos.asset)}
+                    >
+                      <div>
+                        <div className="flex justify-between items-start mb-2 gap-2">
+                          <div className="flex items-center gap-2 flex-wrap min-w-0">
+                            <h4 className="text-lg sm:text-xl font-bold text-gray-400">{pos.asset}</h4>
+                            <span className="text-[10px] uppercase bg-gray-800 text-gray-300 border border-gray-600 px-2 py-0.5 rounded shrink-0">Sold Out</span>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <div className={`text-xs sm:text-sm font-bold flex items-center gap-1 bg-white/5 px-2 py-1 rounded-lg shrink-0 ${pos.totalPnl >= 0 ? 'text-success' : 'text-danger'}`}>
+                              {pos.totalPnl >= 0 ? '+' : '-'}${Math.abs(pos.totalPnl).toLocaleString()} {pos.totalPnl >= 0 ? <TrendingUp size={14}/> : <TrendingDown size={14}/>}
+                            </div>
+                            <ChevronRight size={16} className={`text-gray-400 transition-transform duration-300 ${isExpanded ? 'rotate-90 text-molten' : ''}`} />
                           </div>
                         </div>
+                        <div className="grid grid-cols-2 gap-2 mt-3 text-sm border-t border-white/5 pt-3">
+                          <div>
+                            <div className="text-gray-500 text-[9px] sm:text-[10px] uppercase font-bold tracking-widest">Total Slices Sold</div>
+                            <div className="text-white font-mono font-semibold">{pos.trades.length}</div>
+                          </div>
+                          <div>
+                            <div className="text-gray-500 text-[9px] sm:text-[10px] uppercase font-bold tracking-widest">Total Realized P&L</div>
+                            <div className={`font-mono font-bold text-base sm:text-lg ${pos.totalPnl >= 0 ? 'text-success' : 'text-danger'}`}>
+                              {pos.totalPnl >= 0 ? '+' : ''}${pos.totalPnl.toLocaleString()}
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Expandable Dropdown: Individual Sold Slices with Buy/Sell Dates */}
+                        {isExpanded && (
+                          <div className="mt-4 pt-3 border-t border-white/10 space-y-2 animate-in fade-in slide-in-from-top-1 duration-200" onClick={(e) => e.stopPropagation()}>
+                            <div className="flex justify-between items-center text-[10px] font-bold text-gray-400 uppercase tracking-wider pb-1">
+                              <span>Sell Log ({pos.trades.length} closed trades)</span>
+                              <span className="text-success">Profit Realized</span>
+                            </div>
+                            {pos.trades.map((t, idx) => (
+                              <div key={t.id || idx} className="bg-card/70 border border-white/5 rounded-lg p-2.5 flex flex-wrap justify-between items-center gap-2 text-xs font-mono">
+                                <div>
+                                  <div className="text-white font-semibold flex items-center gap-2">
+                                    <span className="text-molten font-bold">SOLD</span> {t.quantity} shares @ ${t.current.toLocaleString()} (Entry: ${t.entry.toLocaleString()})
+                                  </div>
+                                  <div className="text-[10px] text-gray-400 mt-0.5 space-x-2">
+                                    <span>Bought: {new Date(t.openedAt).toLocaleString()}</span>
+                                    <span>•</span>
+                                    <span>Sold: {new Date(t.closedAt).toLocaleString()}</span>
+                                  </div>
+                                </div>
+                                <div className="text-right">
+                                  <div className={`font-bold ${t.pnlDollars >= 0 ? 'text-success' : 'text-danger'}`}>
+                                    {t.pnlDollars >= 0 ? '+' : ''}${t.pnlDollars.toLocaleString()} ({t.pnl})
+                                  </div>
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        )}
                       </div>
                     </div>
-                  </div>
-                ))
+                  );
+                })
               })()}
 
               {assetTab === 'Holding' && positions.length === 0 && (
