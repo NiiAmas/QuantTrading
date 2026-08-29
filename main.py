@@ -311,15 +311,16 @@ def get_account_data(account_id: int, current_user: User = Depends(get_current_u
 
     # Total capital locked in open trades
     total_invested_in_open = sum(
-        (t.position_value if t.position_value and t.position_value > 0 else ((t.quantity or 0) * (t.entry_price or 0)))
-        for t in open_trades
-    )
-    open_market_val = sum(
-        ((t.quantity or 0) * (t.current_price if t.current_price and t.current_price > 0 else (t.entry_price or 0)))
+        (t.position_value if (t.position_value and t.position_value > 0) else (((t.quantity or 1) * (t.entry_price or 0)) if (t.entry_price and t.entry_price > 0) else 5000.0))
         for t in open_trades
     ) if open_trades else 0.0
     
-    # Available Cash = Realized Balance - Margin in Open Trades
+    open_market_val = sum(
+        (((t.quantity or 1) * (t.current_price if (t.current_price and t.current_price > 0) else (t.entry_price or 0))) if (t.current_price or t.entry_price) else 5000.0)
+        for t in open_trades
+    ) if open_trades else 0.0
+    
+    # Available Cash = Realized Balance - Margin in Open Trades (Withdrawable Cash)
     true_available_cash = max(0.0, realized_balance - total_invested_in_open)
     
     # Sync DB balance so it is always mathematically consistent
@@ -332,10 +333,7 @@ def get_account_data(account_id: int, current_user: User = Depends(get_current_u
         for a in assets
     )
     if not holdings_value and open_trades:
-        holdings_value = sum(
-            ((t.quantity or 0) * (t.current_price if t.current_price and t.current_price > 0 else (t.entry_price or 0)))
-            for t in open_trades
-        )
+        holdings_value = open_market_val
     estimated_total_value = unrealized_balance
     
     db.close()
