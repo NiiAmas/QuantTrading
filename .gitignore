@@ -15,7 +15,7 @@ __pycache__/
 venv/
 .venv/
 *.egg-info/
-dist/
+/dist/
 build/
 
 # ─── Logs ───
@@ -32,7 +32,6 @@ logs/
 
 # ─── Node / Frontend ───
 frontend/node_modules/
-frontend/dist/
 
 # ─── IDE ───
 .vscode/
