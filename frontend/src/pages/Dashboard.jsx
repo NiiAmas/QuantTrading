@@ -171,15 +171,38 @@ export default function Dashboard() {
             </div>
           </div>
           
-          {/* Card 2: Active Investments */}
+          {/* Card 2: Active Investments & Capital Allocation */}
           <div className="bg-card backdrop-blur-xl border border-molten/20 rounded-2xl p-4 lg:p-5 shadow-xl flex items-center gap-4">
             <div className="p-3 bg-molten/10 rounded-xl text-molten shrink-0"><Briefcase size={24} /></div>
             <div className="min-w-0 flex-1">
-              <p className="text-xs text-gray-400 font-semibold uppercase tracking-wider">Active Investments</p>
-              <h3 className="text-xl lg:text-2xl font-bold text-white mb-1 font-mono">{activeAccount?.holdings?.length || 0} Assets</h3>
-              <div className="flex gap-1 mt-1 flex-wrap">
-                 {(activeAccount?.holdings || []).slice(0, 4).map(h => <span key={h} className="text-[10px] bg-white/10 px-1.5 py-0.5 rounded text-gray-300 font-mono">{h}</span>)}
-                 {(activeAccount?.holdings?.length || 0) > 4 && <span className="text-[10px] text-gray-500">+{activeAccount.holdings.length - 4} more</span>}
+              <div className="flex items-center justify-between">
+                <p className="text-xs text-gray-400 font-semibold uppercase tracking-wider">Investments</p>
+                <span className="text-xs font-bold text-white font-mono">{activeAccount?.holdings?.length || 0} Assets</span>
+              </div>
+              
+              {/* Mini Allocation Progress Bar */}
+              <div className="mt-1.5 space-y-1">
+                <div className="flex justify-between text-[10px] font-mono">
+                  <span className="text-blue-400 font-semibold">${fmt(stats?.holdingsValue || 0)}</span>
+                  <span className="text-molten font-semibold">{Math.round((availCash / Math.max(availCash + (stats?.holdingsValue || 0), 1)) * 100)}% Cash</span>
+                </div>
+                <div className="h-1.5 bg-white/10 rounded-full overflow-hidden flex">
+                  <div 
+                    className="h-full bg-blue-500 transition-all duration-500 rounded-l-full" 
+                    style={{ width: `${Math.round(((stats?.holdingsValue || 0) / Math.max(availCash + (stats?.holdingsValue || 0), 1)) * 100)}%` }}
+                    title="In Holdings"
+                  ></div>
+                  <div 
+                    className="h-full bg-molten transition-all duration-500 rounded-r-full" 
+                    style={{ width: `${Math.round((availCash / Math.max(availCash + (stats?.holdingsValue || 0), 1)) * 100)}%` }}
+                    title="Available Cash"
+                  ></div>
+                </div>
+              </div>
+
+              <div className="flex gap-1 mt-1.5 flex-wrap">
+                 {(activeAccount?.holdings || []).slice(0, 3).map(h => <span key={h} className="text-[9px] bg-white/10 px-1.5 py-0.5 rounded text-gray-300 font-mono">{h}</span>)}
+                 {(activeAccount?.holdings?.length || 0) > 3 && <span className="text-[9px] text-gray-500">+{activeAccount.holdings.length - 3}</span>}
               </div>
             </div>
           </div>
