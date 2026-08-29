@@ -79,17 +79,24 @@ export default function Dashboard() {
 
   const [newsFeed, setNewsFeed] = useState([]);
   const [globalNews, setGlobalNews] = useState([]);
+  const [loadingNews, setLoadingNews] = useState(true);
 
   useEffect(() => {
     const fetchNews = async () => {
       try {
         const res = await axios.get(`${API_URL}/news`);
-        setGlobalNews(res.data);
+        if (res.data && Array.isArray(res.data)) {
+          setGlobalNews(res.data);
+        }
       } catch (err) {
         console.error("Failed to load news", err);
+      } finally {
+        setLoadingNews(false);
       }
     };
     fetchNews();
+    const interval = setInterval(fetchNews, 30000);
+    return () => clearInterval(interval);
   }, []);
 
   // ─── LIVE PORTFOLIO POLLING (every 5 seconds) ───
@@ -121,7 +128,7 @@ export default function Dashboard() {
     } else {
       setNewsFeed(globalNews);
     }
-  }, [activeAccountId, globalNews]);
+  }, [activeAccountId, globalNews, activeAccount]);
 
   useEffect(() => {
     if (globeRef.current) {
@@ -296,11 +303,25 @@ export default function Dashboard() {
           <p className="text-xs text-gray-400 mt-1">Filtered for {activeAccount?.name}</p>
         </div>
         <div className="flex-1 overflow-y-auto pr-2 custom-scrollbar">
-          {newsFeed.map(news => (
-            <NewsCard key={news.id} news={news} onClick={(id) => navigate(`/news/${id}`)} />
-          ))}
-          {newsFeed.length === 0 && (
-            <div className="text-gray-500 text-sm text-center mt-10">No specific news for current holdings.</div>
+          {loadingNews && newsFeed.length === 0 ? (
+            <div className="space-y-3">
+              {[1, 2, 3, 4].map(i => (
+                <div key={i} className="bg-card/50 border border-white/5 p-4 rounded-xl animate-pulse">
+                  <div className="h-4 bg-white/10 rounded w-3/4 mb-2"></div>
+                  <div className="h-3 bg-white/5 rounded w-full mb-1"></div>
+                  <div className="h-3 bg-white/5 rounded w-2/3"></div>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <>
+              {newsFeed.map(news => (
+                <NewsCard key={news.id} news={news} onClick={(id) => navigate(`/news/${id}`)} />
+              ))}
+              {newsFeed.length === 0 && (
+                <div className="text-gray-500 text-sm text-center mt-10">No specific news for current holdings.</div>
+              )}
+            </>
           )}
         </div>
       </div>
