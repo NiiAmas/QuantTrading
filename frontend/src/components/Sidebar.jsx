@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
-import { Activity, LayoutDashboard, LineChart, Globe, Briefcase, ShieldAlert, Settings, ChevronDown, Plus, Wallet, LogOut, Compass, BarChart3 } from 'lucide-react';
+import { Activity, LayoutDashboard, LineChart, Globe, Briefcase, Settings, ChevronDown, Plus, Wallet, LogOut, Compass, BarChart3, X } from 'lucide-react';
 import useAccountStore from '../store/useStore';
 import useAuthStore from '../store/useAuthStore';
 import AccountWizardModal from './AccountWizardModal';
 import EditAccountModal from './EditAccountModal';
+import PropTypes from 'prop-types';
 
-export default function Sidebar() {
+export default function Sidebar({ onClose, isMobile }) {
   const { accounts, activeAccount, setActiveAccount, setWizardOpen } = useAccountStore();
   const { logout } = useAuthStore();
   const [showAccounts, setShowAccounts] = useState(false);
@@ -24,11 +25,25 @@ export default function Sidebar() {
     { id: 'settings', name: 'Settings', icon: <Settings size={20} />, path: '/settings' },
   ];
 
+  const handleNavClick = () => {
+    if (isMobile && onClose) onClose();
+  };
+
   return (
     <aside className="w-64 bg-obsidian backdrop-blur-xl border-r border-molten/20 flex flex-col py-6 shrink-0 h-full relative z-20">
-      <div className="flex items-center gap-3 px-6 mb-8">
-        <Activity size={28} className="text-molten" />
-        <h2 className="text-xl font-extrabold text-white tracking-tight">QUANT<span className="text-molten">TRADING</span></h2>
+      <div className="flex items-center justify-between px-6 mb-8">
+        <div className="flex items-center gap-3">
+          <Activity size={28} className="text-molten" />
+          <h2 className="text-xl font-extrabold text-white tracking-tight">QUANT<span className="text-molten">TRADING</span></h2>
+        </div>
+        {isMobile && (
+          <button 
+            onClick={onClose}
+            className="p-1.5 rounded-lg hover:bg-white/10 text-gray-400 hover:text-white transition-colors"
+          >
+            <X size={20} />
+          </button>
+        )}
       </div>
 
       {/* Account Switcher */}
@@ -37,14 +52,14 @@ export default function Sidebar() {
           onClick={() => setShowAccounts(!showAccounts)}
           className="w-full flex items-center justify-between bg-card border border-molten/20 hover:border-molten/50 transition-colors p-3 rounded-xl"
         >
-          <div className="flex items-center gap-3">
-            <div className="p-2 bg-molten/10 rounded-lg text-molten"><Wallet size={16}/></div>
-            <div className="text-left">
+          <div className="flex items-center gap-3 min-w-0">
+            <div className="p-2 bg-molten/10 rounded-lg text-molten shrink-0"><Wallet size={16}/></div>
+            <div className="text-left min-w-0">
               <p className="text-[10px] text-gray-400 font-bold uppercase tracking-wider">Active Account</p>
-              <p className="text-sm font-bold text-white">{currentAccount?.name}</p>
+              <p className="text-sm font-bold text-white truncate">{currentAccount?.name}</p>
             </div>
           </div>
-          <ChevronDown size={16} className={`text-gray-400 transition-transform ${showAccounts ? 'rotate-180' : ''}`} />
+          <ChevronDown size={16} className={`text-gray-400 transition-transform shrink-0 ${showAccounts ? 'rotate-180' : ''}`} />
         </button>
 
         {showAccounts && (
@@ -92,6 +107,7 @@ export default function Sidebar() {
           <NavLink 
             key={tab.name}
             to={tab.path} 
+            onClick={handleNavClick}
             className={({isActive}) => `flex items-center gap-3 px-4 py-3 rounded-lg font-semibold transition-all duration-200 ${isActive ? 'bg-molten/20 text-molten border-l-4 border-molten' : 'text-gray-400 hover:bg-molten/10 hover:text-white'}`}
           >
             {tab.icon}
@@ -116,3 +132,8 @@ export default function Sidebar() {
     </aside>
   );
 }
+
+Sidebar.propTypes = {
+  onClose: PropTypes.func,
+  isMobile: PropTypes.bool,
+};

@@ -278,12 +278,20 @@ def get_account_data(account_id: int, current_user: User = Depends(get_current_u
     realized_return = (realized_pnl / acc.initial_balance * 100) if acc.initial_balance > 0 else 0.0
     unrealized_return = ((realized_pnl + unrealized_pnl) / acc.initial_balance * 100) if acc.initial_balance > 0 else 0.0
 
+    # New: Calculate holdings value and capital distribution for frontend
+    holdings_value = sum(a.shares * (a.current_price if a.current_price and a.current_price > 0 else a.avg_price) for a in assets)
+    total_invested_in_open = sum(t.position_value or 0 for t in open_trades)
+    estimated_total_value = acc.balance + holdings_value
+    
+    # Capital distribution percentages (for the Money Flow bar)
+    total_pool = max(estimated_total_value, 1.0)
+    
     db.close()
     return {
         "positions": positions,
         "tradeLedger": ledger,
         "accountStats": {
-            "availableMargin": round(acc.balance, 2), # This is the available cash for new trades
+            "availableMargin": round(acc.balance, 2),
             "realizedBalance": round(realized_balance, 2),
             "unrealizedBalance": round(unrealized_balance, 2),
             "realizedReturn": round(realized_return, 2),
@@ -294,6 +302,16 @@ def get_account_data(account_id: int, current_user: User = Depends(get_current_u
             "totalRealizedPnl": round(realized_pnl, 2),
             "totalUnrealizedPnl": round(unrealized_pnl, 2),
             "strategy": acc.strategy,
+            # New financial clarity fields
+            "holdingsValue": round(holdings_value, 2),
+            "totalInvestedInOpen": round(total_invested_in_open, 2),
+            "netProfit": round(realized_pnl, 2),
+            "estimatedTotalValue": round(estimated_total_value, 2),
+            "capitalDistribution": {
+                "availableCash": round(acc.balance / total_pool * 100, 1),
+                "inHoldings": round(holdings_value / total_pool * 100, 1),
+                "realizedProfit": round(max(realized_pnl, 0) / total_pool * 100, 1),
+            },
         }
     }
 

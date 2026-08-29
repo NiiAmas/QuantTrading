@@ -39,29 +39,29 @@ export default function MarketsExplorer() {
   }, [activeTab]);
 
   return (
-    <div className="bg-card backdrop-blur-xl border border-molten/20 rounded-2xl p-6 shadow-xl h-full flex flex-col relative z-10">
-      <div className="flex justify-between items-center mb-6 border-b border-molten/20 pb-4">
-        <div className="flex items-center gap-4">
-          <h2 className="text-xl font-bold uppercase tracking-wider">Market Screener</h2>
+    <div className="bg-card backdrop-blur-xl border border-molten/20 rounded-2xl p-4 sm:p-6 shadow-xl h-full flex flex-col relative z-10">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 sm:mb-6 border-b border-molten/20 pb-4 gap-3">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-4 w-full sm:w-auto">
+          <h2 className="text-lg sm:text-xl font-bold uppercase tracking-wider">Market Screener</h2>
           <div className="flex bg-obsidian border border-molten/20 rounded-lg p-1">
             {tabs.map(tab => (
               <button 
                 key={tab}
                 onClick={() => setActiveTab(tab)}
-                className={`px-4 py-1 rounded-md text-sm font-bold transition-colors ${activeTab === tab ? 'bg-molten text-obsidian' : 'text-gray-400 hover:text-white'}`}
+                className={`px-3 sm:px-4 py-1 rounded-md text-xs sm:text-sm font-bold transition-colors ${activeTab === tab ? 'bg-molten text-obsidian' : 'text-gray-400 hover:text-white'}`}
               >
                 {tab}
               </button>
             ))}
           </div>
         </div>
-        <div className="relative">
+        <div className="relative w-full sm:w-auto">
           <Search size={18} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500" />
-          <input type="text" placeholder="Search tickers..." className="bg-obsidian border border-molten/20 text-white text-sm rounded-lg pl-10 pr-4 py-2 w-64 focus:outline-none focus:border-molten" />
+          <input type="text" placeholder="Search tickers..." className="bg-obsidian border border-molten/20 text-white text-sm rounded-lg pl-10 pr-4 py-2 w-full sm:w-64 focus:outline-none focus:border-molten" />
         </div>
       </div>
 
-      <div className="flex-1 overflow-auto rounded-lg border border-molten/10 relative">
+      <div className="flex-1 overflow-auto rounded-lg border border-molten/10 relative overflow-x-auto">
         {loading ? (
           <div className="absolute inset-0 flex items-center justify-center text-molten animate-pulse font-bold tracking-widest">LOADING API DATA...</div>
         ) : (

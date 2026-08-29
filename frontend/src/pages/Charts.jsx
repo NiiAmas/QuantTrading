@@ -89,9 +89,9 @@ function ChartsInner() {
   ];
 
   return (
-    <div className="flex gap-6 h-full">
+    <div className="flex flex-col lg:flex-row gap-4 lg:gap-6 h-full">
       {/* MAIN CHART AREA */}
-      <div className="flex-1 flex flex-col bg-card border border-molten/20 rounded-2xl p-2 shadow-xl relative overflow-hidden">
+      <div className="flex-1 flex flex-col bg-card border border-molten/20 rounded-2xl p-2 shadow-xl relative overflow-hidden min-h-[400px]">
         {/* Chart Container */}
         <div className="flex-1 w-full relative">
           <iframe 
@@ -107,7 +107,7 @@ function ChartsInner() {
       </div>
 
       {/* RIGHT PANE — Instrument Selector */}
-      <div className="w-[300px] bg-obsidian/50 border border-molten/10 rounded-2xl p-4 flex flex-col h-full overflow-hidden shadow-2xl">
+      <div className="w-full lg:w-[280px] xl:w-[300px] bg-obsidian/50 border border-molten/10 rounded-2xl p-4 flex flex-col lg:h-full max-h-[300px] lg:max-h-none overflow-hidden shadow-2xl shrink-0">
         <h3 className="text-sm font-bold text-white mb-4 uppercase tracking-widest text-center border-b border-molten/20 pb-3">
           Instruments
         </h3>

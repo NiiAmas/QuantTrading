@@ -436,6 +436,12 @@ body {
 }
 
 /* ─── RESPONSIVE BREAKPOINTS ─── */
+@media (max-width: 1536px) {
+  .page-content {
+    padding: 24px;
+  }
+}
+
 @media (max-width: 1280px) {
   .page-content {
     padding: 20px;
@@ -466,6 +472,27 @@ body {
   }
 }
 
+/* ─── SIDEBAR MOBILE TRANSITIONS ─── */
+.sidebar-mobile-enter {
+  transform: translateX(-100%);
+}
+.sidebar-mobile-enter-active {
+  transform: translateX(0);
+  transition: transform 300ms ease-in-out;
+}
+
+/* ─── SMOOTH CARD TRANSITIONS ─── */
+.card, .glass-panel {
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+/* ─── RESPONSIVE TEXT TRUNCATION ─── */
+.text-responsive-truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 /* Custom scrollbar */
 .custom-scrollbar::-webkit-scrollbar {
   width: 6px;
@@ -479,4 +506,15 @@ body {
 }
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
   background: rgba(255, 255, 255, 0.2);
+}
+
+/* ─── LIGHT MODE OVERRIDES FOR NEW COMPONENTS ─── */
+:root[data-theme='light'] .bg-obsidian {
+  background-color: var(--bg-main) !important;
+}
+:root[data-theme='light'] .border-molten\/20 {
+  border-color: rgba(59, 130, 246, 0.2) !important;
+}
+:root[data-theme='light'] .text-white {
+  color: var(--text-main) !important;
 }

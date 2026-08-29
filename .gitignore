@@ -39,3 +39,6 @@ frontend/dist/
 .idea/
 *.swp
 *.swo
+
+# ─── Security Audit (keep local only) ───
+Report_Security_Audit.html

@@ -79,22 +79,22 @@ export default function Preferences() {
   );
 
   return (
-    <div className="h-full flex flex-col gap-6 max-w-5xl mx-auto w-full z-10 relative">
-      <div className="flex items-center justify-between mb-2">
+    <div className="h-full flex flex-col gap-4 sm:gap-6 max-w-5xl mx-auto w-full z-10 relative">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-2 gap-3">
         <div>
-          <h1 className="text-3xl font-extrabold text-white tracking-widest uppercase flex items-center gap-3">
-            <Settings className="text-molten" size={32} /> Platform Preferences
+          <h1 className="text-xl sm:text-3xl font-extrabold text-white tracking-widest uppercase flex items-center gap-2 sm:gap-3">
+            <Settings className="text-molten shrink-0" size={24} /> Platform Preferences
           </h1>
-          <p className="text-gray-400 mt-2">Configure core engine parameters, API bridges, and global fail-safes.</p>
+          <p className="text-gray-400 mt-1 sm:mt-2 text-xs sm:text-sm">Configure core engine parameters, API bridges, and global fail-safes.</p>
         </div>
-        <button className="px-6 py-2 bg-danger/10 text-danger border border-danger/30 rounded-lg font-bold uppercase tracking-widest flex items-center gap-2 hover:bg-danger hover:text-white transition-colors">
-          <PowerOff size={18} /> Global Kill Switch
+        <button className="px-4 sm:px-6 py-2 bg-danger/10 text-danger border border-danger/30 rounded-lg font-bold uppercase tracking-widest flex items-center gap-2 hover:bg-danger hover:text-white transition-colors text-xs sm:text-sm shrink-0">
+          <PowerOff size={16} /> <span className="hidden sm:inline">Global</span> Kill Switch
         </button>
       </div>
 
-      <div className="flex gap-6 flex-1 min-h-0">
-        {/* Left Sidebar for Settings Tabs */}
-        <div className="w-64 bg-card border border-molten/20 rounded-2xl p-4 flex flex-col gap-2 shrink-0">
+      <div className="flex flex-col lg:flex-row gap-4 lg:gap-6 flex-1 min-h-0">
+        {/* Left Sidebar for Settings Tabs (horizontal on mobile) */}
+        <div className="w-full lg:w-64 bg-card border border-molten/20 rounded-2xl p-3 lg:p-4 flex flex-row lg:flex-col gap-2 shrink-0 overflow-x-auto lg:overflow-visible">
           {tabs.map(tab => {
             const getIcon = () => {
               if (tab === 'API Integrations') return <Key size={18} />;
@@ -115,7 +115,7 @@ export default function Preferences() {
         </div>
 
         {/* Main Settings Panel */}
-        <div className="flex-1 bg-card border border-molten/20 rounded-2xl p-8 overflow-y-auto custom-scrollbar relative">
+        <div className="flex-1 bg-card border border-molten/20 rounded-2xl p-4 sm:p-6 lg:p-8 overflow-y-auto custom-scrollbar relative">
           
           {activeTab === 'API Integrations' && (
             <div className="animate-in fade-in duration-300">

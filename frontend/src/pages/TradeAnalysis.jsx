@@ -88,38 +88,38 @@ export default function TradeAnalysis() {
   if (!activeAccount) return <div className="p-10 text-center font-bold text-gray-400">No account selected. Please select or create an account.</div>;
 
   return (
-    <div className="flex flex-col gap-6 h-full relative">
+    <div className="flex flex-col gap-4 sm:gap-6 h-full relative">
       {/* Header */}
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-2xl font-extrabold text-white tracking-widest uppercase flex items-center gap-3">
-            <BarChart3 className="text-molten" size={28} /> Trade Analysis
+      <div className="flex items-center justify-between gap-2">
+        <div className="min-w-0">
+          <h1 className="text-xl sm:text-2xl font-extrabold text-white tracking-widest uppercase flex items-center gap-2 sm:gap-3">
+            <BarChart3 className="text-molten shrink-0" size={24} /> <span className="truncate">Trade Analysis</span>
           </h1>
-          <p className="text-gray-400 text-sm mt-1">Detailed breakdown of every transaction on <span className="text-white font-bold">{activeAccount.name}</span></p>
+          <p className="text-gray-400 text-xs sm:text-sm mt-1">Detailed breakdown of every transaction on <span className="text-white font-bold">{activeAccount.name}</span></p>
         </div>
       </div>
 
       {/* KPI Summary Strip */}
-      <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
-        <div className="bg-card border border-molten/20 rounded-xl p-4 shadow-lg">
-          <p className="text-[10px] text-gray-500 font-bold uppercase tracking-widest">Total Trades</p>
-          <p className="text-2xl font-bold text-white">{filtered.length}</p>
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4">
+        <div className="bg-card border border-molten/20 rounded-xl p-3 sm:p-4 shadow-lg">
+          <p className="text-[9px] sm:text-[10px] text-gray-500 font-bold uppercase tracking-widest">Total Trades</p>
+          <p className="text-xl sm:text-2xl font-bold text-white">{filtered.length}</p>
         </div>
-        <div className="bg-card border border-molten/20 rounded-xl p-4 shadow-lg">
-          <p className="text-[10px] text-gray-500 font-bold uppercase tracking-widest">Win Rate</p>
-          <p className={`text-2xl font-bold ${parseFloat(winRate) >= 50 ? 'text-success' : 'text-danger'}`}>{winRate}%</p>
+        <div className="bg-card border border-molten/20 rounded-xl p-3 sm:p-4 shadow-lg">
+          <p className="text-[9px] sm:text-[10px] text-gray-500 font-bold uppercase tracking-widest">Win Rate</p>
+          <p className={`text-xl sm:text-2xl font-bold ${parseFloat(winRate) >= 50 ? 'text-success' : 'text-danger'}`}>{winRate}%</p>
         </div>
-        <div className="bg-card border border-molten/20 rounded-xl p-4 shadow-lg">
-          <p className="text-[10px] text-gray-500 font-bold uppercase tracking-widest">Wins / Losses</p>
-          <p className="text-2xl font-bold text-white"><span className="text-success">{winCount}</span> / <span className="text-danger">{lossCount}</span></p>
+        <div className="bg-card border border-molten/20 rounded-xl p-3 sm:p-4 shadow-lg">
+          <p className="text-[9px] sm:text-[10px] text-gray-500 font-bold uppercase tracking-widest">Wins / Losses</p>
+          <p className="text-xl sm:text-2xl font-bold text-white"><span className="text-success">{winCount}</span> / <span className="text-danger">{lossCount}</span></p>
         </div>
-        <div className="bg-card border border-molten/20 rounded-xl p-4 shadow-lg">
-          <p className="text-[10px] text-gray-500 font-bold uppercase tracking-widest">Total P&L</p>
-          <p className={`text-2xl font-bold ${totalPnl >= 0 ? 'text-success' : 'text-danger'}`}>{totalPnl >= 0 ? '+' : ''}${totalPnl.toLocaleString()}</p>
+        <div className="bg-card border border-molten/20 rounded-xl p-3 sm:p-4 shadow-lg">
+          <p className="text-[9px] sm:text-[10px] text-gray-500 font-bold uppercase tracking-widest">Total P&L</p>
+          <p className={`text-xl sm:text-2xl font-bold ${totalPnl >= 0 ? 'text-success' : 'text-danger'}`}>{totalPnl >= 0 ? '+' : ''}${totalPnl.toLocaleString()}</p>
         </div>
-        <div className="bg-card border border-molten/20 rounded-xl p-4 shadow-lg flex flex-col justify-between">
-          <p className="text-[10px] text-gray-500 font-bold uppercase tracking-widest">Return (Real / Unreal)</p>
-          <p className="text-xl font-bold">
+        <div className="bg-card border border-molten/20 rounded-xl p-3 sm:p-4 shadow-lg col-span-2 sm:col-span-1 flex flex-col justify-between">
+          <p className="text-[9px] sm:text-[10px] text-gray-500 font-bold uppercase tracking-widest">Return (Real / Unreal)</p>
+          <p className="text-lg sm:text-xl font-bold">
             <span className={(accountStats?.realizedReturn || 0) >= 0 ? 'text-success' : 'text-danger'}>{accountStats?.realizedReturn || 0}%</span>
             <span className="text-gray-500 mx-1">/</span>
             <span className={(accountStats?.unrealizedReturn || 0) >= 0 ? 'text-success' : 'text-danger'}>{accountStats?.unrealizedReturn || 0}%</span>
@@ -128,9 +128,9 @@ export default function TradeAnalysis() {
       </div>
 
       {/* Filters Row */}
-      <div className="flex items-center gap-3 flex-wrap">
+      <div className="flex items-center gap-2 sm:gap-3 flex-wrap">
         {/* Search */}
-        <div className="relative flex-1 min-w-[200px] max-w-[300px]">
+        <div className="relative flex-1 min-w-[150px] max-w-[300px]">
           <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500" />
           <input
             type="text"
@@ -147,7 +147,7 @@ export default function TradeAnalysis() {
             <button
               key={s}
               onClick={() => setFilterCategory(s)}
-              className={`px-3 py-1.5 text-xs font-bold uppercase tracking-wider rounded-md transition-colors ${filterCategory === s ? 'bg-molten/20 text-molten' : 'text-gray-500 hover:text-white'}`}
+              className={`px-2 sm:px-3 py-1.5 text-[10px] sm:text-xs font-bold uppercase tracking-wider rounded-md transition-colors ${filterCategory === s ? 'bg-molten/20 text-molten' : 'text-gray-500 hover:text-white'}`}
             >
               {s}
             </button>
@@ -158,17 +158,17 @@ export default function TradeAnalysis() {
         <select
           value={filterAsset}
           onChange={e => setFilterAsset(e.target.value)}
-          className="bg-obsidian border border-white/10 rounded-lg px-3 py-2 text-xs font-bold text-gray-300 focus:outline-none focus:border-molten cursor-pointer"
+          className="bg-obsidian border border-white/10 rounded-lg px-2 sm:px-3 py-2 text-xs font-bold text-gray-300 focus:outline-none focus:border-molten cursor-pointer"
         >
           <option value="All">All Assets</option>
           {uniqueAssets.map(a => <option key={a} value={a}>{a}</option>)}
         </select>
 
         {/* Sort Buttons */}
-        <button onClick={() => toggleSort('date')} className={`flex items-center gap-1 px-3 py-2 rounded-lg text-xs font-bold border transition-colors ${sortBy === 'date' ? 'bg-molten/10 text-molten border-molten/30' : 'border-white/10 text-gray-500 hover:text-white'}`}>
-          <Calendar size={12} /> Date {sortBy === 'date' && (sortDir === 'desc' ? <ChevronDown size={12}/> : <ChevronUp size={12}/>)}
+        <button onClick={() => toggleSort('date')} className={`flex items-center gap-1 px-2 sm:px-3 py-2 rounded-lg text-[10px] sm:text-xs font-bold border transition-colors ${sortBy === 'date' ? 'bg-molten/10 text-molten border-molten/30' : 'border-white/10 text-gray-500 hover:text-white'}`}>
+          <Calendar size={12} /> <span className="hidden sm:inline">Date</span> {sortBy === 'date' && (sortDir === 'desc' ? <ChevronDown size={12}/> : <ChevronUp size={12}/>)}
         </button>
-        <button onClick={() => toggleSort('pnl')} className={`flex items-center gap-1 px-3 py-2 rounded-lg text-xs font-bold border transition-colors ${sortBy === 'pnl' ? 'bg-molten/10 text-molten border-molten/30' : 'border-white/10 text-gray-500 hover:text-white'}`}>
+        <button onClick={() => toggleSort('pnl')} className={`flex items-center gap-1 px-2 sm:px-3 py-2 rounded-lg text-[10px] sm:text-xs font-bold border transition-colors ${sortBy === 'pnl' ? 'bg-molten/10 text-molten border-molten/30' : 'border-white/10 text-gray-500 hover:text-white'}`}>
           <ArrowUpDown size={12} /> P&L {sortBy === 'pnl' && (sortDir === 'desc' ? <ChevronDown size={12}/> : <ChevronUp size={12}/>)}
         </button>
       </div>
@@ -186,40 +186,40 @@ export default function TradeAnalysis() {
               >
                 {/* Trade Row */}
                 <div
-                  className="flex items-center justify-between p-4 cursor-pointer"
+                  className="flex items-center justify-between p-3 sm:p-4 cursor-pointer gap-2"
                   onClick={() => setExpandedTrade(isExpanded ? null : trade.id)}
                 >
-                  <div className="flex items-center gap-4 flex-1">
-                    <div className={`w-10 h-10 rounded-xl flex items-center justify-center text-sm font-bold border ${isProfitable ? 'bg-success/10 text-success border-success/30' : 'bg-danger/10 text-danger border-danger/30'}`}>
-                      {isProfitable ? <TrendingUp size={18} /> : <TrendingDown size={18} />}
+                  <div className="flex items-center gap-3 sm:gap-4 flex-1 min-w-0">
+                    <div className={`w-8 h-8 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center text-sm font-bold border shrink-0 ${isProfitable ? 'bg-success/10 text-success border-success/30' : 'bg-danger/10 text-danger border-danger/30'}`}>
+                      {isProfitable ? <TrendingUp size={16} /> : <TrendingDown size={16} />}
                     </div>
-                    <div>
-                      <div className="flex items-center gap-2">
-                        <span className="font-bold text-white text-sm">{trade.pair}</span>
-                        <span className={`text-[10px] px-2 py-0.5 rounded font-bold uppercase tracking-wider border ${getTradeCategory(trade) === 'Holding' ? (trade.status === 'Open' ? 'bg-success/10 text-success border-success/30' : 'bg-gray-800 text-gray-400 border-gray-600') : getTradeCategory(trade) === 'Long' ? 'bg-blue-500/10 text-blue-500 border-blue-500/30' : 'bg-danger/10 text-danger border-danger/30'}`}>
+                    <div className="min-w-0">
+                      <div className="flex items-center gap-2 flex-wrap">
+                        <span className="font-bold text-white text-xs sm:text-sm">{trade.pair}</span>
+                        <span className={`text-[9px] sm:text-[10px] px-1.5 sm:px-2 py-0.5 rounded font-bold uppercase tracking-wider border ${getTradeCategory(trade) === 'Holding' ? (trade.status === 'Open' ? 'bg-success/10 text-success border-success/30' : 'bg-gray-800 text-gray-400 border-gray-600') : getTradeCategory(trade) === 'Long' ? 'bg-blue-500/10 text-blue-500 border-blue-500/30' : 'bg-danger/10 text-danger border-danger/30'}`}>
                           {getTradeCategory(trade) === 'Holding' ? (trade.status === 'Open' ? 'BOUGHT (HOLDING)' : 'SOLD (HOLDING)') : getTradeCategory(trade) === 'Long' ? (trade.status === 'Open' ? 'OPEN LONG' : 'CLOSED LONG') : trade.status === 'Open' ? 'OPEN SHORT' : 'CLOSED SHORT'}
                         </span>
                       </div>
-                      <div className="text-[10px] text-gray-500 font-mono mt-0.5">
+                      <div className="text-[9px] sm:text-[10px] text-gray-500 font-mono mt-0.5 truncate">
                         {trade.openedAt ? new Date(trade.openedAt).toLocaleString() : 'N/A'}
                         {trade.closedAt && <span> → {new Date(trade.closedAt).toLocaleString()}</span>}
                       </div>
                     </div>
                   </div>
 
-                  <div className="flex items-center gap-6">
-                    <div className="text-right">
+                  <div className="flex items-center gap-3 sm:gap-6 shrink-0">
+                    <div className="text-right hidden sm:block">
                       <div className="text-[10px] text-gray-500 font-bold uppercase tracking-widest">Entry</div>
                       <div className="text-sm text-white font-mono">${trade.entry?.toLocaleString()}</div>
                     </div>
-                    <div className="text-right">
+                    <div className="text-right hidden md:block">
                       <div className="text-[10px] text-gray-500 font-bold uppercase tracking-widest">Current</div>
                       <div className="text-sm text-white font-mono">${trade.current?.toLocaleString()}</div>
                     </div>
-                    <div className="text-right min-w-[100px]">
-                      <div className="text-[10px] text-gray-500 font-bold uppercase tracking-widest">P&L</div>
-                      <div className={`text-sm font-bold font-mono ${isProfitable ? 'text-success' : 'text-danger'}`}>
-                        {trade.pnl} ({isProfitable ? '+' : ''}${trade.pnlDollars?.toLocaleString()})
+                    <div className="text-right min-w-[70px] sm:min-w-[100px]">
+                      <div className="text-[9px] sm:text-[10px] text-gray-500 font-bold uppercase tracking-widest">P&L</div>
+                      <div className={`text-xs sm:text-sm font-bold font-mono ${isProfitable ? 'text-success' : 'text-danger'}`}>
+                        {trade.pnl} <span className="hidden sm:inline">({isProfitable ? '+' : ''}${trade.pnlDollars?.toLocaleString()})</span>
                       </div>
                     </div>
                     <div className="text-gray-500">
@@ -230,46 +230,46 @@ export default function TradeAnalysis() {
 
                 {/* Expanded Details */}
                 {isExpanded && (
-                  <div className="px-4 pb-4 animate-in fade-in slide-in-from-top-2 duration-200">
-                    <div className="bg-obsidian/80 rounded-xl p-5 border border-white/5 space-y-4">
+                  <div className="px-3 sm:px-4 pb-4 animate-in fade-in slide-in-from-top-2 duration-200">
+                    <div className="bg-obsidian/80 rounded-xl p-4 sm:p-5 border border-white/5 space-y-4">
                       {/* Trade Details Grid */}
-                      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
                         <div>
-                          <div className="text-[10px] text-gray-500 font-bold uppercase tracking-widest mb-1">Quantity</div>
-                          <div className="text-white font-mono font-semibold">{trade.quantity}</div>
+                          <div className="text-[9px] sm:text-[10px] text-gray-500 font-bold uppercase tracking-widest mb-1">Quantity</div>
+                          <div className="text-white font-mono font-semibold text-xs sm:text-sm">{trade.quantity}</div>
                         </div>
                         <div>
-                          <div className="text-[10px] text-gray-500 font-bold uppercase tracking-widest mb-1">Entry Price</div>
-                          <div className="text-white font-mono font-semibold">${trade.entry?.toLocaleString()}</div>
+                          <div className="text-[9px] sm:text-[10px] text-gray-500 font-bold uppercase tracking-widest mb-1">Entry Price</div>
+                          <div className="text-white font-mono font-semibold text-xs sm:text-sm">${trade.entry?.toLocaleString()}</div>
                         </div>
                         <div>
-                          <div className="text-[10px] text-gray-500 font-bold uppercase tracking-widest mb-1">{trade.status === 'Closed' ? 'Exit Price' : 'Current Price'}</div>
-                          <div className="text-white font-mono font-semibold">${trade.current?.toLocaleString()}</div>
+                          <div className="text-[9px] sm:text-[10px] text-gray-500 font-bold uppercase tracking-widest mb-1">{trade.status === 'Closed' ? 'Exit Price' : 'Current Price'}</div>
+                          <div className="text-white font-mono font-semibold text-xs sm:text-sm">${trade.current?.toLocaleString()}</div>
                         </div>
                         <div>
-                          <div className="text-[10px] text-gray-500 font-bold uppercase tracking-widest mb-1">Percentage P&L</div>
-                          <div className={`font-mono font-bold ${isProfitable ? 'text-success' : 'text-danger'}`}>{trade.pnl}</div>
+                          <div className="text-[9px] sm:text-[10px] text-gray-500 font-bold uppercase tracking-widest mb-1">Percentage P&L</div>
+                          <div className={`font-mono font-bold text-xs sm:text-sm ${isProfitable ? 'text-success' : 'text-danger'}`}>{trade.pnl}</div>
                         </div>
                         {trade.stopLoss && (
                           <div>
-                            <div className="text-[10px] text-gray-500 font-bold uppercase tracking-widest mb-1">Stop Loss</div>
-                            <div className="text-danger font-mono font-semibold">${trade.stopLoss?.toLocaleString()}</div>
+                            <div className="text-[9px] sm:text-[10px] text-gray-500 font-bold uppercase tracking-widest mb-1">Stop Loss</div>
+                            <div className="text-danger font-mono font-semibold text-xs sm:text-sm">${trade.stopLoss?.toLocaleString()}</div>
                           </div>
                         )}
                         {trade.takeProfit && (
                           <div>
-                            <div className="text-[10px] text-gray-500 font-bold uppercase tracking-widest mb-1">Take Profit</div>
-                            <div className="text-success font-mono font-semibold">${trade.takeProfit?.toLocaleString()}</div>
+                            <div className="text-[9px] sm:text-[10px] text-gray-500 font-bold uppercase tracking-widest mb-1">Take Profit</div>
+                            <div className="text-success font-mono font-semibold text-xs sm:text-sm">${trade.takeProfit?.toLocaleString()}</div>
                           </div>
                         )}
                         <div>
-                          <div className="text-[10px] text-gray-500 font-bold uppercase tracking-widest mb-1">Opened At</div>
-                          <div className="text-gray-300 font-mono text-xs">{trade.openedAt ? new Date(trade.openedAt).toLocaleString() : 'N/A'}</div>
+                          <div className="text-[9px] sm:text-[10px] text-gray-500 font-bold uppercase tracking-widest mb-1">Opened At</div>
+                          <div className="text-gray-300 font-mono text-[10px] sm:text-xs">{trade.openedAt ? new Date(trade.openedAt).toLocaleString() : 'N/A'}</div>
                         </div>
                         {trade.closedAt && (
                           <div>
-                            <div className="text-[10px] text-gray-500 font-bold uppercase tracking-widest mb-1">Closed At</div>
-                            <div className="text-gray-300 font-mono text-xs">{new Date(trade.closedAt).toLocaleString()}</div>
+                            <div className="text-[9px] sm:text-[10px] text-gray-500 font-bold uppercase tracking-widest mb-1">Closed At</div>
+                            <div className="text-gray-300 font-mono text-[10px] sm:text-xs">{new Date(trade.closedAt).toLocaleString()}</div>
                           </div>
                         )}
                       </div>
@@ -280,12 +280,12 @@ export default function TradeAnalysis() {
                           <div className="text-[10px] text-molten font-bold uppercase tracking-widest mb-3 flex items-center gap-1">
                             <BarChart3 size={12} /> AI Trade Analysis Breakdown
                           </div>
-                          <div className="space-y-3 bg-black/30 p-4 rounded-xl border border-white/5">
+                          <div className="space-y-3 bg-black/30 p-3 sm:p-4 rounded-xl border border-white/5">
                             <div>
                               <span className="text-xs font-bold text-gray-400 uppercase tracking-widest block mb-1">
                                 {getTradeCategory(trade) === 'Holding' ? 'Why we bought this asset:' : getTradeCategory(trade) === 'Long' ? 'Why we took this long:' : 'Why we took this short:'}
                               </span>
-                              <p className="text-sm text-gray-200 leading-relaxed">
+                              <p className="text-xs sm:text-sm text-gray-200 leading-relaxed break-words">
                                 {trade.reasoning}
                               </p>
                             </div>
@@ -300,7 +300,7 @@ export default function TradeAnalysis() {
           })}
 
           {filtered.length === 0 && (
-            <div className="p-16 text-center text-gray-500 font-bold uppercase tracking-widest">
+            <div className="p-10 sm:p-16 text-center text-gray-500 font-bold uppercase tracking-widest text-xs sm:text-sm">
               {trades.length === 0 ? 'No trades executed yet. The AI bot is analyzing markets...' : 'No trades match the current filters.'}
             </div>
           )}
