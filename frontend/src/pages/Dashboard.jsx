@@ -148,95 +148,105 @@ export default function Dashboard() {
   const fmt = (n) => (n || 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 
   return (
-    <div className="flex flex-col lg:flex-row gap-6 h-full min-h-0">
+    <div className="flex flex-col lg:flex-row gap-5 h-full min-h-0">
       {/* LEFT PANE - KPIs and Large Globe */}
-      <div className="flex-1 flex flex-col gap-6 min-w-0 h-full">
+      <div className="flex-1 flex flex-col gap-5 min-w-0 h-full">
         
         {/* KPI Row */}
         <div className="grid grid-cols-1 xl:grid-cols-3 gap-4 shrink-0">
           
           {/* Card 1: Account Equity */}
-          <div className="bg-card backdrop-blur-xl border border-molten/20 rounded-2xl p-5 shadow-xl flex items-center gap-4">
-            <div className="p-3 bg-molten/10 rounded-xl text-molten shrink-0"><Wallet size={24} /></div>
-            <div className="min-w-0 flex-1">
-              <p className="text-xs text-gray-400 font-semibold uppercase tracking-wider mb-1">Account Equity</p>
-              <div className="flex flex-col gap-1 mt-1.5">
-                <div className="flex items-center justify-between gap-2">
-                  <span className="text-[10px] text-gray-400 font-bold uppercase tracking-wider whitespace-nowrap">Realized Capital</span>
-                  <span className="text-xs font-bold text-white font-mono whitespace-nowrap">${fmt(realizedBal)}</span>
-                </div>
-                <div className="flex items-center justify-between gap-2">
-                  <span className="text-[10px] text-gray-400 font-bold uppercase tracking-wider whitespace-nowrap">Open P&L (Floating)</span>
-                  <span className={`text-xs font-bold font-mono whitespace-nowrap ${(stats?.totalUnrealizedPnl || 0) >= 0 ? 'text-success' : 'text-danger'}`}>
-                    {(stats?.totalUnrealizedPnl || 0) >= 0 ? '+' : ''}${fmt(stats?.totalUnrealizedPnl || 0)}
-                  </span>
-                </div>
-                <div className="h-px bg-white/10 my-0.5"></div>
-                <div className="flex items-center justify-between gap-2">
-                  <span className="text-[10px] text-molten font-bold uppercase tracking-wider whitespace-nowrap">Cash (Free to Trade)</span>
-                  <span className="text-xs font-bold text-molten font-mono whitespace-nowrap">${fmt(availCash)}</span>
-                </div>
+          <div className="bg-card backdrop-blur-xl border border-molten/20 rounded-2xl p-4 xl:p-5 shadow-xl flex flex-col justify-between">
+            <div className="flex items-center gap-3 mb-2">
+              <div className="p-2.5 bg-molten/10 rounded-xl text-molten shrink-0"><Wallet size={20} /></div>
+              <div>
+                <p className="text-[10px] text-gray-400 font-bold uppercase tracking-wider">Account Equity</p>
+                <h4 className="text-sm xl:text-base font-bold text-white font-mono">${fmt(unrealizedBal)}</h4>
+              </div>
+            </div>
+            <div className="space-y-1.5 pt-2 border-t border-white/5 text-xs font-mono">
+              <div className="flex justify-between items-center text-gray-400">
+                <span className="text-[10px] uppercase font-bold tracking-wider">Realized</span>
+                <span className="font-semibold text-white">${fmt(realizedBal)}</span>
+              </div>
+              <div className="flex justify-between items-center text-gray-400">
+                <span className="text-[10px] uppercase font-bold tracking-wider">Open P&L</span>
+                <span className={`font-semibold ${(stats?.totalUnrealizedPnl || 0) >= 0 ? 'text-success' : 'text-danger'}`}>
+                  {(stats?.totalUnrealizedPnl || 0) >= 0 ? '+' : ''}${fmt(stats?.totalUnrealizedPnl || 0)}
+                </span>
+              </div>
+              <div className="flex justify-between items-center text-molten font-bold">
+                <span className="text-[10px] uppercase tracking-wider">Cash Avail</span>
+                <span>${fmt(availCash)}</span>
               </div>
             </div>
           </div>
           
           {/* Card 2: Active Investments */}
-          <div className="bg-card backdrop-blur-xl border border-molten/20 rounded-2xl p-5 shadow-xl flex items-center gap-4">
-            <div className="p-3 bg-molten/10 rounded-xl text-molten shrink-0"><Briefcase size={24} /></div>
-            <div className="min-w-0 flex-1">
-              <p className="text-xs text-gray-400 font-semibold uppercase tracking-wider mb-1">Active Investments</p>
-              <div className="flex flex-col gap-1 mt-1.5">
-                <div className="flex items-center justify-between gap-2">
-                  <span className="text-[10px] text-gray-400 font-bold uppercase tracking-wider whitespace-nowrap">Open Positions</span>
-                  <span className="text-xs font-bold text-white font-mono whitespace-nowrap">{stats?.openTradesCount || activeAccount?.holdings?.length || 0} Trades</span>
-                </div>
-                <div className="flex items-center justify-between gap-2">
-                  <span className="text-[10px] text-gray-400 font-bold uppercase tracking-wider whitespace-nowrap">Capital Invested</span>
-                  <span className="text-xs font-bold text-blue-400 font-mono whitespace-nowrap">${fmt(stats?.totalInvestedInOpen || 0)}</span>
-                </div>
-                <div className="h-px bg-white/10 my-0.5"></div>
-                <div className="flex items-center justify-between gap-2">
-                  <span className="text-[10px] text-gray-400 font-bold uppercase tracking-wider whitespace-nowrap">Live Market Value</span>
-                  <span className="text-xs font-bold text-white font-mono whitespace-nowrap">${fmt(stats?.openMarketValue || stats?.holdingsValue || 0)}</span>
-                </div>
+          <div className="bg-card backdrop-blur-xl border border-molten/20 rounded-2xl p-4 xl:p-5 shadow-xl flex flex-col justify-between">
+            <div className="flex items-center gap-3 mb-2">
+              <div className="p-2.5 bg-molten/10 rounded-xl text-molten shrink-0"><Briefcase size={20} /></div>
+              <div>
+                <p className="text-[10px] text-gray-400 font-bold uppercase tracking-wider">Investments</p>
+                <h4 className="text-sm xl:text-base font-bold text-white font-mono">{stats?.openTradesCount || 0} Open Trades</h4>
+              </div>
+            </div>
+            <div className="space-y-1.5 pt-2 border-t border-white/5 text-xs font-mono">
+              <div className="flex justify-between items-center text-gray-400">
+                <span className="text-[10px] uppercase font-bold tracking-wider">Invested</span>
+                <span className="font-semibold text-blue-400">${fmt(stats?.totalInvestedInOpen || 0)}</span>
+              </div>
+              <div className="flex justify-between items-center text-gray-400">
+                <span className="text-[10px] uppercase font-bold tracking-wider">Market Value</span>
+                <span className="font-semibold text-white">${fmt(stats?.openMarketValue || stats?.holdingsValue || 0)}</span>
+              </div>
+              <div className="flex justify-between items-center text-gray-400">
+                <span className="text-[10px] uppercase font-bold tracking-wider">Holdings</span>
+                <span className="font-semibold text-white">{activeAccount?.holdings?.length || 0} Assets</span>
               </div>
             </div>
           </div>
 
           {/* Card 3: Portfolio Return */}
-          <div className="bg-card backdrop-blur-xl border border-molten/20 rounded-2xl p-5 shadow-xl flex items-center gap-4">
-            <div className={`p-3 rounded-xl shrink-0 ${unrealizedRet >= 0 ? 'bg-success/10 text-success' : 'bg-danger/10 text-danger'}`}><Activity size={24} /></div>
-            <div className="min-w-0 flex-1">
-              <p className="text-xs text-gray-400 font-semibold uppercase tracking-wider mb-1">Portfolio Performance</p>
-              <div className="flex flex-col gap-1 mt-1.5">
-                <div className="flex items-center justify-between gap-2">
-                  <span className="text-[10px] text-gray-400 font-bold uppercase tracking-wider whitespace-nowrap">Confirmed Return</span>
-                  <span className={`text-xs font-bold font-mono whitespace-nowrap ${realizedRet >= 0 ? 'text-success' : 'text-danger'}`}>
-                    {realizedRet >= 0 ? '+' : ''}{realizedRet.toFixed(2)}%
-                  </span>
-                </div>
-                <div className="flex items-center justify-between gap-2">
-                  <span className="text-[10px] text-gray-400 font-bold uppercase tracking-wider whitespace-nowrap">Total Est. Return</span>
-                  <span className={`text-xs font-bold font-mono whitespace-nowrap ${unrealizedRet >= 0 ? 'text-success' : 'text-danger'}`}>
-                    {unrealizedRet >= 0 ? '+' : ''}{unrealizedRet.toFixed(2)}%
-                  </span>
-                </div>
-                <div className="h-px bg-white/10 my-0.5"></div>
-                <div className="flex items-center justify-between gap-2">
-                  <span className="text-[10px] text-gray-400 font-bold uppercase tracking-wider whitespace-nowrap">Total Trades Executed</span>
-                  <span className="text-xs font-bold text-white font-mono whitespace-nowrap">{(stats?.openTradesCount || 0) + (stats?.closedTradesCount || 0)} Total</span>
-                </div>
+          <div className="bg-card backdrop-blur-xl border border-molten/20 rounded-2xl p-4 xl:p-5 shadow-xl flex flex-col justify-between">
+            <div className="flex items-center gap-3 mb-2">
+              <div className={`p-2.5 rounded-xl shrink-0 ${unrealizedRet >= 0 ? 'bg-success/10 text-success' : 'bg-danger/10 text-danger'}`}>
+                <Activity size={20} />
+              </div>
+              <div>
+                <p className="text-[10px] text-gray-400 font-bold uppercase tracking-wider">Performance</p>
+                <h4 className={`text-sm xl:text-base font-bold font-mono ${unrealizedRet >= 0 ? 'text-success' : 'text-danger'}`}>
+                  {unrealizedRet >= 0 ? '+' : ''}{unrealizedRet.toFixed(2)}% Total
+                </h4>
+              </div>
+            </div>
+            <div className="space-y-1.5 pt-2 border-t border-white/5 text-xs font-mono">
+              <div className="flex justify-between items-center text-gray-400">
+                <span className="text-[10px] uppercase font-bold tracking-wider">Confirmed</span>
+                <span className={`font-semibold ${realizedRet >= 0 ? 'text-success' : 'text-danger'}`}>
+                  {realizedRet >= 0 ? '+' : ''}{realizedRet.toFixed(2)}%
+                </span>
+              </div>
+              <div className="flex justify-between items-center text-gray-400">
+                <span className="text-[10px] uppercase font-bold tracking-wider">Unrealized</span>
+                <span className={`font-semibold ${(stats?.totalUnrealizedPnl || 0) >= 0 ? 'text-success' : 'text-danger'}`}>
+                  {(stats?.totalUnrealizedPnl || 0) >= 0 ? '+' : ''}${fmt(stats?.totalUnrealizedPnl || 0)}
+                </span>
+              </div>
+              <div className="flex justify-between items-center text-gray-400">
+                <span className="text-[10px] uppercase font-bold tracking-wider">Executed</span>
+                <span className="font-semibold text-white">{(stats?.openTradesCount || 0) + (stats?.closedTradesCount || 0)} Trades</span>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Big Geopolitical Data Matrix Globe */}
-        <div className="bg-card backdrop-blur-xl border border-molten/20 rounded-2xl p-5 shadow-xl flex-1 flex flex-col relative overflow-hidden min-h-[300px] max-h-[460px]">
-          <h2 className="text-lg font-bold text-white mb-2 uppercase tracking-wider flex items-center gap-2 relative z-10">
+        {/* Big Geopolitical Data Matrix Globe (stretches to the bottom) */}
+        <div className="bg-card backdrop-blur-xl border border-molten/20 rounded-2xl p-5 shadow-xl flex-1 flex flex-col relative overflow-hidden min-h-[320px]">
+          <h2 className="text-base lg:text-lg font-bold text-white mb-2 uppercase tracking-wider flex items-center gap-2 relative z-10">
             <GlobeIcon className="text-molten" size={20}/> Geopolitical Data Matrix
           </h2>
-          <div ref={containerRef} className="absolute inset-0 top-14 flex items-center justify-center cursor-move">
+          <div ref={containerRef} className="absolute inset-0 top-12 flex items-center justify-center cursor-move">
             <Globe
               ref={globeRef}
               width={dimensions.width}
@@ -288,19 +298,19 @@ export default function Dashboard() {
 
       </div>
 
-      {/* RIGHT PANE - Contextual News Feed Sidebar */}
-      <div className="w-full lg:w-[320px] xl:w-[360px] bg-obsidian/50 border border-molten/10 rounded-2xl p-4 flex flex-col h-full overflow-hidden shadow-2xl relative z-10 shrink-0">
-        <div className="mb-4 border-b border-molten/20 pb-4">
-          <h3 className="text-md font-bold text-white flex items-center gap-2 uppercase tracking-wide">
-            <Activity size={18} className="text-molten" /> Contextual Feed
+      {/* RIGHT PANE - Slimmer Contextual News Feed Sidebar */}
+      <div className="w-full lg:w-[260px] xl:w-[280px] bg-obsidian/50 border border-molten/10 rounded-2xl p-4 flex flex-col h-full overflow-hidden shadow-2xl relative z-10 shrink-0">
+        <div className="mb-4 border-b border-molten/20 pb-3">
+          <h3 className="text-sm font-bold text-white flex items-center gap-2 uppercase tracking-wide">
+            <Activity size={16} className="text-molten" /> Contextual Feed
           </h3>
-          <p className="text-xs text-gray-400 mt-1">Filtered for {activeAccount?.name}</p>
+          <p className="text-[11px] text-gray-400 mt-0.5 truncate">Filtered for {activeAccount?.name}</p>
         </div>
-        <div className="flex-1 overflow-y-auto pr-2 custom-scrollbar">
+        <div className="flex-1 overflow-y-auto pr-1 custom-scrollbar">
           {loadingNews && newsFeed.length === 0 ? (
             <div className="space-y-3">
               {[1, 2, 3, 4].map(i => (
-                <div key={i} className="bg-card/50 border border-white/5 p-4 rounded-xl animate-pulse">
+                <div key={i} className="bg-card/50 border border-white/5 p-3.5 rounded-xl animate-pulse">
                   <div className="h-4 bg-white/10 rounded w-3/4 mb-2"></div>
                   <div className="h-3 bg-white/5 rounded w-full mb-1"></div>
                   <div className="h-3 bg-white/5 rounded w-2/3"></div>
@@ -313,7 +323,7 @@ export default function Dashboard() {
                 <NewsCard key={news.id} news={news} onClick={(id) => navigate(`/news/${id}`)} />
               ))}
               {newsFeed.length === 0 && (
-                <div className="text-gray-500 text-sm text-center mt-10">No specific news for current holdings.</div>
+                <div className="text-gray-500 text-xs text-center mt-10">No specific news for current holdings.</div>
               )}
             </>
           )}

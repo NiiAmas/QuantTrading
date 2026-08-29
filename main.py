@@ -293,8 +293,14 @@ def get_account_data(account_id: int, current_user: User = Depends(get_current_u
     unrealized_return = ((realized_pnl + unrealized_pnl) / init_bal * 100) if init_bal > 0 else 0.0
 
     # Total capital locked in open trades
-    total_invested_in_open = sum(t.position_value or (t.quantity * (t.entry_price or 0)) for t in open_trades)
-    open_market_val = sum(t.quantity * (t.current_price or t.entry_price or 0) for t in open_trades) if open_trades else 0.0
+    total_invested_in_open = sum(
+        (t.position_value if t.position_value and t.position_value > 0 else ((t.quantity or 0) * (t.entry_price or 0)))
+        for t in open_trades
+    )
+    open_market_val = sum(
+        ((t.quantity or 0) * (t.current_price if t.current_price and t.current_price > 0 else (t.entry_price or 0)))
+        for t in open_trades
+    ) if open_trades else 0.0
     
     # Available Cash = Realized Balance - Margin in Open Trades
     true_available_cash = max(0.0, realized_balance - total_invested_in_open)
