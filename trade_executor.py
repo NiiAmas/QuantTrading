@@ -676,11 +676,18 @@ def _close_trade(session, trade: Trade, close_price: float, reason: str):
     trade.closed_at = datetime.now()
     trade.reasoning = (trade.reasoning or "") + f" | CLOSED: {reason}"
 
-    # Return funds to account (original value + P&L)
+    # Return funds to account (recalculate true verified balance)
     account = session.query(Account).filter(Account.id == trade.account_id).first()
     if account:
-        returned_value = trade.position_value + pnl_dollars
-        account.balance += returned_value
+        all_closed = session.query(Trade).filter(Trade.account_id == account.id, Trade.status == "Closed").all()
+        all_open = session.query(Trade).filter(Trade.account_id == account.id, Trade.status == "Open").all()
+        total_realized_pnl = sum(t.pnl_dollars or 0 for t in all_closed)
+        total_open_invested = sum(
+            (t.position_value if t.position_value and t.position_value > 0 else ((t.quantity or 0) * (t.entry_price or 0)))
+            for t in all_open
+        )
+        init_bal = account.initial_balance or 100000.0
+        account.balance = round(max(0.0, init_bal + total_realized_pnl - total_open_invested), 2)
 
     # Remove from portfolio assets (only if this was a physical Spot Long trade)
     asset_class = _classify_asset(trade.symbol)
