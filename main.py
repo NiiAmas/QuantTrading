@@ -180,9 +180,10 @@ def get_accounts(current_user: User = Depends(get_current_user)):
         total_return_pct = (net_profit / init_bal * 100) if init_bal > 0 else 0.0
         
         acc_open_invested = sum(
-            (t.position_value if t.position_value and t.position_value > 0 else ((t.quantity or 0) * (t.entry_price or 0)))
+            (t.position_value if (t.position_value and t.position_value > 0) else (((t.quantity or 1) * (t.entry_price or 0)) if (t.entry_price and t.entry_price > 0) else 5000.0))
             for t in acc_open
-        )
+        ) if acc_open else 0.0
+        
         true_cash = max(0.0, init_bal + acc_realized_pnl - acc_open_invested)
         
         # Sync DB balance
@@ -193,8 +194,9 @@ def get_accounts(current_user: User = Depends(get_current_user)):
         res.append({
             "id": str(a.id),
             "name": a.name,
-            "balance": round(total_account_equity, 2),
+            "balance": round(true_cash, 2),
             "availableCash": round(true_cash, 2),
+            "totalEquity": round(total_account_equity, 2),
             "netProfit": round(net_profit, 2),
             "returnPct": round(total_return_pct, 2),
             "type": a.strategy,

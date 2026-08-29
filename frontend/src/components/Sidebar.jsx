@@ -75,29 +75,26 @@ export default function Sidebar({ onClose, isMobile }) {
                 >
                   {acc.name}
                 </button>
-                <div className="flex flex-col items-end shrink-0">
-                  <div className="flex items-center gap-1.5">
-                    <span className="text-xs text-white font-bold font-mono">
-                      ${(acc.availableCash !== undefined ? acc.availableCash : (acc.balance || 0)).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                <div className="flex items-center gap-1.5 shrink-0">
+                  <span className="text-xs text-white font-bold font-mono">
+                    ${(acc.availableCash !== undefined ? acc.availableCash : (acc.balance || 0)).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                  </span>
+                  {acc.returnPct !== undefined && (
+                    <span className={`text-[9px] font-bold px-1.5 py-0.5 rounded font-mono ${acc.returnPct >= 0 ? 'bg-success/15 text-success' : 'bg-danger/15 text-danger'}`}>
+                      {acc.returnPct >= 0 ? '+' : ''}{acc.returnPct.toFixed(1)}%
                     </span>
-                    {acc.returnPct !== undefined && (
-                      <span className={`text-[9px] font-bold px-1.5 py-0.2 rounded font-mono ${acc.returnPct >= 0 ? 'bg-success/15 text-success' : 'bg-danger/15 text-danger'}`}>
-                        {acc.returnPct >= 0 ? '+' : ''}{acc.returnPct.toFixed(1)}%
-                      </span>
-                    )}
-                    <button 
-                      onClick={(e) => { 
-                        e.stopPropagation(); 
-                        setEditingAccount(acc); 
-                        setShowAccounts(false); 
-                      }}
-                      className="opacity-0 group-hover/item:opacity-100 p-1 rounded hover:bg-white/10 text-gray-400 hover:text-white transition-all cursor-pointer"
-                      title="Account Settings"
-                    >
-                      <Settings size={13} />
-                    </button>
-                  </div>
-                  <span className="text-[8px] text-gray-500 uppercase font-bold tracking-wider">Free to Withdraw</span>
+                  )}
+                  <button 
+                    onClick={(e) => { 
+                      e.stopPropagation(); 
+                      setEditingAccount(acc); 
+                      setShowAccounts(false); 
+                    }}
+                    className="opacity-0 group-hover/item:opacity-100 p-1 rounded hover:bg-white/10 text-gray-400 hover:text-white transition-all cursor-pointer"
+                    title="Account Settings"
+                  >
+                    <Settings size={13} />
+                  </button>
                 </div>
               </div>
             ))}
