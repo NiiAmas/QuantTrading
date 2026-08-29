@@ -155,29 +155,33 @@ export default function Dashboard() {
         {/* KPI Row */}
         <div className="grid grid-cols-1 xl:grid-cols-3 gap-4 shrink-0">
           
-          {/* Card 1: Account Equity */}
+          {/* Card 1: Total Account Value & Net Profit */}
           <div className="bg-card backdrop-blur-xl border border-molten/20 rounded-2xl p-4 xl:p-5 shadow-xl flex flex-col justify-between">
             <div className="flex items-center gap-3 mb-2">
               <div className="p-2.5 bg-molten/10 rounded-xl text-molten shrink-0"><Wallet size={20} /></div>
               <div>
-                <p className="text-[10px] text-gray-400 font-bold uppercase tracking-wider">Account Equity</p>
-                <h4 className="text-sm xl:text-base font-bold text-white font-mono">${fmt(unrealizedBal)}</h4>
+                <p className="text-[10px] text-gray-400 font-bold uppercase tracking-wider">Total Account Value</p>
+                <h4 className="text-sm xl:text-base font-bold text-white font-mono">
+                  ${fmt((stats?.initialBalance || 100000) + (stats?.totalRealizedPnl || 0) + (stats?.totalUnrealizedPnl || 0))}
+                </h4>
               </div>
             </div>
             <div className="space-y-1.5 pt-2 border-t border-white/5 text-xs font-mono">
               <div className="flex justify-between items-center text-gray-400">
-                <span className="text-[10px] uppercase font-bold tracking-wider">Realized</span>
-                <span className="font-semibold text-white">${fmt(realizedBal)}</span>
+                <span className="text-[10px] uppercase font-bold tracking-wider">Starting Balance</span>
+                <span className="font-semibold text-white">${fmt(stats?.initialBalance || 100000)}</span>
               </div>
               <div className="flex justify-between items-center text-gray-400">
-                <span className="text-[10px] uppercase font-bold tracking-wider">Open P&L</span>
-                <span className={`font-semibold ${(stats?.totalUnrealizedPnl || 0) >= 0 ? 'text-success' : 'text-danger'}`}>
-                  {(stats?.totalUnrealizedPnl || 0) >= 0 ? '+' : ''}${fmt(stats?.totalUnrealizedPnl || 0)}
+                <span className="text-[10px] uppercase font-bold tracking-wider">Closed Trades Profit</span>
+                <span className={`font-bold ${(stats?.totalRealizedPnl || 0) >= 0 ? 'text-success' : 'text-danger'}`}>
+                  {(stats?.totalRealizedPnl || 0) >= 0 ? '+' : ''}${fmt(stats?.totalRealizedPnl || 0)}
                 </span>
               </div>
-              <div className="flex justify-between items-center text-molten font-bold">
-                <span className="text-[10px] uppercase tracking-wider">Cash Avail</span>
-                <span>${fmt(availCash)}</span>
+              <div className="flex justify-between items-center text-gray-400">
+                <span className="text-[10px] uppercase font-bold tracking-wider">Open Trades (Floating)</span>
+                <span className={`font-bold ${(stats?.totalUnrealizedPnl || 0) >= 0 ? 'text-success' : 'text-danger'}`}>
+                  {(stats?.totalUnrealizedPnl || 0) >= 0 ? '+' : ''}${fmt(stats?.totalUnrealizedPnl || 0)}
+                </span>
               </div>
             </div>
           </div>
@@ -193,15 +197,15 @@ export default function Dashboard() {
             </div>
             <div className="space-y-1.5 pt-2 border-t border-white/5 text-xs font-mono">
               <div className="flex justify-between items-center text-gray-400">
-                <span className="text-[10px] uppercase font-bold tracking-wider">Invested</span>
+                <span className="text-[10px] uppercase font-bold tracking-wider">Capital in Open Trades</span>
                 <span className="font-semibold text-blue-400">${fmt(stats?.totalInvestedInOpen || 0)}</span>
               </div>
               <div className="flex justify-between items-center text-gray-400">
-                <span className="text-[10px] uppercase font-bold tracking-wider">Market Value</span>
+                <span className="text-[10px] uppercase font-bold tracking-wider">Live Market Value</span>
                 <span className="font-semibold text-white">${fmt(stats?.openMarketValue || stats?.holdingsValue || 0)}</span>
               </div>
               <div className="flex justify-between items-center text-gray-400">
-                <span className="text-[10px] uppercase font-bold tracking-wider">Holdings</span>
+                <span className="text-[10px] uppercase font-bold tracking-wider">Holdings Tracked</span>
                 <span className="font-semibold text-white">{activeAccount?.holdings?.length || 0} Assets</span>
               </div>
             </div>
@@ -222,15 +226,15 @@ export default function Dashboard() {
             </div>
             <div className="space-y-1.5 pt-2 border-t border-white/5 text-xs font-mono">
               <div className="flex justify-between items-center text-gray-400">
-                <span className="text-[10px] uppercase font-bold tracking-wider">Confirmed</span>
+                <span className="text-[10px] uppercase font-bold tracking-wider">Confirmed Return</span>
                 <span className={`font-semibold ${realizedRet >= 0 ? 'text-success' : 'text-danger'}`}>
                   {realizedRet >= 0 ? '+' : ''}{realizedRet.toFixed(2)}%
                 </span>
               </div>
               <div className="flex justify-between items-center text-gray-400">
-                <span className="text-[10px] uppercase font-bold tracking-wider">Unrealized</span>
+                <span className="text-[10px] uppercase font-bold tracking-wider">Unrealized Return</span>
                 <span className={`font-semibold ${(stats?.totalUnrealizedPnl || 0) >= 0 ? 'text-success' : 'text-danger'}`}>
-                  {(stats?.totalUnrealizedPnl || 0) >= 0 ? '+' : ''}${fmt(stats?.totalUnrealizedPnl || 0)}
+                  {stats?.initialBalance ? (((stats?.totalUnrealizedPnl || 0) / stats.initialBalance) * 100).toFixed(2) : '0.00'}%
                 </span>
               </div>
               <div className="flex justify-between items-center text-gray-400">
