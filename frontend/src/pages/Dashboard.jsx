@@ -153,7 +153,7 @@ export default function Dashboard() {
       <div className="flex-1 flex flex-col gap-6 min-w-0 h-full">
         
         {/* KPI Row */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 shrink-0">
+        <div className="grid grid-cols-1 xl:grid-cols-3 gap-4 shrink-0">
           
           {/* Card 1: Account Equity */}
           <div className="bg-card backdrop-blur-xl border border-molten/20 rounded-2xl p-4 lg:p-5 shadow-xl flex items-center gap-4">

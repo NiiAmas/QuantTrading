@@ -166,8 +166,21 @@ def get_accounts(current_user: User = Depends(get_current_user)):
     for a in accounts:
         holdings = db.query(PortfolioAsset.symbol).filter(PortfolioAsset.account_id == a.id).all()
         holdings_list = [h[0] for h in holdings]
+        
+        # Calculate true verified balance
+        acc_closed = db.query(Trade).filter(Trade.account_id == a.id, Trade.status == "Closed").all()
+        acc_open = db.query(Trade).filter(Trade.account_id == a.id, Trade.status == "Open").all()
+        acc_realized_pnl = sum(t.pnl_dollars or 0 for t in acc_closed)
+        acc_open_invested = sum(t.position_value or 0 for t in acc_open)
+        true_cash = max(0.0, (a.initial_balance or 100000.0) + acc_realized_pnl - acc_open_invested)
+        
+        # Sync DB if drifted
+        if abs((a.balance or 0) - true_cash) > 0.01:
+            a.balance = round(true_cash, 2)
+            db.commit()
+            
         res.append({
-            "id": str(a.id), "name": a.name, "balance": a.balance, "type": a.strategy,
+            "id": str(a.id), "name": a.name, "balance": round(true_cash, 2), "type": a.strategy,
             "holdings": holdings_list,
             "assetTypes": json.loads(a.asset_types) if a.asset_types else [],
             "sectors": json.loads(a.sectors) if a.sectors else []
@@ -272,46 +285,45 @@ def get_account_data(account_id: int, current_user: User = Depends(get_current_u
     realized_pnl = sum(t.pnl_dollars or 0 for t in closed_trades)
     unrealized_pnl = sum(t.pnl_dollars or 0 for t in open_trades)
     
-    realized_balance = acc.initial_balance + realized_pnl
+    init_bal = acc.initial_balance or 100000.0
+    realized_balance = init_bal + realized_pnl
     unrealized_balance = realized_balance + unrealized_pnl
     
-    realized_return = (realized_pnl / acc.initial_balance * 100) if acc.initial_balance > 0 else 0.0
-    unrealized_return = ((realized_pnl + unrealized_pnl) / acc.initial_balance * 100) if acc.initial_balance > 0 else 0.0
+    realized_return = (realized_pnl / init_bal * 100) if init_bal > 0 else 0.0
+    unrealized_return = ((realized_pnl + unrealized_pnl) / init_bal * 100) if init_bal > 0 else 0.0
 
-    # New: Calculate holdings value and capital distribution for frontend
-    holdings_value = sum(a.shares * (a.current_price if a.current_price and a.current_price > 0 else a.avg_price) for a in assets)
+    # True available cash = initial + realized profit - capital tied in open positions
     total_invested_in_open = sum(t.position_value or 0 for t in open_trades)
-    estimated_total_value = acc.balance + holdings_value
+    true_available_cash = max(0.0, init_bal + realized_pnl - total_invested_in_open)
     
-    # Capital distribution percentages (for the Money Flow bar)
-    total_pool = max(estimated_total_value, 1.0)
+    # Sync DB balance so it never drifts
+    if abs((acc.balance or 0) - true_available_cash) > 0.01:
+        acc.balance = round(true_available_cash, 2)
+        db.commit()
+
+    holdings_value = sum(a.shares * (a.current_price if a.current_price and a.current_price > 0 else a.avg_price) for a in assets)
+    estimated_total_value = true_available_cash + holdings_value
     
     db.close()
     return {
         "positions": positions,
         "tradeLedger": ledger,
         "accountStats": {
-            "availableMargin": round(acc.balance, 2),
+            "availableMargin": round(true_available_cash, 2),
             "realizedBalance": round(realized_balance, 2),
             "unrealizedBalance": round(unrealized_balance, 2),
             "realizedReturn": round(realized_return, 2),
             "unrealizedReturn": round(unrealized_return, 2),
-            "initialBalance": round(acc.initial_balance, 2),
+            "initialBalance": round(init_bal, 2),
             "openTradesCount": len(open_trades),
             "closedTradesCount": len(closed_trades),
             "totalRealizedPnl": round(realized_pnl, 2),
             "totalUnrealizedPnl": round(unrealized_pnl, 2),
             "strategy": acc.strategy,
-            # New financial clarity fields
             "holdingsValue": round(holdings_value, 2),
             "totalInvestedInOpen": round(total_invested_in_open, 2),
             "netProfit": round(realized_pnl, 2),
             "estimatedTotalValue": round(estimated_total_value, 2),
-            "capitalDistribution": {
-                "availableCash": round(acc.balance / total_pool * 100, 1),
-                "inHoldings": round(holdings_value / total_pool * 100, 1),
-                "realizedProfit": round(max(realized_pnl, 0) / total_pool * 100, 1),
-            },
         }
     }
 
